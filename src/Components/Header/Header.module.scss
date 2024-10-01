@@ -1,0 +1,223 @@
+.wrapper{
+    display: flex;
+    align-items: flex-start;
+    margin: 2rem 7rem 0 7rem;
+    padding-bottom: 0.8rem;
+    
+    .header-left {
+
+        .tiki-logo{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo-desc {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-top: 0.8rem;
+            color: rgb(82, 62, 161);
+        }
+    }
+
+    .header-right {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: stretch;
+        flex: 1 0 0rem;
+        margin-left: 4.8rem;
+
+        .header-top {
+            display: flex;
+            height: auto;
+            align-items: center;
+
+            .search {
+                display: flex;
+                border: 1px solid rgb(221, 221, 227);
+                border-radius: 0.8rem;
+                align-items: center;
+                flex: 1 1 0%;  
+
+                .search-icon {
+                    margin: 0rem 0rem 0rem 1.8rem
+                }
+
+                .search-input{
+                    border: 0rem;
+                    padding: 0rem 0.8rem;
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 150%;
+                    border-top-left-radius: 0.8rem;
+                    border-bottom-left-radius: 0.8rem;
+                    flex: 1 1 0%;
+                }
+
+                .btn-search {
+                    cursor: pointer;
+                    border: 0rem;
+                    width: 92px;
+                    height: 38px;
+                    padding: 4px;
+                    border-radius: 0rem 8px 8px 0rem;
+                    background: transparent;
+                    color: rgb(10, 104, 255);
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 150%;
+                    display: flex;
+                    -webkit-box-align: center;
+                    align-items: center;
+                    -webkit-box-pack: center;
+                    justify-content: center;
+                    position: relative;
+
+                    &:hover {
+                        background-color: rgba(10, 104, 255, 0.2);
+                    }
+
+                }
+                
+                .btn-search::before {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    border-left: 1px solid rgb(221, 221, 227);
+                    height: 24px;
+                    left: 0px;
+                    top: 8px;
+                }
+            }
+
+            .user-shortcut{
+                display: flex;
+                -webkit-box-align: center;
+                align-items: center;
+                -webkit-box-pack: end;
+                justify-content: flex-end;
+                margin-left: 48px;
+
+                .shortcut-icon {
+                    width: 24px;
+                    height: 24px;
+                    margin-right: 4px;
+                    border-radius: 50%;
+                    color: rgb(128, 128, 137);
+                }
+
+                span{
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 150%;
+                    color: rgb(128, 128, 137);
+                }
+
+                .home{
+                    display: flex;
+                    -webkit-box-align: center;
+                    align-items: center;
+                    -webkit-box-pack: center;
+                    justify-content: center;
+                    padding: 8px 16px;
+                    cursor: pointer;
+                    position: relative;
+                    border-radius: 8px;
+
+                    &:hover {
+                        background-color: rgba(39, 39, 42, 0.12);
+                    }
+                }
+
+                .account {
+                    display: flex;
+                    -webkit-box-align: center;
+                    align-items: center;
+                    -webkit-box-pack: center;
+                    justify-content: center;
+                    padding: 8px 16px;
+                    cursor: pointer;
+                    position: relative;
+                    border-radius: 8px;
+
+                    &:hover {
+                        background-color: rgba(39, 39, 42, 0.12);
+                    }
+                }
+
+                .cart{
+                    position: relative;
+                    display: flex;
+                    width: 40px;
+                    height: 40px;
+                    -webkit-box-align: center;
+                    align-items: center;
+                    -webkit-box-pack: center;
+                    justify-content: center;
+                    margin-left: 22px;
+                    border-radius: 0.8rem;
+                    cursor: pointer;
+
+                    .shortcut-icon{
+                        color: rgb(10, 104, 255);
+                    }
+
+                    &:hover {
+                        background-color: rgba(0, 96, 255, 0.12);
+                    }
+                }
+
+                .itemCart{
+                    position: absolute;
+                    height: 18px;
+                    width: 18px;
+                    left: 23px;
+                    top: -7px;      
+                    color: rgb(255, 255, 255);
+                    background: rgb(255, 66, 79);
+                    border-radius: 8px;
+                    display: inline-block;
+                    text-align: center;
+                    font-weight: 700;
+                    line-height: 1.7rem;
+                }
+
+                .cart::before{
+                    content: "";
+                    display: block;
+                    height: 20px;
+                    position: absolute;
+                    left: -12px;
+                    border: 1px solid rgb(235, 235, 240);
+                }
+            }
+        }
+
+        .header-bottom{
+            display: flex;
+            height: 20px;
+            width: 712px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            overflow: hidden;
+            gap: 12px;
+
+            span {
+                display: block;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 150%;
+                color: rgb(128, 128, 137);
+                white-space: nowrap;
+                cursor: pointer;
+            }
+        }
+
+    }
+}
+
+
+
+
