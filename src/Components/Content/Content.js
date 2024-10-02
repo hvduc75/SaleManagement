@@ -33,13 +33,13 @@ const SimpleSlider = () => {
     return (
         <Slider {...settings}>
             <div className={cx('slider')}>
-                <img className={cx('slider-image')} src={images.iphone16} />
+                <img className={cx('slider-image')} src={images.iphone16} alt="test"/>
             </div>
             <div className={cx('slider')}>
-                <img className={cx('slider-image')} src={images.lamdep} />
+                <img className={cx('slider-image')} src={images.lamdep} alt="test"/>
             </div>
             <div className={cx('slider')}>
-                <img className={cx('slider-image')} src={images.laptop} />
+                <img className={cx('slider-image')} src={images.laptop} alt="test"/>
             </div>
         </Slider>
     );

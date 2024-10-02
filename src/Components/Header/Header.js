@@ -18,7 +18,7 @@ function Header(props) {
           <img
             src={images.logo}
             alt="logo-tiki"
-            style={{ height: "4rem", width: "9.6rem" }}
+            style={{ height: "40px", width: "96px" }}
           />
           <span className={cx("logo-desc")}>Tốt & Nhanh</span>
         </Link>
@@ -27,7 +27,7 @@ function Header(props) {
         <div className={cx("header-top")}>
           <div className={cx("search")}>
             <div className={cx("search-icon")}>
-              <IoMdSearch style={{ width: "2rem", height: "2rem" }} />
+              <IoMdSearch style={{ width: "20px", height: "20px" }} />
             </div>
             <input
               className={cx("search-input")}
