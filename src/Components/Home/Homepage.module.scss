@@ -1,5 +1,5 @@
 .wrapper {
-    margin: 0 70px;
+    margin: 0 7rem;
 }
 
 .inner {
@@ -7,8 +7,12 @@
     border-style: solid;
     border-color: rgb(235, 235, 240);
     margin: 0 -70px;
+    background-color: rgb(255, 255, 255);
 }
 
 .container {
     display: flex;
+    padding-top: 1.6rem;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
 }
