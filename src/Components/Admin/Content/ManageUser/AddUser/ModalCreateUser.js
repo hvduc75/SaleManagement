@@ -5,10 +5,10 @@ import { FcPlus } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 import classNames from 'classnames/bind';
 
-// import { postCreateNewUser } from "../../../service/apiService";
-import styles from "./ModalCreateUser.module.scss"
+import { postCreateNewUser } from "../../../../../service/apiService";
+import styles from './ModalCreateUser.module.scss';
 
-const cx = classNames.bind(styles)
+const cx = classNames.bind(styles);
 
 function ModalCreateUser(props) {
     const { show, setShow } = props;
@@ -18,14 +18,18 @@ function ModalCreateUser(props) {
         setPassword('');
         setImage('');
         setPreviewImage('');
-        setRole('USER');
+        setPhone('');
+        setAddress('');
+        setGroupId('1');
         setUsername('');
     };
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
-    const [role, setRole] = useState('USER');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
+    const [groupId, setGroupId] = useState('1');
     const [image, setImage] = useState('');
     const [previewImage, setPreviewImage] = useState('');
 
@@ -58,23 +62,30 @@ function ModalCreateUser(props) {
             return;
         }
 
-        // let data = await postCreateNewUser(email, password, username, role, image);
-        // if (data && data.EC === 0) {
-        //   toast.success(data.EM);
-        //   handleClose();
-        //   // await props.fetchListUsers();
+        if (!phone) {
+            toast.error('Invalid phone');
+            return;
+        }
+
+        console.log(">>check data: ", email, password, username, phone, address, groupId, image)
+
+        let data = await postCreateNewUser(email, password, username, phone, address, groupId, image);
+        if (data && data.EC === 0) {
+          toast.success(data.EM);
+          handleClose();
+          // await props.fetchListUsers();
         //   props.setCurrentPage(1);
         //   await props.fetchListUsersWithPaginate()
-        // }
+        }
 
-        // if (data && data.EC !== 0) {
-        //   toast.error(data.EM);
-        // }
+        if (data && data.EC !== 0) {
+          toast.error(data.EM);
+        }
     };
 
     return (
         <>
-            <Modal show={show} onHide={handleClose} size="xl" backdrop="static" className={cx("modal-add-user")}>
+            <Modal show={show} onHide={handleClose} size="xl" backdrop="static" className={cx('modal-add-user')}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add new user</Modal.Title>
                 </Modal.Header>
@@ -99,6 +110,15 @@ function ModalCreateUser(props) {
                             />
                         </div>
                         <div className="col-md-6">
+                            <label className="form-label">Phone</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={phone}
+                                onChange={(event) => setPhone(event.target.value)}
+                            />
+                        </div>
+                        <div className="col-md-6">
                             <label className="form-label">Username</label>
                             <input
                                 type="text"
@@ -108,27 +128,36 @@ function ModalCreateUser(props) {
                             />
                         </div>
                         <div className="col-md-6">
+                            <label className="form-label">Address</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={address}
+                                onChange={(event) => setAddress(event.target.value)}
+                            />
+                        </div>
+                        <div className="col-md-6">
                             <label className="form-label">Role</label>
                             <select
                                 className="form-select"
-                                value={role}
-                                onChange={(event) => setRole(event.target.value)}
+                                value={groupId}
+                                onChange={(event) => setGroupId(event.target.value)}
                             >
-                                <option value="USER">USER</option>
-                                <option value="SHIPPER">SHIPPER</option>
-                                <option value="ADMIN">ADMIN</option>
+                                <option value="1">USER</option>
+                                <option value="2">SHIPPER</option>
+                                <option value="3">ADMIN</option>
                             </select>
                         </div>
                         <div className="col-md-12">
-                            <label className={cx("form-label", "label-upload")} htmlFor="labelUpload">
+                            <label className={cx('form-label', 'label-upload')} htmlFor="labelUpload">
                                 <div className={cx('btn-upload')}>
-                                    <FcPlus className={cx('icon_plus')}/>
+                                    <FcPlus className={cx('icon_plus')} />
                                     <span>Upload File Image</span>
                                 </div>
                             </label>
                             <input type="file" hidden id="labelUpload" onChange={(event) => handleUploadImage(event)} />
                         </div>
-                        <div className={cx("col-md-12", "img-preview")}>
+                        <div className={cx('col-md-12', 'img-preview')}>
                             {previewImage ? <img src={previewImage} alt="PrevImage" /> : <span>Preview Image</span>}
                         </div>
                     </form>
