@@ -2,9 +2,10 @@ import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import Homepage from './Components/Home/Homepage';
+import Homepage from './Components/User/Home/Homepage';
 import Admin from './Components/Admin/Admin';
 import ManageUser from './Components/Admin/Content/ManageUser/ManageUser';
+import ManageBanner from './Components/Admin/Content/ManageBanner/ManageBanner';
 
 const NotFound = () => {
     return <div className="container fs-4 mt-3 alert alert-danger">404.Not found data with current URL</div>;
@@ -18,6 +19,7 @@ function App() {
                 <Route path="*" element={<NotFound />} />
                 <Route path="/admins" element={<Admin />}>
                     <Route path="manage-users" element={<ManageUser />} />
+                    <Route path="manage-banners" element={<ManageBanner />} />
                 </Route>
             </Routes>
             <ToastContainer

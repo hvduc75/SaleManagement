@@ -4,7 +4,7 @@ import styles from './ManageUser.module.scss';
 import { FcPlus } from 'react-icons/fc';
 import ModalCreateUser from './AddUser/ModalCreateUser';
 import TableUserPaginate from './TableUser/TableUserPaginate';
-import { getUserWithPaginate } from '../../../../service/apiService';
+import { getUserWithPaginate } from '../../../../service/userApiService';
 import ModalUpdateUser from './UpdateUser/ModalUpdateUser';
 import ModalDeleteUser from './DeleteUser/ModalDeleteUser';
 
@@ -83,17 +83,18 @@ function ManageUser(props) {
                 <ModalUpdateUser
                     show={showModalUpdateUser}
                     setShow={setShowModalUpdateUser}
-                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    dataUpdate={dataUpdate}
                     resetUpdateData={resetUpdateData}
+                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
-                    dataUpdate={dataUpdate}
                 />
                 <ModalDeleteUser
                     show={showModalDeleteUser}
                     setShow={setShowModalDeleteUser}
                     fetchListUsersWithPaginate={fetchListUsersWithPaginate}
                     dataDelete={dataDelete}
+                    currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />
             </div>

@@ -66,7 +66,7 @@ const AdminSideBar = (props) => {
               </MenuItem>
               <MenuItem>
                 Quản lý Banner
-                <Link to="/admins/manage-quizzes" />
+                <Link to="/admins/manage-banners" />
               </MenuItem>
               <MenuItem>
                 {" "}

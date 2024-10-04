@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import _ from 'lodash';
 import classNames from 'classnames/bind';
 
-import { putUpdateUser } from '../../../../../service/apiService';
+import { putUpdateUser } from '../../../../../service/userApiService';
 import styles from './ModalUpdateUser.module.scss';
 
 const cx = classNames.bind(styles);
@@ -60,9 +60,8 @@ function ModalUpdateUser(props) {
         if (data && data.EC === 0) {
             toast.success(data.EM);
             handleClose();
-            props.setCurrentPage(1);
-            console.log('Current Page After Update:', props.currentPage);
-            await props.fetchListUsersWithPaginate(1);
+            await props.fetchListUsersWithPaginate(props.currentPage);
+            // props.setCurrentPage(props.currentPage);
         }
 
         if (data && data.EC !== 0) {

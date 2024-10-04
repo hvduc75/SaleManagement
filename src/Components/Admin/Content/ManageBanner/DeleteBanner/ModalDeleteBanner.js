@@ -1,22 +1,21 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
-import { deleteUser } from '../../../../../service/userApiService';
+import { deleteBanner } from '../../../../../service/bannerApiService';
 
-function ModalDeleteUser(props) {
+function ModalDeleteBanner(props) {
     const { show, setShow, dataDelete } = props;
 
     const handleClose = () => {
         setShow(false);
     };
 
-    const handleSubmitDeleteUser = async () => {
-        let data = await deleteUser(dataDelete.id);
+    const handleSubmitDeleteBanner = async () => {
+        let data = await deleteBanner(dataDelete.id);
         if (data && data.EC === 0) {
             toast.success(data.EM);
             handleClose();
-            // props.setCurrentPage(1);
-            await props.fetchListUsersWithPaginate(props.currentPage);
+            await props.fetchListBannersWithPaginate(props.currentPage);
         }
 
         if (data && data.EC !== 0) {
@@ -28,11 +27,11 @@ function ModalDeleteUser(props) {
         <>
             <Modal show={show} onHide={handleClose} backdrop="static">
                 <Modal.Header closeButton>
-                    <Modal.Title>Confirm Delete the User?</Modal.Title>
+                    <Modal.Title>Confirm Delete the Banner?</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Are you sure to delete this user. email ={' '}
-                    <b>{dataDelete && dataDelete.email ? dataDelete.email : ''}</b>
+                    Are you sure to delete this banner. name ={' '}
+                    <b>{dataDelete && dataDelete.name ? dataDelete.name : ''}</b>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
@@ -41,7 +40,7 @@ function ModalDeleteUser(props) {
                     <Button
                         variant="primary"
                         onClick={() => {
-                            handleSubmitDeleteUser();
+                            handleSubmitDeleteBanner();
                         }}
                     >
                         Confirm
@@ -52,4 +51,4 @@ function ModalDeleteUser(props) {
     );
 }
 
-export default ModalDeleteUser;
+export default ModalDeleteBanner;

@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import classNames from 'classnames/bind';
-import styles from './Content.module.scss';
+import { useState, useEffect } from 'react';
 import Slider from 'react-slick';
+import classNames from 'classnames/bind';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { getAllBannersWithStatus } from '../../../service/bannerApiService';
 
-const cx = classNames.bind(styles);
+import styles from "./SimpleSlider.module.scss"
+import { getAllBannersWithStatus } from '../../../../service/bannerApiService';
 
-function Content() {
+const cx = classNames.bind(styles)
+
+const SimpleSlider = () => {
     const [listBanners, setListBanners] = useState([]);
 
     useEffect(() => {
@@ -20,18 +21,6 @@ function Content() {
         setListBanners(data);
     };
 
-    return (
-        <div className={cx('wrapper')}>
-            <div className={cx('banner')}>
-                <SimpleSlider listBanners={listBanners} />
-            </div>
-        </div>
-    );
-}
-
-export default Content;
-
-const SimpleSlider = ({ listBanners }) => {
     const settings = {
         dots: true,
         infinite: true,
@@ -77,3 +66,5 @@ const SimpleSlider = ({ listBanners }) => {
         </Slider>
     );
 };
+
+export default SimpleSlider

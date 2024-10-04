@@ -5,7 +5,7 @@ import { FcPlus } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 import classNames from 'classnames/bind';
 
-import { postCreateNewUser } from "../../../../../service/apiService";
+import { postCreateNewUser } from '../../../../../service/userApiService';
 import styles from './ModalCreateUser.module.scss';
 
 const cx = classNames.bind(styles);
@@ -67,19 +67,19 @@ function ModalCreateUser(props) {
             return;
         }
 
-        console.log(">>check data: ", email, password, username, phone, address, groupId, image)
+        console.log('>>check data: ', email, password, username, phone, address, groupId, image);
 
         let data = await postCreateNewUser(email, password, username, phone, address, groupId, image);
         if (data && data.EC === 0) {
-          toast.success(data.EM);
-          handleClose();
-        //   await props.fetchListUsers();
-          props.setCurrentPage(1);
-          await props.fetchListUsersWithPaginate(1)
+            toast.success(data.EM);
+            handleClose();
+            //   await props.fetchListUsers();
+            props.setCurrentPage(1);
+            await props.fetchListUsersWithPaginate(1);
         }
 
         if (data && data.EC !== 0) {
-          toast.error(data.EM);
+            toast.error(data.EM);
         }
     };
 

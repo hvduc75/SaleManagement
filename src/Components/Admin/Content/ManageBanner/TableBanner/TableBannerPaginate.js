@@ -1,11 +1,11 @@
 import ReactPaginate from 'react-paginate';
 
-function TableUserPaginate(props) {
-    const { listUsers, pageCount } = props;
+function TableBannerPaginate(props) {
+    const { listBanners, pageCount } = props;
 
     const handlePageClick = (event) => {
         props.setCurrentPage(+event.selected + 1);
-        props.fetchListUsersWithPaginate(+event.selected + 1);
+        props.fetchListBannersWithPaginate(+event.selected + 1);
     };
 
     return (
@@ -14,24 +14,40 @@ function TableUserPaginate(props) {
                 <thead>
                     <tr>
                         <th scope="col">No</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Role</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Status</th>
+                        <th style={{ textAlign: 'center' }} scope="col">
+                            Image
+                        </th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {listUsers &&
-                        listUsers.length > 0 &&
-                        listUsers.map((item, index) => {
+                    {listBanners &&
+                        listBanners.length > 0 &&
+                        listBanners.map((item, index) => {
+                            let imageSrc = '';
+                            if (item.image) {
+                                const byteArray = new Uint8Array(item.image.data);
+                                let binary = '';
+                                byteArray.forEach((byte) => (binary += String.fromCharCode(byte)));
+                                const base64String = window.btoa(binary);
+                                imageSrc = `data:image/jpeg;base64,${base64String}`;
+                            }
                             return (
-                                <tr key={`table-users-${index}`}>
-                                    <td>{(index + 1) + (props.currentPage - 1) * listUsers.length}</td>
-                                    <td>{item.email}</td>
-                                    <td>{item.username}</td>
-                                    <td>{item.address}</td>
-                                    <td>{item.Group.name}</td>
+                                <tr key={`table-banners-${index}`}>
+                                    <td>{(index + 1) + (props.currentPage - 1) * listBanners.length}</td>
+                                    <td>{item.name}</td>
+                                    <td>{item.description}</td>
+                                    <td>{item.status ? 'ON' : 'OFF'}</td>
+                                    <td style={{ textAlign: 'center' }}>
+                                        <img
+                                            style={{ width: '100px', objectFit: 'contain' }}
+                                            src={imageSrc}
+                                            alt="PrevImage"
+                                        />
+                                    </td>
                                     <td>
                                         <button
                                             className="btn btn-secondary"
@@ -55,9 +71,9 @@ function TableUserPaginate(props) {
                                 </tr>
                             );
                         })}
-                    {listUsers && listUsers.length === 0 && (
+                    {listBanners && listBanners.length === 0 && (
                         <tr>
-                            <td colSpan={'4'}>Not found data</td>
+                            <td colSpan={'6'}>Not found data</td>
                         </tr>
                     )}
                 </tbody>
@@ -89,4 +105,4 @@ function TableUserPaginate(props) {
     );
 }
 
-export default TableUserPaginate;
+export default TableBannerPaginate;
