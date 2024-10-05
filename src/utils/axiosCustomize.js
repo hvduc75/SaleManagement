@@ -1,6 +1,7 @@
 import axios from 'axios';
 // import dotenv from "dotenv";
 // dotenv.config();
+import NProgress from "nprogress";
 
 const instance = axios.create({
     baseURL: "http://localhost:8080/",
@@ -11,7 +12,7 @@ instance.interceptors.request.use(
     function (config) {
     //   const access_token = store?.getState()?.user?.account?.access_token;
     //   config.headers["Authorization"] = `Bearer ${access_token}`;
-    //   NProgress.start();
+      NProgress.start();
       // Do something before request is sent
       return config;
     },
@@ -24,12 +25,14 @@ instance.interceptors.request.use(
   // Add a response interceptor
   instance.interceptors.response.use(
     function (response) {
+      NProgress.done();
       // Any status code that lie within the range of 2xx cause this function to trigger
       // Do something with response data
   
       return response && response.data ? response.data : response;
     },
     function (error) {
+      NProgress.done();
       // token expired EC === -999
       if (error.response.data && error.response.data.EC === -999) {
         window.location.href = "/login";

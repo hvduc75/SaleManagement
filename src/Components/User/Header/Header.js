@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import images from '../../../assets/images';
 import { IoMdSearch } from 'react-icons/io';
 import { IoCartOutline } from 'react-icons/io5';
@@ -11,6 +11,8 @@ import { FaRegFaceSmileWink } from 'react-icons/fa6';
 const cx = classNames.bind(styles);
 
 function Header(props) {
+    const navigate = useNavigate();
+    const isLogin = true;
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header-left')}>
@@ -33,10 +35,17 @@ function Header(props) {
                             <RiHome5Line className={cx('shortcut-icon')} />
                             <span>Trang chủ</span>
                         </div>
-                        <div className={cx('account')}>
-                            <FaRegFaceSmileWink className={cx('shortcut-icon')} />
-                            <span>Tài Khoản</span>
-                        </div>
+                        {isLogin ? (
+                            <Link to={'/login'} className={cx('account')}>
+                                <FaRegFaceSmileWink className={cx('shortcut-icon')} />
+                                <span>Tài Khoản</span>
+                            </Link>
+                        ) : (
+                            <div className={cx('account')}>
+                                <FaRegFaceSmileWink className={cx('shortcut-icon')} />
+                                <span>Tài Khoản</span>
+                            </div>
+                        )}
                         <div className={cx('cart')}>
                             <IoCartOutline className={cx('shortcut-icon')} />
                             <span className={cx('itemCart')}>0</span>

@@ -55,23 +55,23 @@ const AdminSideBar = (props) => {
           <Menu iconShape="circle">
             <MenuItem icon={<MdDashboard />}>
               Dashboard
-              <Link to="/admins" />
+              <Link to="/admin" />
             </MenuItem>
           </Menu>
           <Menu iconShape="circle">
             <SubMenu icon={<FaGem />} title="Features">
               <MenuItem>
                 Quản lý người dùng
-                <Link to="/admins/manage-users" />
+                <Link to="/admin/manage-users" />
               </MenuItem>
               <MenuItem>
                 Quản lý Banner
-                <Link to="/admins/manage-banners" />
+                <Link to="/admin/manage-banners" />
               </MenuItem>
               <MenuItem>
                 {" "}
                 Quản lý danh mục
-                <Link to="/admins/manage-questions" />
+                <Link to="/admin/manage-questions" />
               </MenuItem>
             </SubMenu>
           </Menu>
