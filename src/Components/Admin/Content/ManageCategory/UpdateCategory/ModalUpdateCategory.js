@@ -1,28 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { FcPlus } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 import classNames from 'classnames/bind';
+import _ from 'lodash';
 
-import { postCreateNewBanner } from '../../../../../service/bannerApiService';
-import styles from './ModalCreateBanner.module.scss';
+import { putUpdateCategory } from '../../../../../service/categoryApiService';
+import styles from './ModalUpdateCategory.module.scss';
 
 const cx = classNames.bind(styles);
 
-function ModalCreateBanner(props) {
-    const { show, setShow } = props;
+function ModalUpdateCategory(props) {
+    const { show, setShow, dataUpdate } = props;
     const handleClose = () => {
         setShow(false);
         setName('');
         setDescription('');
-        setStatus('0');
+        setHot('0');
         setImage('');
         setPreviewImage('');
+        props.resetUpdateData();
     };
 
     const [name, setName] = useState('');
-    const [status, setStatus] = useState('0');
+    const [hot, setHot] = useState('0');
     const [description, setDescription] = useState('');
     const [image, setImage] = useState('');
     const [previewImage, setPreviewImage] = useState('');
@@ -35,14 +37,28 @@ function ModalCreateBanner(props) {
         }
     };
 
-    const handleSubmitCreateBanner = async () => {
-        console.log(name, status, description, image)
-        let data = await postCreateNewBanner(name, status, description, image);
+    useEffect(() => {
+        console.log(dataUpdate)
+        if (!_.isEmpty(dataUpdate)) {
+            setName(dataUpdate.name);
+            setDescription(dataUpdate.description);
+            setHot(dataUpdate.hot ? '1': '0');
+            if (dataUpdate.image) {
+                const byteArray = new Uint8Array(dataUpdate.image.data);
+                let binary = '';
+                byteArray.forEach((byte) => (binary += String.fromCharCode(byte)));
+                const base64String = window.btoa(binary);
+                setPreviewImage(`data:image/jpeg;base64,${base64String}`);
+            }
+        }
+    }, [dataUpdate]);
+
+    const handleSubmitUpdateCategory = async () => {
+        let data = await putUpdateCategory(dataUpdate.id, name, hot, description, image);
         if (data && data.EC === 0) {
             toast.success(data.EM);
             handleClose();
-            props.setCurrentPage(1);
-            await props.fetchListBannersWithPaginate(1);
+            await props.fetchListCategoriesWithPaginate(props.currentPage);
         }
 
         if (data && data.EC !== 0) {
@@ -52,9 +68,9 @@ function ModalCreateBanner(props) {
 
     return (
         <>
-            <Modal show={show} onHide={handleClose} size="xl" backdrop="static" className={cx('modal-add-banner')}>
+            <Modal show={show} onHide={handleClose} size="xl" backdrop="static" className={cx('modal-update-category')}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add new banner</Modal.Title>
+                    <Modal.Title>Update category</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form className="row g-3">
@@ -68,14 +84,14 @@ function ModalCreateBanner(props) {
                             />
                         </div>
                         <div className="col-md-6">
-                            <label className="form-label">Status</label>
+                            <label className="form-label">Hot</label>
                             <select
                                 className="form-select"
-                                value={status}
-                                onChange={(event) => setStatus(event.target.value)}
+                                value={hot}
+                                onChange={(event) => setHot(event.target.value)}
                             >
-                                <option value="1">ON</option>
-                                <option value="0">OFF</option>
+                                <option value="1">YES</option>
+                                <option value="0">NO</option>
                             </select>
                         </div>
                         <div className="col-md-12">
@@ -104,8 +120,8 @@ function ModalCreateBanner(props) {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => handleSubmitCreateBanner()}>
-                        Create
+                    <Button variant="primary" onClick={() => handleSubmitUpdateCategory()}>
+                        Save
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -113,4 +129,4 @@ function ModalCreateBanner(props) {
     );
 }
 
-export default ModalCreateBanner;
+export default ModalUpdateCategory;

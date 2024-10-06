@@ -4,8 +4,8 @@ const getAllBanners = () => {
     return axios.get('/api/v1/get-all-banner');
 };
 
-const getAllBannersWithStatus = () => {
-    return axios.get('/api/v1/get-all-banner?status=1');
+const getAllBannersWithStatus = (status) => {
+    return axios.get(`/api/v1/get-all-banner?status=${status}`);
 }
 
 const getBannerWithPaginate = (page, limit) => {

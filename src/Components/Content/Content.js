@@ -16,7 +16,7 @@ function Content() {
     }, []);
 
     const fetchListBanners = async () => {
-        const data = await getAllBannersWithStatus();
+        const data = await getAllBannersWithStatus(1);
         setListBanners(data);
     };
 

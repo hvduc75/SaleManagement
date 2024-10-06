@@ -18,7 +18,7 @@ const SimpleSlider = () => {
     }, []);
 
     const fetchListBanners = async () => {
-        const data = await getAllBannersWithStatus();
+        const data = await getAllBannersWithStatus(1);
         if (data && data.EC !== 0) {
             toast.error(data.EM);
         }

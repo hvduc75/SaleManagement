@@ -8,6 +8,7 @@ import ManageUser from './Components/Admin/Content/ManageUser/ManageUser';
 import ManageBanner from './Components/Admin/Content/ManageBanner/ManageBanner';
 import Login from './Components/Auth/Login/Login';
 import Register from './Components/Auth/Register/Register';
+import ManageCategory from './Components/Admin/Content/ManageCategory/ManageCategory';
 
 const NotFound = () => {
     return <div className="container fs-4 mt-3 alert alert-danger">404.Not found data with current URL</div>;
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/admin" element={<Admin />}>
                     <Route path="manage-users" element={<ManageUser />} />
                     <Route path="manage-banners" element={<ManageBanner />} />
+                    <Route path="manage-categories" element={<ManageCategory />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />

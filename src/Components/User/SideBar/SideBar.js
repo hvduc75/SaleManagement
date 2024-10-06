@@ -1,159 +1,56 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
+
+import { getAllCategories } from '../../../service/categoryApiService';
 import styles from './SideBar.scss';
-import images from '../../../assets/images';
 
 const cx = classNames.bind(styles);
 
 function SideBar(props) {
+    const [listCategories, setListCategories] = useState([]);
+
+    useEffect(() => {
+        fetchListCategories();
+    }, []);
+
+    const fetchListCategories = async () => {
+        let data = await getAllCategories();
+        setListCategories(data.DT);
+    };
+
+    const getImageSrc = (item) => {
+        if (item && item.image && item.image.data) {
+            const byteArray = new Uint8Array(item.image.data);
+            let binary = '';
+            byteArray.forEach((byte) => {
+                binary += String.fromCharCode(byte);
+            });
+            return `data:image/jpeg;base64,${window.btoa(binary)}`;
+        }
+        return null;
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('category')}>
                 <span className={cx('category-title')}>Danh mục</span>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
+                {listCategories && listCategories.length > 0 ? (
+                    listCategories.map((item, index) => {
+                        const imageSrc = getImageSrc(item);
+                        return (
+                            <div className={cx('category-child')} key={index}>
+                                <div className={cx('category-image')}>
+                                    <img className={cx('image')} src={imageSrc} alt={item.name} />
+                                </div>
+                                <span className={cx('category-name')}>{item.name}</span>
+                            </div>
+                        );
+                    })
+                ) : (
+                    <div className={cx('category-child')}>
+                        <p>No category available</p>
                     </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
-                <div className={cx('category-child')}>
-                    <div className={cx('category-image')}>
-                        <img className={cx('image')} src={images.sach} alt="sach tiki" />
-                    </div>
-                    <span className={cx('category-name')}>Nhà Sách Tiki</span>
-                </div>
+                )}
             </div>
         </div>
     );

@@ -7,6 +7,7 @@ import { FaRegFaceSmileWink } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
 
 import { UserLogoutSuccess } from '../../../../redux/action/userAction';
+import { logout } from '../../../../service/authService';
 import styles from './Account.module.scss';
 import 'tippy.js/dist/tippy.css';
 
@@ -17,10 +18,11 @@ function Account(props) {
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const dispatch = useDispatch();
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         dispatch(UserLogoutSuccess());
-        navigate("/login")
-    }
+        await logout();
+        navigate('/login');
+    };
 
     return (
         <div className={cx('wrapper')}>

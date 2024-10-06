@@ -1,110 +1,115 @@
-import { Link, useNavigate } from "react-router-dom";
-import classNames from "classnames/bind";
-import {
-  ProSidebar,
-  Menu,
-  MenuItem,
-  SubMenu,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarContent,
-} from "react-pro-sidebar";
-import "react-pro-sidebar/dist/css/styles.css";
+import { Link, useNavigate } from 'react-router-dom';
+import classNames from 'classnames/bind';
+import { ProSidebar, Menu, MenuItem, SidebarHeader, SidebarFooter, SidebarContent } from 'react-pro-sidebar';//, SubMenu
+import 'react-pro-sidebar/dist/css/styles.css';
 
-import images from "../../assets/images";
-import { FaGem } from "react-icons/fa";
-import { DiReact } from "react-icons/di";
-import { MdDashboard } from "react-icons/md";
-import styles from "./AdminSideBar.module.scss";
+import images from '../../assets/images';
+// import { FaGem } from 'react-icons/fa';
+import { DiReact } from 'react-icons/di';
+import { MdDashboard } from 'react-icons/md';
+import { IoPersonSharp } from "react-icons/io5";
+import { FaImages } from "react-icons/fa6";
+import { FaDiceD6 } from "react-icons/fa6";
+import styles from './AdminSideBar.module.scss';
 
 const cx = classNames.bind(styles);
 
 const AdminSideBar = (props) => {
-  const navigate = useNavigate();
-  const { collapsed, toggled, handleToggleSidebar } = props;
-  return (
-    <>
-      <ProSidebar
-        image={images.bg}
-        collapsed={collapsed}
-        toggled={toggled}
-        breakPoint="md"
-        onToggle={handleToggleSidebar}
-      >
-        <SidebarHeader>
-          <div
-            style={{
-              padding: "24px",
-            //   textTransform: "uppercase",
-              fontWeight: "bold",
-              fontSize: 14,
-              letterSpacing: "1px",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <DiReact size={"3em"} color={"00bfff"} />
-            <span style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
-              Sale Management
-            </span>
-          </div>
-        </SidebarHeader>
-
-        <SidebarContent>
-          <Menu iconShape="circle">
-            <MenuItem icon={<MdDashboard />}>
-              Dashboard
-              <Link to="/admin" />
-            </MenuItem>
-          </Menu>
-          <Menu iconShape="circle">
-            <SubMenu icon={<FaGem />} title="Features">
-              <MenuItem>
-                Quản lý người dùng
-                <Link to="/admin/manage-users" />
-              </MenuItem>
-              <MenuItem>
-                Quản lý Banner
-                <Link to="/admin/manage-banners" />
-              </MenuItem>
-              <MenuItem>
-                {" "}
-                Quản lý danh mục
-                <Link to="/admin/manage-questions" />
-              </MenuItem>
-            </SubMenu>
-          </Menu>
-        </SidebarContent>
-
-        <SidebarFooter style={{ textAlign: "center" }}>
-          <div
-            className={cx('sidebar-btn-wrapper')}
-            style={{
-              padding: "20px 24px",
-            }}
-          >
-            <a
-              href="https://sinhvien.huce.edu.vn/dashboard.html"
-              target="_blank"
-              className={cx('sidebar-btn')}
-              rel="noopener noreferrer"
+    const navigate = useNavigate();
+    const { collapsed, toggled, handleToggleSidebar } = props;
+    return (
+        <>
+            <ProSidebar
+                image={images.bg}
+                collapsed={collapsed}
+                toggled={toggled}
+                breakPoint="md"
+                onToggle={handleToggleSidebar}
             >
-              <span
-                style={{
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                }}
-              >
-                &#169; hvd75
-              </span>
-            </a>
-          </div>
-        </SidebarFooter>
-      </ProSidebar>
-    </>
-  );
+                <SidebarHeader>
+                    <div
+                        style={{
+                            padding: '24px',
+                            fontWeight: 'bold',
+                            fontSize: 14,
+                            letterSpacing: '1px',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                        }}
+                    >
+                        <DiReact size={'3em'} color={'00bfff'} />
+                        <span style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
+                            Sale Management
+                        </span>
+                    </div>
+                </SidebarHeader>
+
+                <SidebarContent>
+                    <Menu iconShape="circle">
+                        <MenuItem icon={<MdDashboard />}>
+                            Dashboard
+                            <Link to="/admin" />
+                        </MenuItem>
+                        <MenuItem icon={<IoPersonSharp />}>
+                            Quản lý người dùng
+                            <Link to="/admin/manage-users" />
+                        </MenuItem>
+                        <MenuItem icon={<FaImages />}>
+                            Quản lý Banner
+                            <Link to="/admin/manage-banners" />
+                        </MenuItem>
+                        <MenuItem icon={<FaDiceD6 />}>
+                            Quản lý danh mục
+                            <Link to="/admin/manage-categories" />
+                        </MenuItem>
+                    </Menu>
+                    {/* <Menu iconShape="circle">
+                        <SubMenu icon={<FaGem />} title="Features">
+                            <MenuItem>
+                                Quản lý người dùng
+                                <Link to="/admin/manage-users" />
+                            </MenuItem>
+                            <MenuItem>
+                                Quản lý Banner
+                                <Link to="/admin/manage-banners" />
+                            </MenuItem>
+                            <MenuItem>
+                                Quản lý danh mục
+                                <Link to="/admin/manage-questions" />
+                            </MenuItem>
+                        </SubMenu>
+                    </Menu> */}
+                </SidebarContent>
+
+                <SidebarFooter style={{ textAlign: 'center' }}>
+                    <div
+                        className={cx('sidebar-btn-wrapper')}
+                        style={{
+                            padding: '20px 24px',
+                        }}
+                    >
+                        <a
+                            href="https://sinhvien.huce.edu.vn/dashboard.html"
+                            target="_blank"
+                            className={cx('sidebar-btn')}
+                            rel="noopener noreferrer"
+                        >
+                            <span
+                                style={{
+                                    whiteSpace: 'nowrap',
+                                    textOverflow: 'ellipsis',
+                                    overflow: 'hidden',
+                                }}
+                            >
+                                &#169; hvd75
+                            </span>
+                        </a>
+                    </div>
+                </SidebarFooter>
+            </ProSidebar>
+        </>
+    );
 };
 
 export default AdminSideBar;

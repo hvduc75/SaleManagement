@@ -1,5 +1,6 @@
 import axios from 'axios';
 import NProgress from 'nprogress';
+import { toast } from 'react-toastify';
 import { store } from '../redux/store';
 import { UpdateAccessTokenSuccess } from '../redux/action/userAction'
 
@@ -68,7 +69,6 @@ instance.interceptors.response.use(
           if (res && res.data.DT) {
             const newAccessToken = res.data.DT.access_token;
             // Cập nhật access token mới vào redux store
-            console.log(newAccessToken)
             store.dispatch(UpdateAccessTokenSuccess(newAccessToken));
             // Cập nhật lại Authorization header cho các request đã được thực hiện trước đó
             originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
@@ -78,6 +78,9 @@ instance.interceptors.response.use(
 
             // Gửi lại request trước đó với access token mới
             return instance(originalRequest);
+          }
+          if(res && res.data.EC !== 0) {
+            toast.error(res.data.EM)
           }
         } catch (err) {
           isRefreshing = false;
