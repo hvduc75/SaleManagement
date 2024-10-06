@@ -131,23 +131,6 @@
                     }
                 }
 
-                .account {
-                    display: flex;
-                    -webkit-box-align: center;
-                    align-items: center;
-                    -webkit-box-pack: center;
-                    justify-content: center;
-                    padding: 8px 16px;
-                    cursor: pointer;
-                    position: relative;
-                    border-radius: 8px;
-                    text-decoration: none;
-
-                    &:hover {
-                        background-color: rgba(39, 39, 42, 0.12);
-                    }
-                }
-
                 .cart{
                     position: relative;
                     display: flex;

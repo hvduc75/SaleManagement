@@ -1,4 +1,10 @@
-import { USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_ERROR } from '../action/types';
+import {
+    USER_LOGIN_REQUEST,
+    USER_LOGIN_SUCCESS,
+    USER_LOGIN_ERROR,
+    USER_LOGOUT_SUCCESS,
+    UPDATE_ACCESS_TOKEN_SUCCESS,
+} from '../action/types';
 
 const INITIAL_STATE = {
     isLoading: false,
@@ -40,18 +46,27 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 isLoading: false,
                 isError: true,
             };
-        // case USER_LOGOUT_SUCCESS:
-        //   return {
-        //     ...state, account: {
-        //       access_token: "",
-        //       refresh_token: "",
-        //       username: "",
-        //       image: "",
-        //       role: "",
-        //       email:""
-        //     },
-        //     isAuthenticated: false
-        //   }
+        case USER_LOGOUT_SUCCESS:
+            return {
+                ...state,
+                account: {
+                    access_token: '',
+                    refresh_token: '',
+                    username: '',
+                    image: '',
+                    role: '',
+                    email: '',
+                },
+                isAuthenticated: false,
+            };
+        case UPDATE_ACCESS_TOKEN_SUCCESS:
+            return {
+                ...state,
+                account: {
+                    ...state.account, 
+                    access_token: action.payload, 
+                },
+            };
         default:
             return state;
     }

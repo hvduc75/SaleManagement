@@ -3,11 +3,12 @@ import Slider from 'react-slick';
 import classNames from 'classnames/bind';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { toast } from 'react-toastify';
 
-import styles from "./SimpleSlider.module.scss"
+import styles from './SimpleSlider.module.scss';
 import { getAllBannersWithStatus } from '../../../../service/bannerApiService';
 
-const cx = classNames.bind(styles)
+const cx = classNames.bind(styles);
 
 const SimpleSlider = () => {
     const [listBanners, setListBanners] = useState([]);
@@ -18,6 +19,9 @@ const SimpleSlider = () => {
 
     const fetchListBanners = async () => {
         const data = await getAllBannersWithStatus();
+        if (data && data.EC !== 0) {
+            toast.error(data.EM);
+        }
         setListBanners(data);
     };
 
@@ -67,4 +71,4 @@ const SimpleSlider = () => {
     );
 };
 
-export default SimpleSlider
+export default SimpleSlider;

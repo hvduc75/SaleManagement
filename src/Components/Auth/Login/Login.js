@@ -41,8 +41,7 @@ function Login(props) {
         }
         let response = await loginUser(valueLogin, password);
         if (response && +response.EC === 0) {
-            let data = response;
-            dispatch(UserLoginSuccess(data));
+            dispatch(UserLoginSuccess(response));
             if(response.DT.role === "User") {
                 navigate('/');
             }else {
