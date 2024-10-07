@@ -1,10 +1,9 @@
 const images = {
     logo: require("./logo.png"),
-    lamdep: require("./lamdep.webp"),
-    iphone16: require("./iphone16.webp"),
-    laptop: require("./laptop.webp"),
     bg: require("./bg2.jpg"),
-    sach: require("./sach.webp")
+    TopDeal: require("./TopDeal.png"),
+    bgTopDeal: require("./BgTopDeal.png"),
+    image1: require("./image1.webp")
 }
 
 export default images;
