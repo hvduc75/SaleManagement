@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 
 import { getAllCategories } from '../../../service/categoryApiService';
-import styles from './SideBar.scss';
+import styles from './SideBar.module.scss';
 
 const cx = classNames.bind(styles);
 

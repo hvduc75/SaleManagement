@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import AdminSideBar from './AdminSideBar';
 import classNames from 'classnames/bind';
-import styles from './Admin.module.scss';
 import { Outlet } from 'react-router-dom';
-import { FaBars } from "react-icons/fa";
+import { FaBars } from 'react-icons/fa';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+
+import styles from './Admin.module.scss';
+import "react-perfect-scrollbar/dist/css/styles.css";
 
 const cx = classNames.bind(styles);
 
@@ -12,7 +15,7 @@ function Admin(props) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('admin-sidebar')}>
-                <AdminSideBar  collapsed={collapsed}/>
+                <AdminSideBar collapsed={collapsed} />
             </div>
             <div className={cx('admin-content')}>
                 <div className={cx('admin-header')}>
@@ -28,9 +31,9 @@ function Admin(props) {
                     </div> */}
                 </div>
                 <div className={cx('admin-main')}>
-                        <Outlet/>
-                    {/* <PerfectScrollbar>
-                    </PerfectScrollbar> */}
+                    <PerfectScrollbar>
+                        <Outlet />
+                    </PerfectScrollbar>
                 </div>
             </div>
         </div>
