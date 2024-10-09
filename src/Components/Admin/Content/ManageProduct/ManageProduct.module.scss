@@ -5,53 +5,18 @@
         color: green;
     }
 
-    .content-container {
+    .form-add-product {
         .select-category {
             margin: 0px 40px;
         }
+    }
 
-        .frame {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0px 40px 0px 20px;
+    .table-product {
+        padding: 0 40px;
 
-            .frame-group {
-                border: 1px solid gray;
-                border-radius: 8px;
-                padding: 20px;
-                margin: 20px;
-            }
-
-            .frame-btn {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 9px;
-
-                .btn-plus {
-                    color: green;
-                    font-size: 20px;
-                    background: none;
-                }
-
-                .btn-trash {
-                    color: red;
-                    font-size: 20px;
-                    background: none;
-                }
-            }
-        }
-
-        .btn-save{
-            color: white;
-            margin: 0 40px;
-            width: 100px;
-            margin-bottom: 50px;
-        }
-
-        .table-product {
-            padding: 0 40px;
+        .title-table{
+            margin-bottom: 15px;
+            color: green
         }
     }
 }

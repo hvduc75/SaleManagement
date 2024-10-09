@@ -1,15 +1,11 @@
 import axios from '../utils/axiosCustomize';
 
-const getAllBanners = () => {
+const getAllProducts = () => {
     return axios.get('/api/v1/get-all-banner');
 };
 
 const getAllProductsWithCategory = (page, limit, categoryId) => {
     return axios.get(`/api/v1/product/read?page=${page}&limit=${limit}&categoryId=${categoryId}`);
-};
-
-const getBannerWithPaginate = (page, limit) => {
-    return axios.get(`/api/v1/get-all-banner?page=${page}&limit=${limit}`);
 };
 
 const postCreateNewProduct = (products, id) => {
@@ -26,25 +22,27 @@ const postCreateNewProduct = (products, id) => {
     return axios.post('/api/v1/product/create', data);
 };
 
-const putUpdateBanner = (id, name, status, description, image) => {
+const putUpdateProduct = (id, name, price, sale, quantity, image, background, categoryId) => {
     const data = new FormData();
     data.append('id', id);
     data.append('name', name);
-    data.append('description', description);
+    data.append('price', price);
+    data.append('sale', sale);
+    data.append('quantity', quantity);
+    data.append('background', background);
     data.append('image', image);
-    data.append('status', status);
-    return axios.put('/api/v1/update-banner', data);
+    data.append("categoryId", categoryId)
+    return axios.put('/api/v1/product/update', data);
 };
 
-const deleteBanner = (id) => {
-    return axios.delete('/api/v1/delete-banner', { data: { id: id } });
+const deleteProduct = (id) => {
+    return axios.delete('/api/v1/product/delete', { data: { id: id } });
 };
 
 export {
     postCreateNewProduct,
-    getAllBanners,
-    getBannerWithPaginate,
-    putUpdateBanner,
-    deleteBanner,
+    getAllProducts,
+    putUpdateProduct,
+    deleteProduct,
     getAllProductsWithCategory,
 };

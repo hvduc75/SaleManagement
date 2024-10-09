@@ -3,10 +3,10 @@ import ReactPaginate from 'react-paginate';
 function TableProductPaginate(props) {
     const { listProducts, pageCount } = props;
 
-    // const handlePageClick = (event) => {
-    //     props.setCurrentPage(+event.selected + 1);
-    //     props.fetchListCategoriesWithPaginate(+event.selected + 1);
-    // };
+    const handlePageClick = (event) => {
+        props.setCurrentPage(+event.selected + 1);
+        props.fetListProductsWithPaginate(+event.selected + 1);
+    };
 
     return (
         <>
@@ -58,7 +58,7 @@ function TableProductPaginate(props) {
                                         <img
                                             style={{ width: '60px', objectFit: 'contain' }}
                                             src={backgroundSrc}
-                                            alt="PrevImage"
+                                            alt="PrevBackground"
                                         />
                                     </td>
                                     <td style={{ textAlign: 'center' }}>
@@ -95,10 +95,10 @@ function TableProductPaginate(props) {
             <div className="d-flex justify-content-center">
                 <ReactPaginate
                     nextLabel="next >"
-                    // onPageChange={handlePageClick}
+                    onPageChange={handlePageClick}
                     pageRangeDisplayed={3}
                     marginPagesDisplayed={2}
-                    // pageCount={pageCount}
+                    pageCount={pageCount}
                     previousLabel="< Prev"
                     pageClassName="page-item"
                     pageLinkClassName="page-link"
@@ -112,7 +112,7 @@ function TableProductPaginate(props) {
                     containerClassName="pagination"
                     activeClassName="active"
                     renderOnZeroPageCount={null}
-                    // forcePage={props.currentPage - 1}
+                    forcePage={props.currentPage - 1}
                 />
             </div>
         </>
