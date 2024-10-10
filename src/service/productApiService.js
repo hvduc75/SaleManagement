@@ -1,7 +1,7 @@
 import axios from '../utils/axiosCustomize';
 
-const getAllProducts = () => {
-    return axios.get('/api/v1/get-all-banner');
+const getAllProductsWithDeal = () => {
+    return axios.get('/api/v1/product/getAllWithDeal');
 };
 
 const getAllProductsWithCategory = (page, limit, categoryId) => {
@@ -41,7 +41,7 @@ const deleteProduct = (id) => {
 
 export {
     postCreateNewProduct,
-    getAllProducts,
+    getAllProductsWithDeal,
     putUpdateProduct,
     deleteProduct,
     getAllProductsWithCategory,

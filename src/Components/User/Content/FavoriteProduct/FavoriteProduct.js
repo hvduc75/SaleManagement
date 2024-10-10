@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { toast } from 'react-toastify';
 
-import styles from './TopDeal.module.scss';
-import images from '../../../../assets/images';
-import ProductSlider from '../SimpleSlider/ProductSlider';
+import styles from './FavoriteProduct.module.scss';
 import { getAllProductsWithDeal } from '../../../../service/productApiService';
+import FavoriteSlider from '../SimpleSlider/FavoriteSlider';
 
 const cx = classNames.bind(styles);
 
-function TopDeal(props) {
+function FavoriteProduct(props) {
     const [listProducts, setListProducts] = useState([]);
 
     useEffect(() => {
@@ -26,14 +25,13 @@ function TopDeal(props) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('title')}>
-                <img className={cx('image-title')} src={images.TopDeal} alt="TopDeal" />
-                <div className={cx('view-detail')}>Xem tất cả</div>
+                <span>Bạn có thể thích</span>
             </div>
             <div className={cx('content-container')}>
-                <ProductSlider listProducts={listProducts} />
+                <FavoriteSlider listProducts={listProducts} />
             </div>
         </div>
     );
 }
 
-export default TopDeal;
+export default FavoriteProduct;

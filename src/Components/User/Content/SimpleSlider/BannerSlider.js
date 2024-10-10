@@ -1,36 +1,21 @@
-import { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import classNames from 'classnames/bind';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { toast } from 'react-toastify';
-
 import styles from './SimpleSlider.module.scss';
-import { getAllBannersWithStatus } from '../../../../service/bannerApiService';
 
 const cx = classNames.bind(styles);
 
-const SimpleSlider = () => {
-    const [listBanners, setListBanners] = useState([]);
-
-    useEffect(() => {
-        fetchListBanners();
-    }, []);
-
-    const fetchListBanners = async () => {
-        const data = await getAllBannersWithStatus(1);
-        if (data && data.EC !== 0) {
-            toast.error(data.EM);
-        }
-        setListBanners(data);
-    };
+const BannerSlider = (props) => {
+    const { listBanners, slidesToScroll, slidesToShow } = props;
 
     const settings = {
         dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 2,
-        slidesToScroll: 2,
+        slidesToShow: slidesToShow,
+        slidesToScroll: slidesToScroll,
         autoplay: true,
         autoplaySpeed: 3000,
     };
@@ -71,4 +56,4 @@ const SimpleSlider = () => {
     );
 };
 
-export default SimpleSlider;
+export default BannerSlider;

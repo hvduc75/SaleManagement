@@ -68,7 +68,7 @@ function TableProductPaginate(props) {
                                             alt="PrevImage"
                                         />
                                     </td>
-                                    <td>
+                                    <td style={{width: "200px"}}>
                                         <button
                                             className="btn btn-warning mx-3"
                                             onClick={() => props.handleClickBtnUpdate(item)}

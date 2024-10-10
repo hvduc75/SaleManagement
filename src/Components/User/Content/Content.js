@@ -1,22 +1,24 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './Content.module.scss';
-import SimpleSlider from './SimpleSlider/SimpleSlider';
 import TopDeal from './TopDeal/TopDeal';
+import Banners from './Banners/Banners';
+import FavoriteProduct from './FavoriteProduct/FavoriteProduct';
 
 const cx = classNames.bind(styles);
 
 function Content() {
-    
     return (
         <div className={cx('wrapper')}>
             <div className={cx('banner')}>
-                <SimpleSlider />
+                <Banners />
             </div>
-            <TopDeal/>
+            <div className={cx('top_deal')}><TopDeal /></div>
+            <div className={cx('favorite_product')}>
+                <FavoriteProduct/>
+            </div>
         </div>
     );
 }
 
 export default Content;
-
