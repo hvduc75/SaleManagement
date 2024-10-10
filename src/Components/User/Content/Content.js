@@ -4,6 +4,7 @@ import styles from './Content.module.scss';
 import TopDeal from './TopDeal/TopDeal';
 import Banners from './Banners/Banners';
 import FavoriteProduct from './FavoriteProduct/FavoriteProduct';
+import ProductInterest from './ProductInterest/ProductInterest';
 
 const cx = classNames.bind(styles);
 
@@ -14,6 +15,9 @@ function Content() {
                 <Banners />
             </div>
             <div className={cx('top_deal')}><TopDeal /></div>
+            <div className={cx('favorite_product')}>
+                <ProductInterest/>
+            </div>
             <div className={cx('favorite_product')}>
                 <FavoriteProduct/>
             </div>

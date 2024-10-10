@@ -1,7 +1,17 @@
 import axios from '../utils/axiosCustomize';
+import { store } from '../redux/store';
 
 const getAllProductsWithDeal = () => {
-    return axios.get('/api/v1/product/getAllWithDeal');
+    return axios.get('/api/v1/product/getAllProduct?condition=TopDeal');
+};
+
+const getAllProductsInterestOfUser = () => {
+    const userId = store?.getState()?.user?.account?.id;
+    return axios.get(`/api/v1/product/getAllProduct?condition=ProductInterest&id=${userId}`);
+};
+
+const getAllProductsFavorite = () => {
+    return axios.get(`/api/v1/product/getAllProduct?condition=productFavorite`);
 };
 
 const getAllProductsWithCategory = (page, limit, categoryId) => {
@@ -39,10 +49,17 @@ const deleteProduct = (id) => {
     return axios.delete('/api/v1/product/delete', { data: { id: id } });
 };
 
+const createUserProduct = (userId, productId) => {
+    return axios.post("/api/v1/product/create-user-product", {userId, productId});
+}
+
 export {
     postCreateNewProduct,
     getAllProductsWithDeal,
     putUpdateProduct,
     deleteProduct,
     getAllProductsWithCategory,
+    createUserProduct,
+    getAllProductsInterestOfUser,
+    getAllProductsFavorite,
 };

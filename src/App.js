@@ -10,7 +10,8 @@ import Login from './Components/Auth/Login/Login';
 import Register from './Components/Auth/Register/Register';
 import ManageCategory from './Components/Admin/Content/ManageCategory/ManageCategory';
 import ManageProduct from './Components/Admin/Content/ManageProduct/ManageProduct';
-import ProductDetail from './Components/Admin/Content/ProductDetail/ProductDetail';
+import ProductDetail from './Components/User/Content/ProductDetail/ProductDetail';
+import AddProductDetail from './Components/Admin/Content/AddProductDetail/AddProductDetail';
 
 const NotFound = () => {
     return <div className="container fs-4 mt-3 alert alert-danger">404.Not found data with current URL</div>;
@@ -26,8 +27,9 @@ function App() {
                     <Route path="manage-banners" element={<ManageBanner />} />
                     <Route path="manage-categories" element={<ManageCategory />} />
                     <Route path="manage-products" element={<ManageProduct />} />
-                    <Route path="manage-product-detail" element={<ProductDetail />} />
+                    <Route path="manage-product-detail" element={<AddProductDetail />} />
                 </Route>
+                <Route path="/product/:productId" element={<ProductDetail />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="*" element={<NotFound />} />

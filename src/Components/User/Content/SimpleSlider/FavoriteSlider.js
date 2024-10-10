@@ -12,17 +12,17 @@ const FavoriteSlider = (props) => {
         dots: false,
         infinite: true,
         speed: 500,
-        slidesToShow: 6,
-        slidesToScroll: 6,
+        slidesToShow: listProducts.length < 6 ? listProducts.length : 6,
+        slidesToScroll: listProducts.length < 6 ? listProducts.length : 6,
         autoplay: false,
         autoplaySpeed: 3000,
     };
 
     return (
         <Slider {...settings}>
-            {listProducts.DT && listProducts.DT.length > 0 ? (
-                listProducts.DT.map((item) => {
-                    return <ProductCard key={item.id} product={item} />;
+            {listProducts && listProducts.length > 0 ? (
+                listProducts.map((product) => {
+                    return <ProductCard key={product.id} product={product} />;
                 })
             ) : (
                 <div>No products available.</div>

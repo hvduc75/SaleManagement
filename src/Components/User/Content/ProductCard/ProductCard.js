@@ -1,13 +1,17 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { FaStar } from 'react-icons/fa6';
+import { useSelector } from 'react-redux';
 
 import styles from './ProductCard.module.scss';
+import { createUserProduct } from '../../../../service/productApiService';
 
 const cx = classNames.bind(styles);
 
 function ProductCard(props) {
+    const id = useSelector((state) => state.user.account.id);
     const { product } = props;
 
     const getImageSrc = (image) => {
@@ -30,10 +34,22 @@ function ProductCard(props) {
         return parseFloat(cleanedPrice).toLocaleString('vi-VN');
     };
 
+    const handlePressProducts = async (productId) => {
+        let data = await createUserProduct(`${id}`, productId);
+        if(data && data.EC !== 0) {
+            toast.error(data.EM)
+        }
+    };
+
     return (
         <div className={cx('wrapper')}>
             {product && (
-                <Link to={`/product/${product.id}`} className={cx('product-item')} key={product.id}>
+                <Link
+                    to={`/product/${product.id}`}
+                    onClick={() => handlePressProducts(product.id)}
+                    className={cx('product-item')}
+                    key={product.id}
+                >
                     <div className={cx('wrapper-image')}>
                         <div
                             className={cx('bg-image')}

@@ -16,6 +16,7 @@ const INITIAL_STATE = {
         image: '',
         role: '',
         email: '',
+        id: '',
     },
     isAuthenticated: false,
 };
@@ -37,6 +38,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     username: action?.payload?.DT?.username,
                     role: action?.payload?.DT?.role,
                     email: action?.payload?.DT?.email,
+                    id: action?.payload?.DT?.id,
                 },
                 isAuthenticated: true,
             };
