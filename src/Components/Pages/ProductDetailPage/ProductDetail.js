@@ -4,11 +4,10 @@ import { useParams } from 'react-router-dom';
 function ProductDetail() {
     const { productId } = useParams();
     
-    console.log("Product ID:", productId); // Kiểm tra xem productId có giá trị không
+    console.log("Product ID:", productId); 
     
     return (
-        <div>
-            {/* Hiển thị productId */}
+        <div className="ba">
             <h1>{`Đây là trang chi tiết cho sản phẩm có ID: ${productId}`}</h1>
         </div>
     );
