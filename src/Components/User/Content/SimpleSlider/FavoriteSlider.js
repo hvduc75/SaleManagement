@@ -4,6 +4,7 @@ import ProductCard from '../ProductCard/ProductCard';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { NextArrow, PrevArrow } from '../../../GlobalStyles/CustomSlider/CustomSlider';
 
 const FavoriteSlider = (props) => {
     const { listProducts } = props;
@@ -16,6 +17,8 @@ const FavoriteSlider = (props) => {
         slidesToScroll: listProducts.length < 6 ? listProducts.length : 6,
         autoplay: false,
         autoplaySpeed: 3000,
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />,
     };
 
     return (

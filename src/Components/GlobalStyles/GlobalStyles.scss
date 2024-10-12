@@ -34,37 +34,3 @@ a {
     color: var(--text-color);
     text-decoration: none;
 }
-
-// config arrow
-.slick-arrow {
-    display: block;
-    z-index: 100;
-}
-.slick-prev{
-    font-family: 'slick';
-    font-size: 30px;
-    line-height: 1;
-    opacity: .75;
-    left: 10px;
-    
-}
-
-.slick-prev::before{
-    font-size: 30px;
-    opacity: 1;
-    color: blue;
-}
-
-.slick-next{
-    font-family: 'slick';
-    font-size: 30px;
-    line-height: 1;
-    opacity: .75;
-    right: 18px;
-}
-
-.slick-next::before{
-    font-size: 30px;
-    opacity: 1;
-    color: blue;
-}

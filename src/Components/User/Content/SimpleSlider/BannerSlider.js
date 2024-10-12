@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from './SimpleSlider.module.scss';
+import { NextArrow, PrevArrow } from '../../../GlobalStyles/CustomSlider/CustomSlider';
 
 const cx = classNames.bind(styles);
 
@@ -18,6 +19,8 @@ const BannerSlider = (props) => {
         slidesToScroll: slidesToScroll,
         autoplay: true,
         autoplaySpeed: 3000,
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />,
     };
 
     const getImageSrc = (item) => {
