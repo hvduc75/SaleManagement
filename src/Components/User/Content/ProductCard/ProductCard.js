@@ -11,6 +11,7 @@ import { createUserProduct } from '../../../../service/productApiService';
 const cx = classNames.bind(styles);
 
 function ProductCard(props) {
+    const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const id = useSelector((state) => state.user.account.id);
     const { product } = props;
 
@@ -35,6 +36,9 @@ function ProductCard(props) {
     };
 
     const handlePressProducts = async (productId) => {
+        if(!isAuthenticated){
+            return;
+        }
         let data = await createUserProduct(`${id}`, productId);
         if(data && data.EC !== 0) {
             toast.error(data.EM)
