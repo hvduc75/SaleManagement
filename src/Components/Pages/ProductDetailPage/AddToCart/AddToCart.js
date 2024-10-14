@@ -1,15 +1,27 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { getListProductsSuccess } from '../../../../redux/action/cartAction';
+
 import { FaStar } from 'react-icons/fa6';
 import images from '../../../../assets/images';
+import { addToCart, getProductsByCartId } from '../../../../service/cartApiService';
 
-import styles from './Cart.module.scss';
+import styles from './AddToCart.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Cart(props) {
+function AddToCart(props) {
     const { product, formatPrice } = props;
     const [quantity, setQuantity] = useState(1);
+
+    const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+    const cartId = useSelector((state) => state.cart.cartId);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleAddItem = () => {
         setQuantity(+quantity + 1);
@@ -21,6 +33,20 @@ function Cart(props) {
         }
         setQuantity(+quantity - 1);
     };
+
+    const handleAddToCart = async () => {
+        if (!isAuthenticated) {
+            navigate('/login');
+        } else {
+            let data = await addToCart(cartId, product.id, quantity);
+            if (data && data.EC === 0) {
+                toast.success(data.EM);
+            }
+            let products = await getProductsByCartId(cartId);
+            dispatch(getListProductsSuccess(products.DT[0].Products));
+        }
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('widget')}>
@@ -83,7 +109,9 @@ function Cart(props) {
                     </div>
                     <div className={cx('group_button')}>
                         <button className={cx('primary_btn')}>Mua ngay</button>
-                        <button className={cx('secondary_btn')}>Thêm vào giỏ</button>
+                        <button onClick={() => handleAddToCart()} className={cx('secondary_btn')}>
+                            Thêm vào giỏ
+                        </button>
                         <button className={cx('secondary_btn')}>Mua trước trả sau</button>
                     </div>
                 </div>
@@ -92,4 +120,4 @@ function Cart(props) {
     );
 }
 
-export default Cart;
+export default AddToCart;

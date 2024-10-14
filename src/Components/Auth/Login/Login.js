@@ -1,11 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState} from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { UserLoginSuccess } from '../../../redux/action/userAction';
 import classNames from 'classnames/bind';
+
+import { UserLoginSuccess } from '../../../redux/action/userAction';
+import { getCartId, getListProductsSuccess } from '../../../redux/action/cartAction';
 import styles from './Login.module.scss';
 import { loginUser } from '../../../service/authService';
+import { getCartByUserId, getProductsByCartId } from '../../../service/cartApiService';
 
 const cx = classNames.bind(styles);
 
@@ -42,10 +45,15 @@ function Login(props) {
         let response = await loginUser(valueLogin, password);
         if (response && +response.EC === 0) {
             dispatch(UserLoginSuccess(response));
-            if(response.DT.role === "User") {
+            let res = await getCartByUserId(response.DT.id);
+            dispatch(getCartId(res));
+            let res2 = await getProductsByCartId(res.DT.id);
+            dispatch(getListProductsSuccess(res2.DT[0].Products));
+
+            if (response.DT.role === 'User') {
                 navigate('/');
-            }else {
-                navigate('/admin')
+            } else {
+                navigate('/admin');
             }
         }
 
@@ -60,12 +68,6 @@ function Login(props) {
             handleLogin();
         }
     };
-
-    //   useEffect(() => {
-    //     if (user && user.isAuthenticated) {
-    //       navigate("/");
-    //     }
-    //   }, [user, navigate]);
 
     return (
         <div className={cx('wrapper')}>

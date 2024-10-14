@@ -7,7 +7,7 @@ import styles from './ProductDetail.module.scss';
 import { FaStar } from 'react-icons/fa6';
 import images from '../../../assets/images';
 import { getProductById } from '../../../service/productApiService';
-import Cart from './Cart/Cart';
+import AddToCart from './AddToCart/AddToCart';
 
 const cx = classNames.bind(styles);
 
@@ -31,11 +31,10 @@ function ProductDetail() {
 
     const formatPrice = (price) => {
         if (typeof price !== 'number') {
-            return '0'; 
+            return '0';
         }
         return price.toLocaleString('vi-VN');
     };
-    
 
     const getImageSrc = (image) => {
         if (image && image.data) {
@@ -160,7 +159,7 @@ function ProductDetail() {
                 </div>
             </div>
             <div style={{ position: 'sticky', top: '12px' }}>
-                <Cart product={product} formatPrice={formatPrice} />
+                <AddToCart product={product} formatPrice={formatPrice} />
             </div>
         </div>
     );

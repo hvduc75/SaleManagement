@@ -1,28 +1,31 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
-import { Link, useNavigate  } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import styles from './Header.module.scss';
 import images from '../../../assets/images';
 import { IoMdSearch } from 'react-icons/io';
 import { IoCartOutline } from 'react-icons/io5';
-import { AiFillHome } from "react-icons/ai";
+import { AiFillHome } from 'react-icons/ai';
 import Account from './Account/Account';
 
 const cx = classNames.bind(styles);
 
 function Header(props) {
     const [isActiveHome, setIsActiveHome] = useState(false);
+    const quantity_product = useSelector((state) => state.cart.cart.products.length);
     const navigate = useNavigate();
+
     const handleClickHome = () => {
-        navigate("/")
+        navigate('/');
         setIsActiveHome(true);
-    }
+    };
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header-left')}>
-                <Link to={"/"} className={cx('tiki-logo')}>
+                <Link to={'/'} className={cx('tiki-logo')}>
                     <img src={images.logo} alt="logo-tiki" style={{ height: '40px', width: '96px' }} />
                     <span className={cx('logo-desc')}>Tốt & Nhanh</span>
                 </Link>
@@ -37,14 +40,19 @@ function Header(props) {
                         <div className={cx('btn-search')}>Tìm Kiếm</div>
                     </div>
                     <div className={cx('user-shortcut')}>
-                        <div onClick={() => handleClickHome()} className={isActiveHome && window.location.pathname === "/" ? cx('home', 'activeHome') : cx('home')}>
+                        <div
+                            onClick={() => handleClickHome()}
+                            className={
+                                isActiveHome && window.location.pathname === '/' ? cx('home', 'activeHome') : cx('home')
+                            }
+                        >
                             <AiFillHome className={cx('shortcut-icon')} />
                             <span>Trang chủ</span>
                         </div>
                         <Account />
                         <div className={cx('cart')}>
                             <IoCartOutline className={cx('shortcut-icon')} />
-                            <span className={cx('itemCart')}>0</span>
+                            <span className={cx('itemCart')}>{quantity_product}</span>
                         </div>
                     </div>
                 </div>
