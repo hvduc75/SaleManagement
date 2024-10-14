@@ -22,6 +22,14 @@ const getAllProductsForHomePage = (page, limit) => {
     return axios.get(`/api/v1/product/getAllProduct?condition=productWithPaginate&page=${page}&limit=${limit}`);
 };
 
+const getAllProducts = () => {
+    return axios.get(`/api/v1/product/read`);
+}
+
+const getProductById = (productId) => {
+    return axios.get(`/api/v1/product/getProductById?productId=${productId}`);
+}
+
 const postCreateNewProduct = (products, id) => {
     const data = new FormData();
     products.forEach((product) => {
@@ -66,5 +74,7 @@ export {
     createUserProduct,
     getAllProductsInterestOfUser,
     getAllProductsFavorite,
-    getAllProductsForHomePage
+    getAllProductsForHomePage,
+    getAllProducts,
+    getProductById
 };

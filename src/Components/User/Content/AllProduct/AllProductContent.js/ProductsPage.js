@@ -15,6 +15,10 @@ const ProductsPage = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        loadProducts();
+    }, []);
+
     const loadProducts = async () => {
         if (page > totalPages) return;
         setLoading(true);
@@ -39,10 +43,6 @@ const ProductsPage = () => {
         }
         return data.DT;
     };
-
-    useEffect(() => {
-        loadProducts();
-    }, []);
 
     return (
         <div className={cx('wrapper')}>

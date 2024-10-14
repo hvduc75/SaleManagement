@@ -1,34 +1,73 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
+import { toast } from 'react-toastify';
 
 import styles from './ProductDetail.module.scss';
 import { FaStar } from 'react-icons/fa6';
 import images from '../../../assets/images';
+import { getProductById } from '../../../service/productApiService';
+import Cart from './Cart/Cart';
 
 const cx = classNames.bind(styles);
 
 function ProductDetail() {
     const { productId } = useParams();
-    const [quantity, setQuantity] = useState(1);
+    const [product, setProduct] = useState([]);
 
-    const handleAddItem = () => {
-        setQuantity(+quantity + 1)
-    }
+    useEffect(() => {
+        fetchProductById();
+    }, []);
 
-    const handleRemoveItem = () => {
-        if(+quantity <= 1){
-            return;
+    const fetchProductById = async () => {
+        let data = await getProductById(productId);
+        if (data && data.EC === 0) {
+            setProduct(data.DT);
+            console.log(product);
+        } else {
+            toast.error(data.EM);
         }
-        setQuantity(+quantity-1)
-    }
+    };
+
+    const formatPrice = (price) => {
+        if (typeof price !== 'number') {
+            return '0'; 
+        }
+        return price.toLocaleString('vi-VN');
+    };
+    
+
+    const getImageSrc = (image) => {
+        if (image && image.data) {
+            const byteArray = new Uint8Array(image.data);
+            let binary = '';
+            byteArray.forEach((byte) => {
+                binary += String.fromCharCode(byte);
+            });
+            return `data:image/jpeg;base64,${window.btoa(binary)}`;
+        }
+        return null;
+    };
+
+    const imageSrc = getImageSrc(product.image);
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('product_container')}>
                 <div className={cx('product_image')}>
-                    <div className={cx('image_frame')}></div>
-                    <div className={cx('ThumbnailList')}></div>
+                    <div className={cx('image_frame')}>
+                        <img src={imageSrc} alt="ProductImage" />
+                    </div>
+                    <div className={cx('ThumbnailList')}>
+                        <div className={cx('content')}>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
                 </div>
                 <div className={cx('product_content')}>
                     <div className={cx('product_info')}>
@@ -45,9 +84,7 @@ function ProductDetail() {
                                 <img src={images.pd_exchange} className={cx('webpimg_container')} alt="test" />
                                 <img src={images.pd_real} className={cx('webpimg_container')} alt="test" />
                             </div>
-                            <div className={cx('product_name')}>
-                                Bình Giữ Nhiệt Lock&Lock Energetic One-Touch Tumbler LHC3249 - 550ML
-                            </div>
+                            <div className={cx('product_name')}>{product.name}</div>
                             <div className={cx('rating')}>
                                 <div className={cx('review')}>
                                     <div
@@ -76,14 +113,20 @@ function ProductDetail() {
                         <div className={cx('infor_bot')}>
                             <div className={cx('product_price')}>
                                 <div className={cx('current_price')}>
-                                    275.000<sup>đ</sup>
+                                    {formatPrice(+product.price_current)}
+                                    <sup>đ</sup>
                                 </div>
-                                <div className={cx('discount_rate')}>-48%</div>
+                                <div className={cx('discount_rate')}>-{product.sale}%</div>
                                 <div className={cx('discount_icon')}>
-                                    <img style={{ width: '14px', height: '14px', opacity: '1' }} src={images.pd_coupon} alt="test" />
+                                    <img
+                                        style={{ width: '14px', height: '14px', opacity: '1' }}
+                                        src={images.pd_coupon}
+                                        alt="test"
+                                    />
                                 </div>
                                 <div className={cx('original_price')}>
-                                    528.000<sup>đ</sup>
+                                    {formatPrice(+product.price)}
+                                    <sup>đ</sup>
                                 </div>
                                 <div className={cx('popup_3')}></div>
                             </div>
@@ -105,64 +148,19 @@ function ProductDetail() {
                             </div>
                         </div>
                     </div>
-                    <div className={cx('product_desc')}></div>
+                    <div className={cx('product_desc')}>
+                        <div className={cx('title')}>Mô tả sản phẩm</div>
+                        {product.ProductDetail && (
+                            <div
+                                className={cx('content')}
+                                dangerouslySetInnerHTML={{ __html: product.ProductDetail.description }}
+                            ></div>
+                        )}
+                    </div>
                 </div>
             </div>
-            <div className={cx('widget')}>
-                <div className={cx('header')}>
-                    <div className={cx('logo')}>
-                        <img src={images.pd_logo} alt="logo" />
-                    </div>
-                    <div className={cx('desc_tiki')}>
-                        <span>Tiki Trading</span>
-                        <div className={cx('seller_detail')}>
-                            <div className={cx('item')}>
-                                <img src={images.pd_official} alt="img_official" />
-                            </div>
-                            <div className={cx('item_review')}>
-                                4.7 <FaStar style={{ width: '25px' }} fill="rgb(255, 196, 0)" />{' '}
-                                <span>(5.5tr+ đánh giá)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* <div className={cx('item_info')}>
-                    <img src={images.book} alt='sanpham'/>
-                    <div></div>
-                </div> */}
-                <div className={cx('add_to_cart')}>
-                    <div className={cx('quantity_input')}>
-                        <p className={cx('label')}>Số Lượng</p>
-                        <div className={cx('group_input')}>
-                            <button onClick={() => handleRemoveItem()} className={+quantity <= 1 ? cx('disable') : cx('over')}>
-                                <img
-                                    style={{ width: '20px', height: '20px' }}
-                                    src={images.pd_icon_remove}
-                                    alt="remove_icon"
-                                />
-                            </button>
-                            <input type="text" value={quantity} onChange={(event) => setQuantity(event.target.value)} className={cx('input')} />
-                            <button onClick={() => handleAddItem()} className={cx('over')}>
-                                <img
-                                    style={{ width: '20px', height: '20px' }}
-                                    src={images.pd_icon_add}
-                                    alt="add_icon"
-                                />
-                            </button>
-                        </div>
-                    </div>
-                    <div className={cx('price_container')}>
-                        <div className={cx('price_label')}>Tạm tính</div>
-                        <div className={cx('price')}>
-                            {242.600 * +quantity}<sup>đ</sup>
-                        </div>
-                    </div>
-                    <div className={cx('group_button')}>
-                        <button className={cx('primary_btn')}>Mua ngay</button>
-                        <button className={cx('secondary_btn')}>Thêm vào giỏ</button>
-                        <button className={cx('secondary_btn')}>Mua trước trả sau</button>
-                    </div>
-                </div>
+            <div style={{ position: 'sticky', top: '12px' }}>
+                <Cart product={product} formatPrice={formatPrice} />
             </div>
         </div>
     );
