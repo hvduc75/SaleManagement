@@ -13,6 +13,7 @@ import ManageProduct from './Components/Admin/Content/ManageProduct/ManageProduc
 import ProductDetail from './Components/Pages/ProductDetailPage/ProductDetail';
 import AddProductDetail from './Components/Admin/Content/AddProductDetail/AddProductDetail';
 import Layout from './Components/User/Layouts/Layout';
+import CartPage from './Components/Pages/CartPage/CartPage';
 
 const NotFound = () => {
     return <div className="container fs-4 mt-3 alert alert-danger">404.Not found data with current URL</div>;
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Homepage />} />
                     <Route path="/product/:productId" element={<ProductDetail />} />
+                    <Route path='/cart' element={<CartPage />}/>
                 </Route>
                 <Route path="/admin" element={<Admin />}>
                     <Route path="manage-users" element={<ManageUser />} />

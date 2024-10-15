@@ -12,4 +12,14 @@ const addToCart = (cartId, productId, quantity) => {
     return axios.post(`/api/v1/cart/add-to-cart`, { cartId, productId, quantity });
 };
 
-export { getCartByUserId, addToCart, getProductsByCartId };
+const updateQuantity = (cartId, productId, quantity) => {
+    return axios.put(`/api/v1/cart/update-quantity`, { cartId, productId, quantity });
+};
+
+const deleteProductInCart = (cartId, productId) => {
+    return axios.delete(`/api/v1/cart/delete-product`, {
+        params: { cartId, productId },
+    });
+};
+
+export { getCartByUserId, addToCart, getProductsByCartId, updateQuantity, deleteProductInCart };

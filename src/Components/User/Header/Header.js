@@ -15,11 +15,20 @@ const cx = classNames.bind(styles);
 function Header(props) {
     const [isActiveHome, setIsActiveHome] = useState(false);
     const quantity_product = useSelector((state) => state.cart.cart.products.length);
+    const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const navigate = useNavigate();
 
     const handleClickHome = () => {
         navigate('/');
         setIsActiveHome(true);
+    };
+
+    const handleClickCart = () => {
+        if (!isAuthenticated) {
+            navigate('/login');
+        } else {
+            navigate('/cart');
+        }
     };
 
     return (
@@ -50,9 +59,9 @@ function Header(props) {
                             <span>Trang chủ</span>
                         </div>
                         <Account />
-                        <div className={cx('cart')}>
+                        <div onClick={() => handleClickCart()} className={cx('cart')}>
                             <IoCartOutline className={cx('shortcut-icon')} />
-                            <span className={cx('itemCart')}>{quantity_product}</span>
+                            <span className={cx('itemCart')}>{isAuthenticated ? quantity_product : 0}</span>
                         </div>
                     </div>
                 </div>

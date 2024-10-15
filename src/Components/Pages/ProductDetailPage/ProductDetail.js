@@ -112,10 +112,10 @@ function ProductDetail() {
                         <div className={cx('infor_bot')}>
                             <div className={cx('product_price')}>
                                 <div className={cx('current_price')}>
-                                    {formatPrice(+product.price_current)}
+                                    {product.price_current ? formatPrice(+product.price_current) : formatPrice(+product.price)}
                                     <sup>đ</sup>
                                 </div>
-                                <div className={cx('discount_rate')}>-{product.sale}%</div>
+                                <div className={cx('discount_rate')}>{product.sale ? "-" + product.sale + "%" : ""}</div>
                                 <div className={cx('discount_icon')}>
                                     <img
                                         style={{ width: '14px', height: '14px', opacity: '1' }}
@@ -124,8 +124,8 @@ function ProductDetail() {
                                     />
                                 </div>
                                 <div className={cx('original_price')}>
-                                    {formatPrice(+product.price)}
-                                    <sup>đ</sup>
+                                    {product.price_current ? formatPrice(+product.price) : ""}
+                                    {product.price_current && <sup>đ</sup>}
                                 </div>
                                 <div className={cx('popup_3')}></div>
                             </div>

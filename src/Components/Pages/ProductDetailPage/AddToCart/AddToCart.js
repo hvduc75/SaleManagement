@@ -103,7 +103,7 @@ function AddToCart(props) {
                     <div className={cx('price_container')}>
                         <div className={cx('price_label')}>Tạm tính</div>
                         <div className={cx('price')}>
-                            {formatPrice(product.price_current * +quantity)}
+                            {product.price_current ? formatPrice(product.price_current * +quantity) : formatPrice(product.price * quantity)}
                             <sup>đ</sup>
                         </div>
                     </div>

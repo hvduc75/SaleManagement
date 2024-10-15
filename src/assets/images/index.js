@@ -20,6 +20,10 @@ const images = {
     pd_exchange: require('./image_product_detail/image_exchange.png'),
     pd_real: require('./image_product_detail/image_real.png'),
     pd_coupon: require('./image_product_detail/image_coupon.png'),
+
+    //cart_page
+    cp_trash: require('./cart_page/trash.svg').default,
+    cp_item: require("./cart_page/item_test.webp")
 };
 
 export default images;
