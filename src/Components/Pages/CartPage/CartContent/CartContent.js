@@ -9,9 +9,8 @@ import { updateIsChecked, getAllProductByCheckbox } from '../../../../service/ca
 const cx = classNames.bind(styles);
 
 function CartContent(props) {
-    const [test, setTest] = useState(false);
+    const [selectedAll, setSelectedAll] = useState(false);
     const {
-        listProducts,
         quantities,
         setSelectedItems,
         selectedItems,
@@ -20,7 +19,6 @@ function CartContent(props) {
         listProductChecked,
         setListProductChecked,
     } = props;
-    console.log(listProductChecked);
 
     const getImageSrc = (image) => {
         if (image && image.data) {
@@ -34,14 +32,20 @@ function CartContent(props) {
         return null;
     };
 
+    useEffect(() => {
+        const allSelected = 
+            listProductChecked.length > 0 && 
+            listProductChecked.every((item) => selectedItems[item.id] === true);
+    
+        setSelectedAll(allSelected);
+    }, [selectedItems, listProductChecked]);
+
     const handleCheckboxChange = async (itemId) => {
         setSelectedItems((prev) => {
             const newSelected = { ...prev, [itemId]: !prev[itemId] };
 
-            // Sau khi cập nhật selectedItems, lấy giá trị mới nhất để cập nhật trạng thái checkbox
             const newStatus = newSelected[itemId];
 
-            // Gọi API cập nhật trạng thái
             updateIsChecked(cartId, itemId, newStatus)
                 .then(async () => {
                     let data = await getAllProductByCheckbox(cartId);
@@ -53,26 +57,9 @@ function CartContent(props) {
                     console.error('Lỗi khi gọi API update trạng thái:', error);
                 });
 
-            // Trả về trạng thái mới cho selectedItems
             return newSelected;
         });
     };
-
-    const handleDeleteProduct = () => {
-        alert('xoa san pham di nhung ma chua lam');
-    };
-
-    // const handleSelectAllCheckbox = () => {
-    //     const allSelected = listProductChecked.every((item) => selectedItems[item.id]);
-
-    //     const newSelectedItems = {};
-    //     if (!allSelected) {
-    //         listProductChecked.forEach((item) => {
-    //             newSelectedItems[item.id] = true;
-    //         });
-    //     }
-    //     setSelectedItems(newSelectedItems);
-    // };
 
     const handleSelectAllCheckbox = async () => {
         const allSelected = listProductChecked.every((item) => selectedItems[item.id]);
@@ -113,21 +100,15 @@ function CartContent(props) {
         }
     };
 
-    useEffect(() => {
-        testlll();
-    }, []);
-
-    const testlll = () => {
-        const allSelected =
-            listProductChecked.length > 0 && listProductChecked.every((item) => selectedItems[item.id] === true);
-        setTest(allSelected);
+    const handleDeleteProduct = () => {
+        alert('xoa san pham di nhung ma chua lam');
     };
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('cart_header')}>
                 <label htmlFor="check" className={cx('label_styles')}>
-                    <input type="checkbox" name="check" id="check" checked={test} onChange={handleSelectAllCheckbox} />
+                    <input type="checkbox" name="check" id="check" checked={selectedAll} onChange={handleSelectAllCheckbox} />
                     <span className={cx('label')}>Tất cả ({listProductChecked.length} sản phẩm)</span>
                 </label>
                 <span>Đơn giá</span>

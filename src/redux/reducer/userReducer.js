@@ -4,6 +4,7 @@ import {
     USER_LOGIN_ERROR,
     USER_LOGOUT_SUCCESS,
     UPDATE_ACCESS_TOKEN_SUCCESS,
+    GET_USER_INFOR_SUCCESS,
 } from '../action/types';
 
 const INITIAL_STATE = {
@@ -18,6 +19,14 @@ const INITIAL_STATE = {
         role: '',
         email: '',
         id: '',
+    },
+    userInfor: {
+        province: '',
+        district: '',
+        commune: '',
+        address: '',
+        typeAddress: '',
+        isDefault: '',
     },
     isAuthenticated: false,
 };
@@ -40,7 +49,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     role: action?.payload?.DT?.role,
                     email: action?.payload?.DT?.email,
                     id: action?.payload?.DT?.id,
-                    phone: action?.payload?.DT?.phone
+                    phone: action?.payload?.DT?.phone,
                 },
                 isAuthenticated: true,
             };
@@ -67,8 +76,21 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 account: {
-                    ...state.account, 
-                    access_token: action.payload, 
+                    ...state.account,
+                    access_token: action.payload,
+                },
+            };
+        case GET_USER_INFOR_SUCCESS:
+            console.log(action?.payload?.DT)
+            return {
+                ...state,
+                userInfor: {
+                    province: action?.payload?.DT?.province,
+                    district: action?.payload?.DT?.district,
+                    commune: action?.payload?.DT?.commune,
+                    address: action?.payload?.DT?.address,
+                    typeAddress: action?.payload?.DT?.typeAddress,
+                    isDefault: action?.payload?.DT?.isDefault,
                 },
             };
         default:

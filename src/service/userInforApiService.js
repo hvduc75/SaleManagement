@@ -1,8 +1,8 @@
 import axios from '../utils/axiosCustomize';
 
-// const getAllUsers = () => {
-//     return axios.get('/api/v1/get-all-user');
-// };
+const getAllUserInfor = (userId) => {
+    return axios.get(`/api/v1/user_infor/read?userId=${userId}`);
+};
 
 // const getUserWithPaginate = (page, limit) => {
 //     return axios.get(`/api/v1/get-all-user?page=${page}&limit=${limit}`);
@@ -26,4 +26,4 @@ const postCreateNewUserInfor = (province, district, commune, address, typeAddres
 //     return axios.delete("/api/v1/delete-user", {data: {id: id}})
 // };
 
-export { postCreateNewUserInfor};
+export { postCreateNewUserInfor, getAllUserInfor};

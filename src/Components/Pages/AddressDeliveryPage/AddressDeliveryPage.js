@@ -212,7 +212,6 @@ function AddressDeliveryPage(props) {
                     </div>
                 </div>
             </div>
-            <div className={cx('footer')}></div>
         </div>
     );
 }

@@ -24,7 +24,14 @@ const images = {
 
     //cart_page
     cp_trash: require('./cart_page/trash.svg').default,
-    cp_item: require("./cart_page/item_test.webp")
+    cp_item: require("./cart_page/item_test.webp"),
+
+    //payment
+    pm_cash: require("./Payment/cash.png"),
+    pm_viettel: require("./Payment/viettel.png"),
+    pm_zalopay: require("./Payment/zalopay.png"),
+    pm_momo: require("./Payment/momo.jpg"),
+    pm_vnpay: require("./Payment/vnpay.png")
 };
 
 export default images;

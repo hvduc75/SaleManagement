@@ -4,11 +4,12 @@ import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames/bind';
 
-import { UserLoginSuccess } from '../../../redux/action/userAction';
+import { UserLoginSuccess, GetUserInforSuccess } from '../../../redux/action/userAction';
 import { getCartId, getListProductsSuccess } from '../../../redux/action/cartAction';
 import styles from './Login.module.scss';
 import { loginUser } from '../../../service/authService';
 import { getCartByUserId, getProductsByCartId } from '../../../service/cartApiService';
+import {getAllUserInfor} from "../../../service/userInforApiService"
 
 const cx = classNames.bind(styles);
 
@@ -45,10 +46,15 @@ function Login(props) {
         let response = await loginUser(valueLogin, password);
         if (response && +response.EC === 0) {
             dispatch(UserLoginSuccess(response));
+
             let res = await getCartByUserId(response.DT.id);
             dispatch(getCartId(res));
-            let res2 = await getProductsByCartId(res.DT.id);
-            dispatch(getListProductsSuccess(res2.DT[0].Products));
+
+            let data = await getProductsByCartId(res.DT.id);
+            dispatch(getListProductsSuccess(data.DT[0].Products));
+
+            let userInfor = await getAllUserInfor(response.DT.id);
+            dispatch(GetUserInforSuccess(userInfor))
 
             if (response.DT.role === 'User') {
                 navigate('/');

@@ -8,6 +8,7 @@ import images from '../../../assets/images';
 import { IoMdSearch } from 'react-icons/io';
 import { IoCartOutline } from 'react-icons/io5';
 import { AiFillHome } from 'react-icons/ai';
+import { SlLocationPin } from 'react-icons/sl';
 import Account from './Account/Account';
 
 const cx = classNames.bind(styles);
@@ -16,6 +17,7 @@ function Header(props) {
     const [isActiveHome, setIsActiveHome] = useState(false);
     const quantity_product = useSelector((state) => state.cart.cart.products.length);
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+    const userInfor = useSelector((state) => state.user.userInfor);
     const navigate = useNavigate();
 
     const handleClickHome = () => {
@@ -66,13 +68,20 @@ function Header(props) {
                     </div>
                 </div>
                 <div className={cx('header-bottom')}>
-                    <span>điện gia dụng</span>
-                    <span>xe cộ</span>
-                    <span>mẹ & bé</span>
-                    <span>khỏe đẹp</span>
-                    <span>nhà cửa</span>
-                    <span>sách</span>
-                    <span>thể thao</span>
+                    <div className={cx('quick-links')}>
+                        <span>điện gia dụng</span>
+                        <span>xe cộ</span>
+                        <span>mẹ & bé</span>
+                        <span>khỏe đẹp</span>
+                        <span>nhà cửa</span>
+                        <span>sách</span>
+                        <span>thể thao</span>
+                    </div>
+                    <div className={cx('location')}>
+                        <SlLocationPin className={cx('icon')} />
+                        <h4 className={cx('title')}>Giao đến:</h4>
+                        <div className={cx('address')}>{`H. ${userInfor.district}, X ${userInfor.commune}, ${userInfor.province}`}</div>
+                    </div>
                 </div>
             </div>
             <div></div>

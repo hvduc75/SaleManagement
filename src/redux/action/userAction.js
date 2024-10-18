@@ -5,7 +5,8 @@ import {
     USER_LOGOUT_REQUEST,
     USER_LOGOUT_SUCCESS,
     USER_LOGOUT_ERROR,
-    UPDATE_ACCESS_TOKEN_SUCCESS
+    UPDATE_ACCESS_TOKEN_SUCCESS,
+    GET_USER_INFOR_SUCCESS
 } from './types';
 
 export const UserLoginRequest = () => {
@@ -50,4 +51,11 @@ export const UpdateAccessTokenSuccess = (data) => {
         type: UPDATE_ACCESS_TOKEN_SUCCESS,
         payload: data,
     };
+}
+
+export const GetUserInforSuccess = (data) => {
+    return {
+        type: GET_USER_INFOR_SUCCESS,
+        payload: data
+    }
 }

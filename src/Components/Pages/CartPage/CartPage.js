@@ -23,8 +23,8 @@ function CartPage(props) {
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalPriceOriginal, setTotalPriceOriginal] = useState(0);
     const [quantityBuy, setQuantityBuy] = useState(0);
+    const [listProductChecked, setListProductChecked] = useState([]);
     const [selectedItems, setSelectedItems] = useState({});
-    const [listProductChecked, setListProductChecked] = useState([])
 
     const [quantities, setQuantities] = useState(
         listProducts.reduce((acc, item) => {
@@ -35,22 +35,22 @@ function CartPage(props) {
 
     useEffect(() => {
         // Tính toán totalPrice và totalPriceOriginal mỗi khi danh sách sản phẩm hoặc trạng thái checkbox thay đổi
-        const newTotalPrice = listProducts.reduce((total, item) => {
+        const newTotalPrice = listProductChecked.reduce((total, item) => {
             return total + (selectedItems[item.id] ? (item.price_current || item.price) * quantities[item.id] : 0);
         }, 0);
 
-        const newTotalPriceOriginal = listProducts.reduce((total, item) => {
+        const newTotalPriceOriginal = listProductChecked.reduce((total, item) => {
             return total + (selectedItems[item.id] ? item.price * quantities[item.id] : 0);
         }, 0);
 
-        const newQuantityBuy = listProducts.reduce((total, item) => {
+        const newQuantityBuy = listProductChecked.reduce((total, item) => {
             return total + (selectedItems[item.id] ? 1 : 0);
         }, 0);
 
         setQuantityBuy(newQuantityBuy);
         setTotalPrice(newTotalPrice);
         setTotalPriceOriginal(newTotalPriceOriginal);
-    }, [listProducts, quantities, selectedItems]);
+    }, [listProductChecked, quantities, selectedItems]);
 
     useEffect(() => {
         fetchListProductChecked();
@@ -58,8 +58,14 @@ function CartPage(props) {
 
     const fetchListProductChecked = async () => {
         let data = await getAllProductByCheckbox(cartId);
-        if(data && data.EC === 0){
-            setListProductChecked(data.DT[0].Products)
+        if (data && data.EC === 0) {
+            setListProductChecked(data.DT[0].Products);
+            setSelectedItems(
+                data.DT[0].Products.reduce((acc, item) => {
+                    acc[item.id] = item.Product_Cart.isChecked;
+                    return acc;
+                }, {}),
+            );
         }
     };
 
