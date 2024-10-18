@@ -3,7 +3,12 @@ import classNames from 'classnames/bind';
 import { useSelector, useDispatch } from 'react-redux';
 
 import styles from './CartPage.module.scss';
-import { updateQuantity, getProductsByCartId, deleteProductInCart } from '../../../service/cartApiService';
+import {
+    updateQuantity,
+    getProductsByCartId,
+    deleteProductInCart,
+    getAllProductByCheckbox,
+} from '../../../service/cartApiService';
 import { getListProductsSuccess } from '../../../redux/action/cartAction';
 import CartContent from './CartContent/CartContent';
 import CartPayment from './CartPayment/CartPayment';
@@ -19,6 +24,7 @@ function CartPage(props) {
     const [totalPriceOriginal, setTotalPriceOriginal] = useState(0);
     const [quantityBuy, setQuantityBuy] = useState(0);
     const [selectedItems, setSelectedItems] = useState({});
+    const [listProductChecked, setListProductChecked] = useState([])
 
     const [quantities, setQuantities] = useState(
         listProducts.reduce((acc, item) => {
@@ -45,6 +51,17 @@ function CartPage(props) {
         setTotalPrice(newTotalPrice);
         setTotalPriceOriginal(newTotalPriceOriginal);
     }, [listProducts, quantities, selectedItems]);
+
+    useEffect(() => {
+        fetchListProductChecked();
+    }, []);
+
+    const fetchListProductChecked = async () => {
+        let data = await getAllProductByCheckbox(cartId);
+        if(data && data.EC === 0){
+            setListProductChecked(data.DT[0].Products)
+        }
+    };
 
     const formatPrice = (price) => {
         if (typeof price !== 'number') {
@@ -106,6 +123,9 @@ function CartPage(props) {
                             setSelectedItems={setSelectedItems}
                             selectedItems={selectedItems}
                             formatPrice={formatPrice}
+                            cartId={cartId}
+                            listProductChecked={listProductChecked}
+                            setListProductChecked={setListProductChecked}
                         />
                     </div>
                     <div className={cx('cart_right')}>

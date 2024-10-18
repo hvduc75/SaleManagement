@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Homepage from './Components/Pages/HomePage/Homepage';
 import Admin from './Components/Admin/Admin';
 import ManageUser from './Components/Admin/Content/ManageUser/ManageUser';
 import ManageBanner from './Components/Admin/Content/ManageBanner/ManageBanner';
@@ -12,8 +11,14 @@ import ManageCategory from './Components/Admin/Content/ManageCategory/ManageCate
 import ManageProduct from './Components/Admin/Content/ManageProduct/ManageProduct';
 import ProductDetail from './Components/Pages/ProductDetailPage/ProductDetail';
 import AddProductDetail from './Components/Admin/Content/AddProductDetail/AddProductDetail';
-import Layout from './Components/User/Layouts/Layout';
+
+import DefaultLayout from './Components/User/Layouts/DefaultLayout/DefaultLayout';
+import Homepage from './Components/Pages/HomePage/Homepage';
 import CartPage from './Components/Pages/CartPage/CartPage';
+
+import PaymentLayout from './Components/User/Layouts/PaymentLayout/PaymentLayout';
+import AddressDeliveryPage from './Components/Pages/AddressDeliveryPage/AddressDeliveryPage';
+import PaymentPage from './Components/Pages/PaymentPage/PaymentPage';
 
 const NotFound = () => {
     return <div className="container fs-4 mt-3 alert alert-danger">404.Not found data with current URL</div>;
@@ -23,10 +28,15 @@ function App() {
     return (
         <>
             <Routes>
-                <Route path="/" element={<Layout />}>
+                <Route path="/" element={<DefaultLayout />}>
                     <Route index element={<Homepage />} />
                     <Route path="/product/:productId" element={<ProductDetail />} />
                     <Route path='/cart' element={<CartPage />}/>
+                </Route>
+                <Route path="/checkout" element={<PaymentLayout />}>
+                    {/* <Route index element={<Homepage />} /> */}
+                    <Route path="shipping" element={<AddressDeliveryPage />} />
+                    <Route path="payment" element={<PaymentPage />} />
                 </Route>
                 <Route path="/admin" element={<Admin />}>
                     <Route path="manage-users" element={<ManageUser />} />

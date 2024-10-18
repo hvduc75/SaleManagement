@@ -1,5 +1,6 @@
 const images = {
     logo: require('./Image_logo/logo.png'),
+    logo1: require('./Image_logo/logo1.png'),
     bg: require('./Image_logo/bg2.jpg'),
     TopDeal: require('./Image_logo/TopDeal.png'),
 

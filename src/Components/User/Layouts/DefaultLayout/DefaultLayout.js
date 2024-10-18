@@ -1,13 +1,13 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 
-import styles from './Layout.module.scss';
-import Header from '../Header/Header';
+import styles from './DefaultLayout.module.scss';
+import Header from '../../Header/Header';
 import { Outlet } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function Layout(props) {
+function DefaultLayout(props) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -20,4 +20,4 @@ function Layout(props) {
     );
 }
 
-export default Layout;
+export default DefaultLayout;

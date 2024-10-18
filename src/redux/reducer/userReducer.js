@@ -13,6 +13,7 @@ const INITIAL_STATE = {
         access_token: '',
         refresh_token: '',
         username: '',
+        phone: '',
         image: '',
         role: '',
         email: '',
@@ -39,6 +40,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     role: action?.payload?.DT?.role,
                     email: action?.payload?.DT?.email,
                     id: action?.payload?.DT?.id,
+                    phone: action?.payload?.DT?.phone
                 },
                 isAuthenticated: true,
             };

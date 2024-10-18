@@ -1,5 +1,7 @@
 import React from 'react';
 import classNames from 'classnames/bind';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './CartPayment.module.scss';
 
@@ -7,6 +9,15 @@ const cx = classNames.bind(styles);
 
 function CartPayment(props) {
     const { formatPrice, totalPrice, totalPriceOriginal, quantityBuy, selectedItems } = props;
+    const navigate = useNavigate();
+
+    const handleClickPayment = () => {
+        if(!quantityBuy){
+            toast.error("Bạn vẫn chưa chọn sản phẩm nào để mua");
+            return; 
+        }
+        navigate("/checkout/shipping")
+    }
 
     return (
         <div className={cx('wrapper')}>
@@ -54,7 +65,7 @@ function CartPayment(props) {
                     <span className={cx('price_note')}>(Đã bao gồm VAT nếu có)</span>
                 </div>
             </div>
-            <div className={cx('btn_payment')}>Mua Hàng ({quantityBuy})</div>
+            <div onClick={() => handleClickPayment()} className={cx('btn_payment')}>Mua Hàng ({quantityBuy})</div>
         </div>
     );
 }

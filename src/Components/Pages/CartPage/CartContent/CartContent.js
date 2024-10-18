@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 
 import styles from './CartContent.module.scss';
 import { Link } from 'react-router-dom';
 import images from '../../../../assets/images';
+import { updateIsChecked, getAllProductByCheckbox } from '../../../../service/cartApiService';
 
 const cx = classNames.bind(styles);
 
 function CartContent(props) {
-    const { listProducts, quantities, setSelectedItems, selectedItems, formatPrice } = props;
+    const [test, setTest] = useState(false);
+    const {
+        listProducts,
+        quantities,
+        setSelectedItems,
+        selectedItems,
+        formatPrice,
+        cartId,
+        listProductChecked,
+        setListProductChecked,
+    } = props;
+    console.log(listProductChecked);
 
     const getImageSrc = (image) => {
         if (image && image.data) {
@@ -22,9 +34,26 @@ function CartContent(props) {
         return null;
     };
 
-    const handleCheckboxChange = (itemId) => {
+    const handleCheckboxChange = async (itemId) => {
         setSelectedItems((prev) => {
             const newSelected = { ...prev, [itemId]: !prev[itemId] };
+
+            // Sau khi cập nhật selectedItems, lấy giá trị mới nhất để cập nhật trạng thái checkbox
+            const newStatus = newSelected[itemId];
+
+            // Gọi API cập nhật trạng thái
+            updateIsChecked(cartId, itemId, newStatus)
+                .then(async () => {
+                    let data = await getAllProductByCheckbox(cartId);
+                    if (data && data.EC === 0) {
+                        setListProductChecked(data.DT[0].Products);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Lỗi khi gọi API update trạng thái:', error);
+                });
+
+            // Trả về trạng thái mới cho selectedItems
             return newSelected;
         });
     };
@@ -33,32 +62,73 @@ function CartContent(props) {
         alert('xoa san pham di nhung ma chua lam');
     };
 
-    const handleSelectAllCheckbox = () => {
-        const allSelected = listProducts.every((item) => selectedItems[item.id]);
-        
+    // const handleSelectAllCheckbox = () => {
+    //     const allSelected = listProductChecked.every((item) => selectedItems[item.id]);
+
+    //     const newSelectedItems = {};
+    //     if (!allSelected) {
+    //         listProductChecked.forEach((item) => {
+    //             newSelectedItems[item.id] = true;
+    //         });
+    //     }
+    //     setSelectedItems(newSelectedItems);
+    // };
+
+    const handleSelectAllCheckbox = async () => {
+        const allSelected = listProductChecked.every((item) => selectedItems[item.id]);
+
         const newSelectedItems = {};
+        const promises = [];
+
         if (!allSelected) {
-            listProducts.forEach((item) => {
+            // Chọn tất cả sản phẩm
+            listProductChecked.forEach((item) => {
                 newSelectedItems[item.id] = true;
+
+                // Gọi API để cập nhật trạng thái là đã chọn
+                const promise = updateIsChecked(cartId, item.id, true);
+                promises.push(promise);
+            });
+        } else {
+            // Bỏ chọn tất cả sản phẩm
+            listProductChecked.forEach((item) => {
+                newSelectedItems[item.id] = false;
+
+                // Gọi API để cập nhật trạng thái là chưa chọn
+                const promise = updateIsChecked(cartId, item.id, false);
+                promises.push(promise);
             });
         }
+
+        // Chờ tất cả các API hoàn tất
+        await Promise.all(promises);
+
+        // Cập nhật trạng thái selectedItems sau khi API đã được gọi
         setSelectedItems(newSelectedItems);
+
+        // Gọi API để lấy lại danh sách sản phẩm đã chọn
+        let data = await getAllProductByCheckbox(cartId);
+        if (data && data.EC === 0) {
+            setListProductChecked(data.DT[0].Products);
+        }
     };
-    
-    const allSelected = listProducts.length > 0 && listProducts.every((item) => selectedItems[item.id]);
-    
+
+    useEffect(() => {
+        testlll();
+    }, []);
+
+    const testlll = () => {
+        const allSelected =
+            listProductChecked.length > 0 && listProductChecked.every((item) => selectedItems[item.id] === true);
+        setTest(allSelected);
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('cart_header')}>
                 <label htmlFor="check" className={cx('label_styles')}>
-                    <input
-                        type="checkbox"
-                        name="check"
-                        id="check"
-                        checked={allSelected}
-                        onChange={handleSelectAllCheckbox}
-                    />
-                    <span className={cx('label')}>Tất cả ({listProducts.length} sản phẩm)</span>
+                    <input type="checkbox" name="check" id="check" checked={test} onChange={handleSelectAllCheckbox} />
+                    <span className={cx('label')}>Tất cả ({listProductChecked.length} sản phẩm)</span>
                 </label>
                 <span>Đơn giá</span>
                 <span>Số lượng</span>
@@ -66,12 +136,12 @@ function CartContent(props) {
                 <img style={{ cursor: 'pointer' }} src={images.cp_trash} alt="deleted" />
             </div>
             <div className={cx('cart_content')}>
-                {listProducts.map((item) => (
+                {listProductChecked.map((item) => (
                     <div className={cx('cart_item')} key={`item-${item.id}`}>
                         <div className={cx('item_infor')}>
                             <input
                                 type="checkbox"
-                                checked={selectedItems[item.id]}
+                                checked={item.Product_Cart.isChecked}
                                 onChange={() => handleCheckboxChange(item.id)}
                             />
                             <Link>
@@ -93,17 +163,11 @@ function CartContent(props) {
                         </div>
                         <div className={cx('item_quantity')}>
                             <div className={cx('styles_quantity')}>
-                                <span
-                                    onClick={() => props.handleDecreaseProduct(item)}
-                                    className={cx('qty_decrease')}
-                                >
+                                <span onClick={() => props.handleDecreaseProduct(item)} className={cx('qty_decrease')}>
                                     <img src={images.pd_icon_remove} alt="icon_remove" />
                                 </span>
                                 <input type="text" value={quantities[item.id]} readOnly />
-                                <span
-                                    onClick={() => props.handleIncreaseProduct(item)}
-                                    className={cx('qty_increase')}
-                                >
+                                <span onClick={() => props.handleIncreaseProduct(item)} className={cx('qty_increase')}>
                                     <img src={images.pd_icon_add} alt="icon_add" />
                                 </span>
                             </div>
@@ -123,5 +187,5 @@ function CartContent(props) {
         </div>
     );
 }
-    
+
 export default CartContent;
