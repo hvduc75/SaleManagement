@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames/bind';
 import { toast } from 'react-toastify';
-// import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 import styles from './OrderPayment.module.scss';
+import { paymentWithVnPay } from '../../../../service/paymentService';
+import CustomerAddress from '../../CartPage/CartPayment/CustomerAddress/CustomerAddress';
 
 const cx = classNames.bind(styles);
 
 function OrderPayment(props) {
     const { formatPrice, totalPrice, totalPriceOriginal, paymentMethod } = props;
-    // const navigate = useNavigate();
 
-    const handleClickPayment = () => {
-        if(!paymentMethod){
-            toast.error("Vui lòng chọn hình thức thanh toán")
-        }else{
-            alert(`phuong thuc ban chon la: ${paymentMethod}`)
+    const handleClickPayment = async () => {
+        if (!paymentMethod) {
+            toast.error('Vui lòng chọn hình thức thanh toán');
+        } else {
+            if (paymentMethod === 'vnpay') {
+                let res = await paymentWithVnPay(totalPrice, 'NCB', 'vn');
+                window.location.href = res.paymentUrl;
+            }
         }
     };
 
     return (
         <div className={cx('wrapper')}>
-            <div style={{ height: '100px' }} className={cx('location')}>
-                dia chi o day
-            </div>
+            <CustomerAddress />
             <div className={cx('payment')}>
                 <div className={cx('price_items')}>
                     <div className={cx('price_item')}>

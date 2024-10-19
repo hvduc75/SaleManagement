@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import styles from './CartPayment.module.scss';
+import CustomerAddress from './CustomerAddress/CustomerAddress';
 
 const cx = classNames.bind(styles);
 
@@ -20,14 +21,14 @@ function CartPayment(props) {
         }
         if (userInfor) {
             navigate('/checkout/payment');
-        }else{
+        } else {
             navigate('/checkout/shipping');
         }
     };
 
     return (
         <div className={cx('wrapper')}>
-            <div style={{height: "100px"}} className={cx('location')}>dia chi o day</div>
+            <CustomerAddress />
             <div className={cx('payment')}>
                 <div className={cx('price_items')}>
                     <div className={cx('price_item')}>
@@ -47,7 +48,9 @@ function CartPayment(props) {
                     {selectedItems && Object.keys(selectedItems).length > 0 && (
                         <div className={cx('price_item')}>
                             <span className={cx('price_text')}>Giảm giá từ mã khuyến mãi</span>
-                            <span className={selectedItems && Object.keys(selectedItems).length > 0 && cx('price_sale')}>
+                            <span
+                                className={selectedItems && Object.keys(selectedItems).length > 0 && cx('price_sale')}
+                            >
                                 0<sup>đ</sup>
                             </span>
                         </div>

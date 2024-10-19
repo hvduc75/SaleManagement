@@ -38,9 +38,6 @@ function PaymentPage(props) {
 
         setTotalPrice(newTotalPrice);
         setTotalPriceOriginal(newTotalPriceOriginal);
-
-        console.log(totalPrice, totalPriceOriginal);
-        console.log(listProducts);
     }, [listProductChecked]);
 
     const fetchListProductChecked = async () => {
