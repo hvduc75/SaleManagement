@@ -5,9 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import styles from './CartPage.module.scss';
 import {
     updateQuantity,
-    getProductsByCartId,
     deleteProductInCart,
-    getAllProductByCheckbox,
+    getProductsByCartId,
 } from '../../../service/cartApiService';
 import { getListProductsSuccess } from '../../../redux/action/cartAction';
 import CartContent from './CartContent/CartContent';
@@ -57,7 +56,7 @@ function CartPage(props) {
     }, []);
 
     const fetchListProductChecked = async () => {
-        let data = await getAllProductByCheckbox(cartId);
+        let data = await getProductsByCartId(cartId);
         if (data && data.EC === 0) {
             setListProductChecked(data.DT[0].Products);
             setSelectedItems(

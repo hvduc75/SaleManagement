@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import styles from './CartContent.module.scss';
 import { Link } from 'react-router-dom';
 import images from '../../../../assets/images';
-import { updateIsChecked, getAllProductByCheckbox } from '../../../../service/cartApiService';
+import { updateIsChecked, getProductsByCartId } from '../../../../service/cartApiService';
 
 const cx = classNames.bind(styles);
 
@@ -48,7 +48,7 @@ function CartContent(props) {
 
             updateIsChecked(cartId, itemId, newStatus)
                 .then(async () => {
-                    let data = await getAllProductByCheckbox(cartId);
+                    let data = await getProductsByCartId(cartId);
                     if (data && data.EC === 0) {
                         setListProductChecked(data.DT[0].Products);
                     }
@@ -94,7 +94,7 @@ function CartContent(props) {
         setSelectedItems(newSelectedItems);
 
         // Gọi API để lấy lại danh sách sản phẩm đã chọn
-        let data = await getAllProductByCheckbox(cartId);
+        let data = await getProductsByCartId(cartId);
         if (data && data.EC === 0) {
             setListProductChecked(data.DT[0].Products);
         }

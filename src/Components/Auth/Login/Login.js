@@ -9,7 +9,7 @@ import { getCartId, getListProductsSuccess } from '../../../redux/action/cartAct
 import styles from './Login.module.scss';
 import { loginUser } from '../../../service/authService';
 import { getCartByUserId, getProductsByCartId } from '../../../service/cartApiService';
-import {getAllUserInfor} from "../../../service/userInforApiService"
+import { getUserInforDefault } from '../../../service/userInforApiService';
 
 const cx = classNames.bind(styles);
 
@@ -53,8 +53,8 @@ function Login(props) {
             let data = await getProductsByCartId(res.DT.id);
             dispatch(getListProductsSuccess(data.DT[0].Products));
 
-            let userInfor = await getAllUserInfor(response.DT.id);
-            dispatch(GetUserInforSuccess(userInfor))
+            let userInfor = await getUserInforDefault(response.DT.id);
+            dispatch(GetUserInforSuccess(userInfor));
 
             if (response.DT.role === 'User') {
                 navigate('/');

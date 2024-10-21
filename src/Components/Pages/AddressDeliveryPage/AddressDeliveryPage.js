@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import styles from './AddressDeliveryPage.module.scss';
 import { IoMdRadioButtonOff, IoMdRadioButtonOn } from 'react-icons/io';
-import { postCreateNewUserInfor } from '../../../service/userInforApiService';
-import { toast } from 'react-toastify';
+import { postCreateNewUserInfor, getUserInforDefault } from '../../../service/userInforApiService';
+import { GetUserInforSuccess } from '../../../redux/action/userAction';
 
 const cx = classNames.bind(styles);
 
@@ -24,8 +25,7 @@ function AddressDeliveryPage(props) {
     const userId = useSelector((state) => state.user.account.id);
     const userInfor = useSelector((state) => state.user.userInfor);
     const navigate = useNavigate();
-
-    useEffect(() => {}, []);
+    const dispatch = useDispatch();
 
     const handleRadioChange = (value) => {
         setRadioValue(value);
@@ -35,19 +35,22 @@ function AddressDeliveryPage(props) {
         let data = await postCreateNewUserInfor(province, district, commune, address, radioValue, isDefault, userId);
         if (data && data.EC === 0) {
             toast.success('Địa chỉ của bạn đã được thêm thành công');
+            navigate('/checkout/payment');
+            let userInfor = await getUserInforDefault(userId);
+            dispatch(GetUserInforSuccess(userInfor));
         } else {
             toast.error(data.EM);
         }
     };
 
     const handleKeepAddress = () => {
-        navigate("/cart")
+        navigate('/cart');
     };
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
-                {userInfor && (
+                {Object.keys(userInfor).length > 0 && (
                     <div className={cx('address_list')}>
                         <h3 className={cx('title')}>2. Địa chỉ giao hàng</h3>
                         <h5 className={cx('address_list_text')}>Chọn địa chỉ giao hàng có sẵn bên dưới: </h5>
@@ -71,14 +74,14 @@ function AddressDeliveryPage(props) {
                         </div>
                     </div>
                 )}
-                {userInfor ? (
+                {Object.keys(userInfor).length > 0 ? (
                     <div className={cx('add_new')}>
                         Bạn muốn giao hàng đến địa chỉ khác? <span>Thêm địa chỉ giao hàng mới</span>
                     </div>
                 ) : (
                     <div className={cx('add_new')}></div>
                 )}
-                {hideForm && (
+                {(Object.keys(userInfor).length === 0 || hideForm) && (
                     <div className={cx('address_form')}>
                         <div className={cx('form_container')}>
                             <div className={cx('style_form_item')}>
@@ -224,14 +227,14 @@ function AddressDeliveryPage(props) {
                             <div className={cx('style_form_item')}>
                                 <label></label>
                                 <div className={cx('btn_group')}>
-                                    <button className={cx('btn_cancel')}>Hủy bỏ</button>
-                                    {userInfor ? (
-                                        <button className={cx('btn_update')}>Cập nhật</button>
-                                    ) : (
-                                        <button onClick={() => handleAddNew()} className={cx('btn_update')}>
-                                            Thêm mới
+                                    {hideForm && (
+                                        <button onClick={() => setHireForm(false)} className={cx('btn_cancel')}>
+                                            Hủy bỏ
                                         </button>
                                     )}
+                                    <button onClick={handleAddNew} className={cx('btn_update')}>
+                                        {hideForm ? 'Cập nhật' : 'Thêm mới'}
+                                    </button>
                                 </div>
                             </div>
                         </div>

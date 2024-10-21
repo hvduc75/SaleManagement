@@ -77,11 +77,15 @@ function Header(props) {
                         <span>sách</span>
                         <span>thể thao</span>
                     </div>
-                    <div className={cx('location')}>
-                        <SlLocationPin className={cx('icon')} />
-                        <h4 className={cx('title')}>Giao đến:</h4>
-                        <div className={cx('address')}>{`H. ${userInfor.district}, X ${userInfor.commune}, ${userInfor.province}`}</div>
-                    </div>
+                    {userInfor.id !== "" && (
+                        <div className={cx('location')}>
+                            <SlLocationPin className={cx('icon')} />
+                            <h4 className={cx('title')}>Giao đến:</h4>
+                            <div
+                                className={cx('address')}
+                            >{`H. ${userInfor.district}, X ${userInfor.commune}, ${userInfor.province}`}</div>
+                        </div>
+                    )}
                 </div>
             </div>
             <div></div>

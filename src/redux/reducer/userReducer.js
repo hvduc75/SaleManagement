@@ -21,6 +21,7 @@ const INITIAL_STATE = {
         id: '',
     },
     userInfor: {
+        id: '',
         province: '',
         district: '',
         commune: '',
@@ -69,6 +70,14 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     image: '',
                     role: '',
                     email: '',
+                },userInfor: {
+                    id: '',
+                    province: '',
+                    district: '',
+                    commune: '',
+                    address: '',
+                    typeAddress: '',
+                    isDefault: '',
                 },
                 isAuthenticated: false,
             };
@@ -85,6 +94,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 userInfor: {
+                    id: action?.payload?.DT?.id,
                     province: action?.payload?.DT?.province,
                     district: action?.payload?.DT?.district,
                     commune: action?.payload?.DT?.commune,

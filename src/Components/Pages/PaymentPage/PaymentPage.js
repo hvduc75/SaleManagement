@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import styles from './PaymentPage.module.scss';
 import images from '../../../assets/images/index';
 import { LuTruck } from 'react-icons/lu';
-import { getAllProductByCheckbox } from '../../../service/cartApiService';
+import { getProductsByCartId } from '../../../service/cartApiService';
 import OrderPayment from './OrderPayment/OrderPayment';
 
 const cx = classNames.bind(styles);
@@ -41,7 +41,7 @@ function PaymentPage(props) {
     }, [listProductChecked]);
 
     const fetchListProductChecked = async () => {
-        let data = await getAllProductByCheckbox(cartId);
+        let data = await getProductsByCartId(cartId);
         if (data && data.EC === 0) {
             setListProductChecked(data.DT[0].Products);
         }

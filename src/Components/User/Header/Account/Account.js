@@ -42,7 +42,7 @@ function Account(props) {
                             <Link to="/profile" className={cx('menu-item')}>
                                 Thông tin tài khoản
                             </Link>
-                            <Link to="/my-order" className={cx('menu-item')}>
+                            <Link to="/order/history" className={cx('menu-item')}>
                                 Đơn hàng của tôi
                             </Link>
                             <Link to="/help-center" className={cx('menu-item')}>

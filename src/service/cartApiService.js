@@ -8,9 +8,9 @@ const getProductsByCartId = (cartId) => {
     return axios.get(`/api/v1/cart/getAllProductByCartId?cartId=${cartId}`);
 };
 
-const getAllProductByCheckbox = (cartId) => {
-    return axios.get(`/api/v1/cart/getAllProductByCheckbox?cartId=${cartId}`);
-};
+// const getAllProductByCheckbox = (cartId) => {
+//     return axios.get(`/api/v1/cart/getAllProductByCheckbox?cartId=${cartId}`);
+// };
 
 const addToCart = (cartId, productId, quantity) => {
     return axios.post(`/api/v1/cart/add-to-cart`, { cartId, productId, quantity });
@@ -41,6 +41,6 @@ export {
     updateQuantity,
     deleteProductInCart,
     updateIsChecked,
-    getAllProductByCheckbox,
+    // getAllProductByCheckbox,
     deleteProductCarts,
 };

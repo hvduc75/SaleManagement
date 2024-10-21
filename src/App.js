@@ -20,6 +20,7 @@ import PaymentLayout from './Components/User/Layouts/PaymentLayout/PaymentLayout
 import AddressDeliveryPage from './Components/Pages/AddressDeliveryPage/AddressDeliveryPage';
 import PaymentPage from './Components/Pages/PaymentPage/PaymentPage';
 import PaymentStatus from './Components/Pages/PaymentPage/PaymentStatus/PaymentStatus';
+import OrderHistory from './Components/Pages/OrderHistory/OrderHistory';
 
 const NotFound = () => {
     return <div className="container fs-4 mt-3 alert alert-danger">404.Not found data with current URL</div>;
@@ -33,6 +34,7 @@ function App() {
                     <Route index element={<Homepage />} />
                     <Route path="/product/:productId" element={<ProductDetail />} />
                     <Route path='/cart' element={<CartPage />}/>
+                    <Route path='/order/history' element={<OrderHistory />}/>
                 </Route>
                 <Route path="/checkout" element={<PaymentLayout />}>
                     {/* <Route index element={<Homepage />} /> */}

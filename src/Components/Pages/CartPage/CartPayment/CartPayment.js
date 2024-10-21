@@ -10,7 +10,7 @@ import CustomerAddress from './CustomerAddress/CustomerAddress';
 const cx = classNames.bind(styles);
 
 function CartPayment(props) {
-    const userInfor = useSelector((State) => State.user.userInfor);
+    const userInfor = useSelector((state) => state.user.userInfor);
     const { formatPrice, totalPrice, totalPriceOriginal, quantityBuy, selectedItems } = props;
     const navigate = useNavigate();
 
@@ -19,10 +19,10 @@ function CartPayment(props) {
             toast.error('Bạn vẫn chưa chọn sản phẩm nào để mua');
             return;
         }
-        if (userInfor) {
-            navigate('/checkout/payment');
-        } else {
+        if (Object.keys(userInfor).length === 0) {
             navigate('/checkout/shipping');
+        } else {
+            navigate('/checkout/payment');
         }
     };
 

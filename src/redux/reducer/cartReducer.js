@@ -1,4 +1,4 @@
-import { GET_CART_SUCCESS, ADD_TO_CART_SUCCESS, GET_LIST_PRODUCTS_SUCCESS } from '../action/types';
+import { GET_CART_SUCCESS, USER_LOGOUT_SUCCESS, GET_LIST_PRODUCTS_SUCCESS } from '../action/types';
 
 const INITIAL_STATE = {
     isLoading: false,
@@ -21,7 +21,16 @@ const cartReducer = (state = INITIAL_STATE, action) => {
                 },
                 cartId: action?.payload?.DT?.id,
             };
-            case GET_LIST_PRODUCTS_SUCCESS:
+        case USER_LOGOUT_SUCCESS:
+            return {
+                isLoading: false,
+                isError: false,
+                cart: {
+                    products: [],
+                },
+                cartId: '',
+            };
+        case GET_LIST_PRODUCTS_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
