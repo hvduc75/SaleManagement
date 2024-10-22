@@ -39,7 +39,7 @@ function Account(props) {
                     placement="bottom-end"
                     render={(attrs) => (
                         <div className={cx('account-content')} tabIndex="-1" {...attrs}>
-                            <Link to="/profile" className={cx('menu-item')}>
+                            <Link to="/order/history/customer/account" className={cx('menu-item')}>
                                 Thông tin tài khoản
                             </Link>
                             <Link to="/order/history" className={cx('menu-item')}>

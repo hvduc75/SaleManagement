@@ -24,11 +24,15 @@ const getAllProductsForHomePage = (page, limit) => {
 
 const getAllProducts = () => {
     return axios.get(`/api/v1/product/read`);
-}
+};
 
 const getProductById = (productId) => {
     return axios.get(`/api/v1/product/getProductById?productId=${productId}`);
-}
+};
+
+const getProductsByCategoryId = (categoryId) => {
+    return axios.get(`/api/v1/product/getProductsByCategoryId?categoryId=${categoryId}`);
+};
 
 const postCreateNewProduct = (products, id) => {
     const data = new FormData();
@@ -39,7 +43,7 @@ const postCreateNewProduct = (products, id) => {
         data.append('image', product.image);
         data.append('background', product.background);
         data.append('quantity', product.quantity);
-        data.append("categoryId", id)
+        data.append('categoryId', id);
     });
     return axios.post('/api/v1/product/create', data);
 };
@@ -53,7 +57,7 @@ const putUpdateProduct = (id, name, price, sale, quantity, image, background, ca
     data.append('quantity', quantity);
     data.append('background', background);
     data.append('image', image);
-    data.append("categoryId", categoryId)
+    data.append('categoryId', categoryId);
     return axios.put('/api/v1/product/update', data);
 };
 
@@ -62,8 +66,8 @@ const deleteProduct = (id) => {
 };
 
 const createUserProduct = (userId, productId) => {
-    return axios.post("/api/v1/product/create-user-product", {userId, productId});
-}
+    return axios.post('/api/v1/product/create-user-product', { userId, productId });
+};
 
 export {
     postCreateNewProduct,
@@ -76,5 +80,6 @@ export {
     getAllProductsFavorite,
     getAllProductsForHomePage,
     getAllProducts,
-    getProductById
+    getProductById,
+    getProductsByCategoryId
 };

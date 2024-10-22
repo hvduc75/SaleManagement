@@ -51,6 +51,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     email: action?.payload?.DT?.email,
                     id: action?.payload?.DT?.id,
                     phone: action?.payload?.DT?.phone,
+                    image: action?.payload?.DT?.avatar
                 },
                 isAuthenticated: true,
             };

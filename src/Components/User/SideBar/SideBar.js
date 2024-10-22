@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
+import { useNavigate } from 'react-router-dom';
 
 import { getAllCategories } from '../../../service/categoryApiService';
 import styles from './SideBar.module.scss';
@@ -8,6 +9,7 @@ const cx = classNames.bind(styles);
 
 function SideBar(props) {
     const [listCategories, setListCategories] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchListCategories();
@@ -30,6 +32,10 @@ function SideBar(props) {
         return null;
     };
 
+    const handleClickCategory = (categoryId) => {
+        navigate(`/category/${categoryId}`)
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('category')}>
@@ -38,7 +44,11 @@ function SideBar(props) {
                     listCategories.map((item, index) => {
                         const imageSrc = getImageSrc(item);
                         return (
-                            <div className={cx('category-child')} key={index}>
+                            <div
+                                onClick={() => handleClickCategory(item.id)}
+                                className={cx('category-child')}
+                                key={index}
+                            >
                                 <div className={cx('category-image')}>
                                     <img className={cx('image')} src={imageSrc} alt={item.name} />
                                 </div>

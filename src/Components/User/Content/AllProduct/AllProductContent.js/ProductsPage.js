@@ -28,7 +28,6 @@ const ProductsPage = () => {
             setTotalPages(response.totalPages);
             setPage((prevPage) => prevPage + 1);
         } catch (error) {
-            console.error('Có lỗi xảy ra:', error);
             toast.error('Có lỗi xảy ra trong quá trình tải sản phẩm.');
         } finally {
             setLoading(false);
@@ -49,7 +48,7 @@ const ProductsPage = () => {
             <div className={cx('product-item')}>
                 {listProducts.length > 0 ? (
                     listProducts.map((product, index) => (
-                        <div key={index} className={cx('product-item')}>
+                        <div key={index} className={cx('product')}>
                             <ProductCard key={product.id} product={product} />
                         </div>
                     ))

@@ -1,10 +1,14 @@
 import React from 'react';
 import Slider from 'react-slick';
-import ProductCard from '../ProductCard/ProductCard';
+import classNames from 'classnames/bind';
 
+import styles from "./general.module.scss"
+import ProductCard from '../ProductCard/ProductCard';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { NextArrow, PrevArrow } from '../../../GlobalStyles/CustomSlider/CustomSlider';
+
+const cx = classNames.bind(styles)
 
 const FavoriteSlider = (props) => {
     const { listProducts } = props;
@@ -25,7 +29,11 @@ const FavoriteSlider = (props) => {
         <Slider {...settings}>
             {listProducts && listProducts.length > 0 ? (
                 listProducts.map((product) => {
-                    return <ProductCard key={product.id} product={product} />;
+                    return (
+                        <div className={cx('style_card')}>
+                            <ProductCard key={product.id} product={product} />
+                        </div>
+                    );
                 })
             ) : (
                 <div>No products available.</div>

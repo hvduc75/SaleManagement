@@ -20,7 +20,10 @@ import PaymentLayout from './Components/User/Layouts/PaymentLayout/PaymentLayout
 import AddressDeliveryPage from './Components/Pages/AddressDeliveryPage/AddressDeliveryPage';
 import PaymentPage from './Components/Pages/PaymentPage/PaymentPage';
 import PaymentStatus from './Components/Pages/PaymentPage/PaymentStatus/PaymentStatus';
-import OrderHistory from './Components/Pages/OrderHistory/OrderHistory';
+
+import OrderHistory from './Components/Pages/OrderHistoryPage/OrderHistory';
+import Profile from './Components/Pages/Profile/Profile';
+import ProductCategoryPage from './Components/Pages/ProductCategoryPage/ProductCategoryPage';
 
 const NotFound = () => {
     return <div className="container fs-4 mt-3 alert alert-danger">404.Not found data with current URL</div>;
@@ -34,7 +37,10 @@ function App() {
                     <Route index element={<Homepage />} />
                     <Route path="/product/:productId" element={<ProductDetail />} />
                     <Route path='/cart' element={<CartPage />}/>
-                    <Route path='/order/history' element={<OrderHistory />}/>
+                    <Route path="/category/:categoryId" element={<ProductCategoryPage/>}/>
+                    <Route path='/order/history' element={<OrderHistory />}>
+                        {/* <Route path='customer/account' element={<Profile/>}/> */}
+                    </Route>
                 </Route>
                 <Route path="/checkout" element={<PaymentLayout />}>
                     {/* <Route index element={<Homepage />} /> */}
