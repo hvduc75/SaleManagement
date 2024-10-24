@@ -24,6 +24,8 @@ import PaymentStatus from './Components/Pages/PaymentPage/PaymentStatus/PaymentS
 import OrderHistory from './Components/Pages/OrderHistoryPage/OrderHistory';
 import Profile from './Components/Pages/Profile/Profile';
 import ProductCategoryPage from './Components/Pages/ProductCategoryPage/ProductCategoryPage';
+import AddRole from './Components/Admin/Content/ManageRoles/AddRole/AddRole';
+import AssignRole from './Components/Admin/Content/ManageRoles/AssignRole/AssignRole';
 
 const NotFound = () => {
     return <div className="container fs-4 mt-3 alert alert-danger">404.Not found data with current URL</div>;
@@ -54,6 +56,8 @@ function App() {
                     <Route path="manage-categories" element={<ManageCategory />} />
                     <Route path="manage-products" element={<ManageProduct />} />
                     <Route path="manage-product-detail" element={<AddProductDetail />} />
+                    <Route path='add-roles' element={<AddRole/>}/>
+                    <Route path='assign-roles' element={<AssignRole/>}/>
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />

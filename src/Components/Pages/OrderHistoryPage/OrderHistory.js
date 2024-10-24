@@ -97,7 +97,7 @@ function OrderHistory(props) {
                         <IoLocation className={cx('icon')} />
                         <span>Sổ địa chỉ</span>
                     </Link>
-                    <Link
+                    <Link to={"/feedback/product"}
                         className={cx('item', { 'is-active': activeItem === 'product-reviews' })}
                         onClick={() => setActiveItem('product-reviews')}
                     >
@@ -123,7 +123,7 @@ function OrderHistory(props) {
 
                         return (
                             <div className={cx('content')} key={order.id}>
-                                <div className={cx('title')}>{`Đơn hàng thứ ${index + 1}`}</div>
+                                <div className={cx('title')}>{`Đơn hàng thứ ${listOrders.length - index}`}</div>
                                 <div className={cx('orderInfo')}>
                                     {order.Products &&
                                         order.Products.slice(0, visibleProductsCount).map((product, index) => {

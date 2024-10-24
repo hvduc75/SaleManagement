@@ -75,6 +75,16 @@ const AdminSideBar = (props) => {
                                 <Link to="/admin/manage-product-detail" />
                             </MenuItem>
                         </SubMenu>
+                        <SubMenu icon={<FaGem />} title="Phân quyền">
+                            <MenuItem icon={<AiFillProduct />}>
+                                Thêm mới 
+                                <Link to="/admin/add-roles" />
+                            </MenuItem>
+                            <MenuItem icon={<BiDetail />}>
+                                Gán quyền 
+                                <Link to="/admin/assign-roles" />
+                            </MenuItem>
+                        </SubMenu>
                     </Menu>
                 </SidebarContent>
                 <SidebarFooter style={{ textAlign: 'center' }}>

@@ -5,7 +5,7 @@ const getAllUsers = () => {
 };
 
 const getUserWithPaginate = (page, limit) => {
-    return axios.get(`/api/v1/get-all-user?page=${page}&limit=${limit}`);
+    return axios.get(`/api/v1/get-All-User?page=${page}&limit=${limit}`);
 };
 
 const postCreateNewUser = (email, password, username, phone, address, groupId, image) => {
