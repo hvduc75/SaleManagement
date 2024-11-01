@@ -15,6 +15,7 @@ import AddProductDetail from './Components/Admin/Content/AddProductDetail/AddPro
 import DefaultLayout from './Components/User/Layouts/DefaultLayout/DefaultLayout';
 import Homepage from './Components/Pages/HomePage/Homepage';
 import CartPage from './Components/Pages/CartPage/CartPage';
+import SearchPage from './Components/Pages/SearchPage/SearchPage';
 
 import PaymentLayout from './Components/User/Layouts/PaymentLayout/PaymentLayout';
 import AddressDeliveryPage from './Components/Pages/AddressDeliveryPage/AddressDeliveryPage';
@@ -40,6 +41,7 @@ function App() {
                     <Route path="/product/:productId" element={<ProductDetail />} />
                     <Route path='/cart' element={<CartPage />}/>
                     <Route path="/category/:categoryId" element={<ProductCategoryPage/>}/>
+                    <Route path="/search" element={<SearchPage/>}/>
                     <Route path='/order/history' element={<OrderHistory />}>
                         {/* <Route path='customer/account' element={<Profile/>}/> */}
                     </Route>

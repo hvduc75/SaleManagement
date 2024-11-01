@@ -13,7 +13,7 @@ const cx = classNames.bind(styles);
 function ProductCard(props) {
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const id = useSelector((state) => state.user.account.id);
-    const { product } = props;
+    const { product, cssText, cssPrice } = props;
 
     const getImageSrc = (image) => {
         if (image && image.data) {
@@ -36,12 +36,12 @@ function ProductCard(props) {
     };
 
     const handlePressProducts = async (productId) => {
-        if(!isAuthenticated){
+        if (!isAuthenticated) {
             return;
         }
         let data = await createUserProduct(`${id}`, productId);
-        if(data && data.EC !== 0) {
-            toast.error(data.EM)
+        if (data && data.EC !== 0) {
+            toast.error(data.EM);
         }
     };
 
@@ -66,7 +66,7 @@ function ProductCard(props) {
                     <div className={cx('product-content')}>
                         <div className={cx('product-description')}>
                             <div className={cx('description-top')}>
-                                <div className={cx('product-name')}>{product.name}</div>
+                                <div className={cx('product-name', cssText)}>{product.name}</div>
                                 <div className={cx('product-rating')}>
                                     {[...Array(5)].map((_, index) => (
                                         <FaStar key={index} className={cx('product-star')} />
@@ -74,14 +74,18 @@ function ProductCard(props) {
                                 </div>
                             </div>
                             <div className={cx('description-bot')}>
-                                <div className={cx('product-price-new')}>
+                                <div className={cx('product-price-new', cssPrice)}>
                                     {product.price_current
                                         ? formatPrice(product.price_current)
                                         : formatPrice(product.price)}
                                     <sup>đ</sup>
                                 </div>
                                 <div className={cx('product-sale')}>
-                                    <div className={product.sale ? cx('percent-sale') : cx('percent-sale-off')}>
+                                    <div
+                                        className={
+                                            product.sale ? cx('percent-sale') : cx('percent-sale-off')
+                                        }
+                                    >
                                         {product.sale ? product.sale + '%' : ''}
                                     </div>
                                     <div className={cx('product-price-old')}>

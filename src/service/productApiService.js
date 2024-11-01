@@ -18,6 +18,10 @@ const getAllProductsWithCategory = (page, limit, categoryId) => {
     return axios.get(`/api/v1/product/read?page=${page}&limit=${limit}&categoryId=${categoryId}`);
 };
 
+const getAllProductsWithSearchText = (query) => {
+    return axios.get(`/api/v1/product/read?query=${query}`);
+};
+
 const getAllProductsForHomePage = (page, limit) => {
     return axios.get(`/api/v1/product/getAllProduct?condition=productWithPaginate&page=${page}&limit=${limit}`);
 };
@@ -81,5 +85,6 @@ export {
     getAllProductsForHomePage,
     getAllProducts,
     getProductById,
-    getProductsByCategoryId
+    getProductsByCategoryId,
+    getAllProductsWithSearchText
 };

@@ -29,12 +29,7 @@
         display: flex;
         flex-direction: column;
         row-gap: 16px;
-
-        .title {
-            padding: 16px;
-            background-color: rgb(255, 255, 255);
-            border-radius: 8px;
-        }
+        padding-bottom: 20px;
 
         .filter {
             border: 1px solid green;
@@ -46,14 +41,19 @@
 
         .list_product {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4, 1fr); 
             gap: 16px;
 
             .cssText {
+                font-size: 20px !important; 
+            }
+
+            .cssPrice{
                 color: rgb(39, 39, 42);
                 font-size: 16px !important;
                 height: 100px;
             }
         }
+        
     }
 }

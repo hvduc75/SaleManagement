@@ -42,7 +42,7 @@ function ProductCategoryPage(props) {
                 <div className={cx('list_product')}>
                     {listProduct?.Products?.length > 0 &&
                         listProduct.Products.map((product, index) => (
-                            <ProductCard key={index} product={product} />
+                            <ProductCard cssText={cx("cssText")} key={index} product={product} />
                         ))
                     }
                 </div>

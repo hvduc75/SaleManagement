@@ -5,11 +5,11 @@ import { useSelector } from 'react-redux';
 
 import styles from './Header.module.scss';
 import images from '../../../assets/images';
-import { IoMdSearch } from 'react-icons/io';
 import { IoCartOutline } from 'react-icons/io5';
 import { AiFillHome } from 'react-icons/ai';
 import { SlLocationPin } from 'react-icons/sl';
 import Account from './Account/Account';
+import Search from './Search/Search';
 
 const cx = classNames.bind(styles);
 
@@ -43,13 +43,7 @@ function Header(props) {
             </div>
             <div className={cx('header-right')}>
                 <div className={cx('header-top')}>
-                    <div className={cx('search')}>
-                        <div className={cx('search-icon')}>
-                            <IoMdSearch style={{ width: '20px', height: '20px' }} />
-                        </div>
-                        <input className={cx('search-input')} placeholder="Freeship đơn từ 45k" />
-                        <div className={cx('btn-search')}>Tìm Kiếm</div>
-                    </div>
+                    <Search />
                     <div className={cx('user-shortcut')}>
                         <div
                             onClick={() => handleClickHome()}
