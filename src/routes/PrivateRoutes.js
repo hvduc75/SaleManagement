@@ -3,15 +3,12 @@ import { Navigate } from 'react-router-dom';
 
 const PrivateRoute = (props) => {
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-    const role = useSelector((state) => state.user.role);
+    const role = useSelector((state) => state.user.account.role);
 
     if (!isAuthenticated) {
         return <Navigate to="/login"></Navigate>;
     }
-    if (isAuthenticated && role === 'user') {
-        return <>{props.children}</>;
-    }
-    if (isAuthenticated && role === 'admin') {
+    if (isAuthenticated && role === 'Admin') {
         return <>{props.children}</>;
     }
 };

@@ -7,11 +7,12 @@ import images from '../../assets/images';
 import { FaGem } from 'react-icons/fa';
 import { DiReact } from 'react-icons/di';
 import { MdDashboard } from 'react-icons/md';
-import { IoPersonSharp } from "react-icons/io5";
-import { FaImages } from "react-icons/fa6";
-import { FaDiceD6 } from "react-icons/fa6";
-import { AiFillProduct } from "react-icons/ai";
-import { BiDetail } from "react-icons/bi";
+import { IoPersonSharp } from 'react-icons/io5';
+import { FaImages, FaDiceD6 } from 'react-icons/fa6';
+import { AiFillProduct } from 'react-icons/ai';
+import { BiDetail } from 'react-icons/bi';
+import { MdDeviceHub } from 'react-icons/md';
+import { TfiPackage } from 'react-icons/tfi';
 import styles from './AdminSideBar.module.scss';
 
 const cx = classNames.bind(styles);
@@ -53,17 +54,21 @@ const AdminSideBar = (props) => {
                             Trang chủ
                             <Link to="/admin" />
                         </MenuItem>
-                        <MenuItem icon={<IoPersonSharp />}>
-                            Quản lý người dùng
-                            <Link to="/admin/manage-users" />
-                        </MenuItem>
                         <MenuItem icon={<FaImages />}>
                             Quản lý Banner
                             <Link to="/admin/manage-banners" />
                         </MenuItem>
+                        <MenuItem icon={<IoPersonSharp />}>
+                            Quản lý người dùng
+                            <Link to="/admin/manage-users" />
+                        </MenuItem>
                         <MenuItem icon={<FaDiceD6 />}>
                             Quản lý danh mục
                             <Link to="/admin/manage-categories" />
+                        </MenuItem>
+                        <MenuItem icon={<TfiPackage />}>
+                            Quản lý đơn hàng
+                            <Link to="/admin/manage-orders" />
                         </MenuItem>
                         <SubMenu icon={<FaGem />} title="Quản lý sản phẩm">
                             <MenuItem icon={<AiFillProduct />}>
@@ -75,13 +80,13 @@ const AdminSideBar = (props) => {
                                 <Link to="/admin/manage-product-detail" />
                             </MenuItem>
                         </SubMenu>
-                        <SubMenu icon={<FaGem />} title="Phân quyền">
+                        <SubMenu icon={<MdDeviceHub />} title="Phân quyền">
                             <MenuItem icon={<AiFillProduct />}>
-                                Thêm mới 
+                                Thêm mới
                                 <Link to="/admin/add-roles" />
                             </MenuItem>
                             <MenuItem icon={<BiDetail />}>
-                                Gán quyền 
+                                Gán quyền
                                 <Link to="/admin/assign-roles" />
                             </MenuItem>
                         </SubMenu>

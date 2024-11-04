@@ -1,4 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
+// import { useEffect, useState } from 'react';
+// import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -27,39 +29,67 @@ import Profile from './Components/Pages/Profile/Profile';
 import ProductCategoryPage from './Components/Pages/ProductCategoryPage/ProductCategoryPage';
 import AddRole from './Components/Admin/Content/ManageRoles/AddRole/AddRole';
 import AssignRole from './Components/Admin/Content/ManageRoles/AssignRole/AssignRole';
+import ManageOrder from './Components/Admin/Content/ManageOrder/ManageOrder';
+import PrivateRoute from './routes/PrivateRoutes';
 
 const NotFound = () => {
-    return <div className="container fs-4 mt-3 alert alert-danger">404.Not found data with current URL</div>;
+    return <div className="container fs-4 mt-3 alert alert-danger">404. Not found data with current URL</div>;
 };
 
 function App() {
+    // const navigate = useNavigate();
+    // const role = useSelector((state) => state.user.account.role);
+    // const [loading, setLoading] = useState(true);
+    // const [check, setCheck] = useState(true);
+
+    // useEffect(() => {
+    //     if (role) {
+    //         setLoading(false);
+    //         if (role === 'Admin' && check) {
+    //             navigate('/admin');
+    //         } else if (role === 'User') {
+    //             navigate('/');
+    //         }
+    //         setCheck(false); // Move this outside the conditional
+    //     }
+    // }, [role, check, navigate]);    
+
+    // if (loading) {
+    //     return <div className="loading">Loading...</div>;
+    // }
+
     return (
         <>
             <Routes>
                 <Route path="/" element={<DefaultLayout />}>
                     <Route index element={<Homepage />} />
                     <Route path="/product/:productId" element={<ProductDetail />} />
-                    <Route path='/cart' element={<CartPage />}/>
-                    <Route path="/category/:categoryId" element={<ProductCategoryPage/>}/>
-                    <Route path="/search" element={<SearchPage/>}/>
-                    <Route path='/order/history' element={<OrderHistory />}>
-                        {/* <Route path='customer/account' element={<Profile/>}/> */}
-                    </Route>
+                    <Route path="/cart" element={<CartPage />} />
+                    <Route path="/category/:categoryId" element={<ProductCategoryPage />} />
+                    <Route path="/search" element={<SearchPage />} />
+                    <Route path="/order/history" element={<OrderHistory />} />
                 </Route>
                 <Route path="/checkout" element={<PaymentLayout />}>
-                    {/* <Route index element={<Homepage />} /> */}
                     <Route path="shipping" element={<AddressDeliveryPage />} />
                     <Route path="payment" element={<PaymentPage />} />
                     <Route path="status" element={<PaymentStatus />} />
                 </Route>
-                <Route path="/admin" element={<Admin />}>
+                <Route
+                    path="/admin"
+                    element={
+                        <PrivateRoute>
+                            <Admin />
+                        </PrivateRoute>
+                    }
+                >
                     <Route path="manage-users" element={<ManageUser />} />
                     <Route path="manage-banners" element={<ManageBanner />} />
                     <Route path="manage-categories" element={<ManageCategory />} />
                     <Route path="manage-products" element={<ManageProduct />} />
+                    <Route path="manage-orders" element={<ManageOrder />} />
                     <Route path="manage-product-detail" element={<AddProductDetail />} />
-                    <Route path='add-roles' element={<AddRole/>}/>
-                    <Route path='assign-roles' element={<AssignRole/>}/>
+                    <Route path="add-roles" element={<AddRole />} />
+                    <Route path="assign-roles" element={<AssignRole />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
