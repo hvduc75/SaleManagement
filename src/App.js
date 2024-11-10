@@ -1,8 +1,9 @@
-import { Routes, Route } from 'react-router-dom';
-// import { useEffect, useState } from 'react';
-// import { useSelector } from 'react-redux';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import Admin from './Components/Admin/Admin';
 import ManageUser from './Components/Admin/Content/ManageUser/ManageUser';
@@ -31,32 +32,33 @@ import AddRole from './Components/Admin/Content/ManageRoles/AddRole/AddRole';
 import AssignRole from './Components/Admin/Content/ManageRoles/AssignRole/AssignRole';
 import ManageOrder from './Components/Admin/Content/ManageOrder/ManageOrder';
 import PrivateRoute from './routes/PrivateRoutes';
+import DashBoard from './Components/Admin/Content/DashBoard/DashBoard';
 
 const NotFound = () => {
     return <div className="container fs-4 mt-3 alert alert-danger">404. Not found data with current URL</div>;
 };
 
 function App() {
-    // const navigate = useNavigate();
-    // const role = useSelector((state) => state.user.account.role);
-    // const [loading, setLoading] = useState(true);
-    // const [check, setCheck] = useState(true);
+    const navigate = useNavigate();
+    const role = useSelector((state) => state.user.account.role);
+    const [loading, setLoading] = useState(true);
+    const [check, setCheck] = useState(true);
 
-    // useEffect(() => {
-    //     if (role) {
-    //         setLoading(false);
-    //         if (role === 'Admin' && check) {
-    //             navigate('/admin');
-    //         } else if (role === 'User') {
-    //             navigate('/');
-    //         }
-    //         setCheck(false); // Move this outside the conditional
-    //     }
-    // }, [role, check, navigate]);    
+    useEffect(() => {
+        if (role) {
+            setLoading(false);
+            if (role === 'Admin' && check) {
+                navigate('/admin');
+            } else if (role === 'User') {
+                navigate('/');
+            }
+            setCheck(false); 
+        }
+    }, [role, check, navigate]);    
 
-    // if (loading) {
-    //     return <div className="loading">Loading...</div>;
-    // }
+    if (loading) {
+        return <div className="loading">Loading...</div>;
+    }
 
     return (
         <>
@@ -82,6 +84,7 @@ function App() {
                         </PrivateRoute>
                     }
                 >
+                    <Route index element={<DashBoard />} />
                     <Route path="manage-users" element={<ManageUser />} />
                     <Route path="manage-banners" element={<ManageBanner />} />
                     <Route path="manage-categories" element={<ManageCategory />} />

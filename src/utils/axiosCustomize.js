@@ -2,7 +2,7 @@ import axios from 'axios';
 import NProgress from 'nprogress';
 import { toast } from 'react-toastify';
 import { store } from '../redux/store';
-import { UpdateAccessTokenSuccess } from '../redux/action/userAction'
+import { UpdateAccessTokenSuccess, UserLogoutSuccess  } from '../redux/action/userAction'
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -81,6 +81,8 @@ instance.interceptors.response.use(
           }
           if(res && res.data.EC !== 0) {
             toast.error(res.data.EM)
+            store.dispatch(UserLogoutSuccess()); // Xóa token và thông tin người dùng trong redux
+            window.location.href = '/login';
           }
         } catch (err) {
           isRefreshing = false;

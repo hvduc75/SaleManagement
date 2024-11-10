@@ -23,7 +23,6 @@ function SearchPage() {
         let products = await getAllProductsWithSearchText(query);
         if(products.EC === 0){
             setListProduct(products.DT);
-            console.log(listProduct)
         }
     }
 
