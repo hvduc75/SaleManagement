@@ -1,35 +1,22 @@
-import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
 import { toast } from 'react-toastify';
 import classNames from 'classnames/bind';
 
-import styles from "./TableRole.module.scss"
-import { fetchAllRole, deleteRole } from '../../../../../service/roleApiService';
+import styles from './TableRole.module.scss';
+import { deleteRole } from '../../../../../service/roleApiService';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { FaPencilAlt } from 'react-icons/fa';
 
-const cx = classNames.bind(styles)
+const cx = classNames.bind(styles);
 
 const TableRole = forwardRef((props, ref) => {
-    const [listRoles, setListRoles] = useState('');
-
-    useEffect(() => {
-        getAllRoles();
-    }, []);
+    const { listRoles, getAllRoles, handleEditRole } = props;
 
     useImperativeHandle(ref, () => ({
-      fetListRolesAgain() {
-        getAllRoles();
-      },
+        fetListRolesAgain() {
+            getAllRoles();
+        },
     }));
-
-    const getAllRoles = async () => {
-        let data = await fetchAllRole();
-        if (data && +data.EC === 0) {
-            setListRoles(data.DT);
-        }
-    };
-
-    const handleEditRole = () => {};
 
     const handleDeleteRole = async (roleId) => {
         let data = await deleteRole(roleId);
@@ -40,8 +27,8 @@ const TableRole = forwardRef((props, ref) => {
     };
 
     return (
-        <div className={cx("table-role")}>
-            <table className={cx("table", "table-bordered", "table-hover")}>
+        <div className={cx('table-role')}>
+            <table className={cx('table', 'table-bordered', 'table-hover')}>
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
@@ -60,12 +47,16 @@ const TableRole = forwardRef((props, ref) => {
                                         <td>{item.url}</td>
                                         <td>{item.description}</td>
                                         <td>
-                                            <span title="edit" className={cx("edit")} onClick={() => handleEditRole(item)}>
+                                            <span
+                                                title="edit"
+                                                className={cx('edit')}
+                                                onClick={() => handleEditRole(item)}
+                                            >
                                                 <FaPencilAlt />
                                             </span>
                                             <span
                                                 title="delete"
-                                                className={cx("delete")}
+                                                className={cx('delete')}
                                                 onClick={() => handleDeleteRole(item.id)}
                                             >
                                                 <FaRegTrashAlt />

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
@@ -7,17 +7,32 @@ import { toast } from 'react-toastify';
 import styes from './AddRole.module.scss';
 import { FaPlusCircle } from 'react-icons/fa';
 import { FaRegTrashAlt } from 'react-icons/fa';
-import { createAddRole } from "../../../../../service/roleApiService"
+import { createAddRole, fetchAllRole } from '../../../../../service/roleApiService';
 import TableRole from '../TableRole/TableRole';
+import ModalUpdateRole from '../EditRole/EditRole';
 
 const cx = classNames.bind(styes);
 
 function AddRole(props) {
     const dataChildDefault = { url: '', description: '', isValidUrl: true };
     const childRef = useRef();
+    const [listRoles, setListRoles] = useState([]);
+    const [showModalUpdateRole, setShowModalUpdateRole] = useState(false);
+    const [roleEdit, setRoleEdit] = useState({});
     const [listChilds, setListChilds] = useState({
         child1: dataChildDefault,
     });
+
+    useEffect(() => {
+        getAllRoles();
+    }, []);
+
+    const getAllRoles = async () => {
+        let data = await fetchAllRole();
+        if (data && +data.EC === 0) {
+            setListRoles(data.DT);
+        }
+    };
 
     const handleOnChangInput = (name, value, key) => {
         let _listChilds = _.cloneDeep(listChilds);
@@ -58,12 +73,11 @@ function AddRole(props) {
 
         if (!invalidObj) {
             let data = buildDataToPersist();
-            console.log(data)
-              let res = await createAddRole(data);
-              if (res && res.EC === 0) {
+            let res = await createAddRole(data);
+            if (res && res.EC === 0) {
                 toast.success(res.EM);
                 childRef.current.fetListRolesAgain();
-              }
+            }
         } else {
             toast.error('Input URL must not be empty');
             let _listChilds = _.cloneDeep(listChilds);
@@ -71,6 +85,15 @@ function AddRole(props) {
             _listChilds[key]['isValidUrl'] = false;
             setListChilds(_listChilds);
         }
+    };
+
+    const handleEditRole = (item) => {
+        setRoleEdit(item);
+        setShowModalUpdateRole(true);
+    };
+
+    const resetDataUpdate = () => {
+        setRoleEdit({});
     };
 
     return (
@@ -110,7 +133,10 @@ function AddRole(props) {
                                             />
                                         </div>
                                         <div className={cx('col-2', 'mt-4')}>
-                                            <FaPlusCircle className={cx('add', 'actions')} onClick={() => handleAddNewInput()} />
+                                            <FaPlusCircle
+                                                className={cx('add', 'actions')}
+                                                onClick={() => handleAddNewInput()}
+                                            />
                                             {index >= 1 && (
                                                 <FaRegTrashAlt
                                                     className={cx('delete', 'actions')}
@@ -123,17 +149,29 @@ function AddRole(props) {
                             );
                         })}
                         <div>
-                            <button className={cx('btn', 'btn-warning', 'mt-3')} onClick={() => handleSave()}>
-                                Save
+                            <button className={cx('btn', 'btn-success', 'mt-3')} onClick={() => handleSave()}>
+                                Add
                             </button>
                         </div>
                     </div>
                 </div>
                 <hr />
-                <div className={cx("mt-3")}>
+                <div className={cx('mt-3')}>
                     <h4>List Current Roles</h4>
-                    <TableRole ref={childRef} />
+                    <TableRole
+                        listRoles={listRoles}
+                        handleEditRole={handleEditRole}
+                        getAllRoles={getAllRoles}
+                        ref={childRef}
+                    />
                 </div>
+                <ModalUpdateRole
+                    show={showModalUpdateRole}
+                    setShow={setShowModalUpdateRole}
+                    dataUpdate={roleEdit}
+                    resetDataUpdate={resetDataUpdate}
+                    getAllRoles={getAllRoles}
+                />
             </div>
         </div>
     );

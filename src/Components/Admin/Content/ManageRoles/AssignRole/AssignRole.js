@@ -132,7 +132,7 @@ function AssignRole(props) {
                                         return (
                                             <div className={cx('form-check')} key={`list-role-${index}`}>
                                                 <input
-                                                    className={cx('form-check-input')} // "form-check-input" cho input
+                                                    className={cx('form-check-input')} 
                                                     type="checkbox"
                                                     value={item.id}
                                                     checked={item.isAssigned}
@@ -140,17 +140,17 @@ function AssignRole(props) {
                                                     onChange={(event) => handleSelectRole(event.target.value)}
                                                 />
                                                 <label
-                                                    className={cx('form-check-label')} // Sửa lại className cho label
+                                                    className={cx('form-check-label')} 
                                                     htmlFor={`list-role-${index}`}
                                                 >
-                                                    {item.url}
+                                                    {item.description}
                                                 </label>
                                             </div>
                                         );
                                     })}
                             </div>
                         )}
-                        <div className={cx('mt-3')}>
+                        <div className={cx('mt-3', 'mb-3')}>
                             <button className={cx('btn btn-warning')} onClick={() => handleSave()}>
                                 Save
                             </button>
