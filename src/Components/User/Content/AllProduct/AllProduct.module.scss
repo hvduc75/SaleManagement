@@ -1,7 +1,6 @@
 .wrapper {
     display: flex;
     flex-direction: column;
-    background-color: rgb(255, 255, 255);
     border-radius: 8px 8px 0px 0px;
     width: 100%;
 
@@ -86,7 +85,7 @@
         position: initial;
         top: 0px;
         z-index: 997;
-        width: 1130px;
+        width: 983px;
         transition: 1s;
         padding-top: 0px;
         opacity: 1;
@@ -96,12 +95,26 @@
         position: fixed;
         top: 0px;
         z-index: 997;
-        width: 1130px;
+        width: 983px;
         transition: 1s;
         padding-top: 16px;
         opacity: 1;
     }
 
     .container_product {
+    }
+}
+
+@media only screen and (min-width: 1440px) {
+    .fixed {
+        width: 1142px !important;
+    }
+
+    .initial {
+        width: 1142px !important;
+    }
+
+    .container_product{
+        width: 1140px !important;
     }
 }

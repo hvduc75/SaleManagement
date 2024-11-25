@@ -7,15 +7,11 @@
     border-radius: 0px 0px 4px 4px;
 
     .product-item {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12.6px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(6, 1fr); 
+        gap: 8px;
         border-top: 1px solid rgb(242, 242, 242);
-
-        .product {
-            width: 177.667px;
-            height: 345.462px;
-        }
     }
 
     .btn_load_more {

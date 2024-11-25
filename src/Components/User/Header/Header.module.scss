@@ -1,8 +1,9 @@
 .wrapper {
     display: flex;
     align-items: flex-start;
-    margin: 20px 70px 0 70px;
+    padding: 20px 0 0 0;
     padding-bottom: 8px;
+    background-color: #fff;
 
     .header-left {
         .tiki-logo {

@@ -10,8 +10,10 @@ const cx = classNames.bind(styles);
 function DefaultLayout(props) {
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('inner')}>
-                <Header />
+            <div className={cx('container_header')}>
+                <div className={cx('inner')}>
+                    <Header />
+                </div>
             </div>
             <div className={cx('container')}>
                 <Outlet />

@@ -44,21 +44,21 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [check, setCheck] = useState(true);
 
-    useEffect(() => {
-        if (role) {
-            setLoading(false);
-            if (role === 'Admin' && check) {
-                navigate('/admin');
-            } else if (role === 'User') {
-                navigate('/');
-            }
-            setCheck(false); 
-        }
-    }, [role, check, navigate]);    
+    // useEffect(() => {
+    //     if (role) {
+    //         setLoading(false);
+    //         if (role === 'Admin' && check) {
+    //             navigate('/admin');
+    //         } else if (role === 'User') {
+    //             navigate('/');
+    //         }
+    //         setCheck(false); 
+    //     }
+    // }, [role, check, navigate]);    
 
-    if (loading) {
-        return <div className="loading">Loading...</div>;
-    }
+    // if (loading) {
+    //     return <div className="loading">Loading...</div>;
+    // }
 
     return (
         <>

@@ -48,7 +48,7 @@ const ProductsPage = () => {
             <div className={cx('product-item')}>
                 {listProducts.length > 0 ? (
                     listProducts.map((product, index) => (
-                        <div key={index} className={cx('product')}>
+                        <div key={index}>
                             <ProductCard key={product.id} product={product} />
                         </div>
                     ))

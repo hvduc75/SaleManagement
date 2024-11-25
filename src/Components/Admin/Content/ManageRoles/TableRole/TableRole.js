@@ -43,7 +43,7 @@ const TableRole = forwardRef((props, ref) => {
                             {listRoles.map((item, index) => {
                                 return (
                                     <tr key={`row-${index}`}>
-                                        <td>{item.id}</td>
+                                        <td>{listRoles.length-index}</td>
                                         <td>{item.url}</td>
                                         <td>{item.description}</td>
                                         <td>
