@@ -91,7 +91,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 },
             };
         case GET_USER_INFOR_SUCCESS:
-            console.log(action?.payload?.DT)
             return {
                 ...state,
                 userInfor: {

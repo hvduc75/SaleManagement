@@ -77,7 +77,7 @@ function Header(props) {
                             <h4 className={cx('title')}>Giao đến:</h4>
                             <div
                                 className={cx('address')}
-                            >{`H. ${userInfor.district}, X ${userInfor.commune}, ${userInfor.province}`}</div>
+                            >{`${userInfor.commune}, ${userInfor.district}, ${userInfor.province}`}</div>
                         </div>
                     )}
                 </div>

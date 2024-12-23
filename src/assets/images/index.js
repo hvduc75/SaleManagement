@@ -3,6 +3,7 @@ const images = {
     logo1: require('./Image_logo/logo1.png'),
     bg: require('./Image_logo/bg2.jpg'),
     TopDeal: require('./Image_logo/TopDeal.png'),
+    emptyOrder: require('./Image_logo/empty-order.png'),
 
     // all_product
     logoTd: require('./Image_recommend/TopDeal.webp'),

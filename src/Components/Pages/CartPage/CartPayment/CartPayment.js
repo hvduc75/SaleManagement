@@ -15,11 +15,12 @@ function CartPayment(props) {
     const navigate = useNavigate();
 
     const handleClickPayment = () => {
+        console.log(userInfor)
         if (!quantityBuy) {
             toast.error('Bạn vẫn chưa chọn sản phẩm nào để mua');
             return;
         }
-        if (Object.keys(userInfor).length === 0) {
+        if (userInfor.id === undefined) {
             navigate('/checkout/shipping');
         } else {
             navigate('/checkout/payment');

@@ -64,12 +64,14 @@ function DashBoard(props) {
         let totalRevenue = 0;
 
         listOrdersInWeek.forEach((order) => {
-            const date = new Date(order.order_date);
-            let dayIndex = date.getDay() - 1;
+            const date = new Date(order.order_date).toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
+            const vietnamDate = new Date(date); // Tạo lại đối tượng Date từ chuỗi đã chuyển múi giờ
+            
+            let dayIndex = vietnamDate.getDay() - 1;
             if (dayIndex < 0) dayIndex = 6;
             dataPerDay[dayIndex] += +order.total_price;
             totalRevenue += +order.total_price;
-        });
+        });        
         setTotalPrice(totalRevenue);
 
         // Tạo biểu đồ mới và lưu vào ref

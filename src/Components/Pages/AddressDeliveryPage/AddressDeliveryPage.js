@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -16,9 +16,15 @@ function AddressDeliveryPage(props) {
     const [province, setProvince] = useState('');
     const [district, setDistrict] = useState('');
     const [commune, setCommune] = useState('');
+    const [provinceCode, setProvinceCode] = useState('');
+    const [districtCode, setDistrictCode] = useState('');
+    const [communeCode, setCommuneCode] = useState('');
     const [address, setAddress] = useState('');
     const [isDefault, setIsDefault] = useState(false);
     const [hideForm, setHireForm] = useState(false);
+    const [listProvince, setListProvince] = useState([]);
+    const [listDistrict, setListDistrict] = useState([]);
+    const [listCommune, setListCommune] = useState([]);
 
     const phone = useSelector((state) => state.user.account.phone);
     const username = useSelector((state) => state.user.account.username);
@@ -27,11 +33,72 @@ function AddressDeliveryPage(props) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        const fetchProvinces = async () => {
+            try {
+                const response = await fetch('https://provinces.open-api.vn/api/?depth=1');
+                const data = await response.json();
+                setListProvince(data);
+            } catch (error) {
+                console.error('Error fetching provinces:', error);
+            }
+        };
+        fetchProvinces();
+    }, []);
+
+    const handleProvinceChange = async (e) => {
+        const selectedProvinceCode = e.target.value;
+        console.log(selectedProvinceCode);
+        setProvinceCode(selectedProvinceCode);
+        try {
+            const response = await fetch(`https://provinces.open-api.vn/api/p/${selectedProvinceCode}?depth=2`);
+            const data = await response.json();
+            setListDistrict(data.districts || []);
+        } catch (error) {
+            console.error('Error fetching districts:', error);
+        }
+    };
+
+    const handleDistrictChange = async (e) => {
+        const selectedDistrictCode = e.target.value;
+        setDistrictCode(selectedDistrictCode);
+        try {
+            const response = await fetch(`https://provinces.open-api.vn/api/d/${selectedDistrictCode}?depth=2`);
+            const data = await response.json();
+            setListCommune(data.wards || []);
+        } catch (error) {
+            console.error('Error fetching communes:', error);
+        }
+    };
+
     const handleRadioChange = (value) => {
         setRadioValue(value);
     };
 
     const handleAddNew = async () => {
+        const getProvinceName = (provinceCode) => {
+            const provinceSelected = listProvince.find((item) => item.code === +provinceCode);
+            // console.log(provinceCode)
+            // console.log(provinceSelected)
+            return provinceSelected ? provinceSelected.name : 'Không xác định';
+        };
+
+        const getDistrictName = (districtCode) => {
+            const districtSelected = listDistrict.find((item) => item.code === +districtCode);
+            return districtSelected ? districtSelected.name : 'Không xác định';
+        };
+
+        const getCommuneName = (communeCode) => {
+            const communeSelected = listCommune.find((item) => item.code === +communeCode);
+            // console.log(communeCode)
+            // console.log(commune)
+            return communeSelected ? communeSelected.name : 'Không xác định';
+        };
+        setProvince(getProvinceName(provinceCode));
+        setDistrict(getDistrictName(districtCode));
+        setCommune(getCommuneName(communeCode));
+        console.log(province, district, commune, address, radioValue, isDefault, userId);
+
         let data = await postCreateNewUserInfor(province, district, commune, address, radioValue, isDefault, userId);
         if (data && data.EC === 0) {
             toast.success('Địa chỉ của bạn đã được thêm thành công');
@@ -50,7 +117,7 @@ function AddressDeliveryPage(props) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
-                {Object.keys(userInfor).length > 0 && (
+                {userInfor.id !== undefined && (
                     <div className={cx('address_list')}>
                         <h3 className={cx('title')}>2. Địa chỉ giao hàng</h3>
                         <h5 className={cx('address_list_text')}>Chọn địa chỉ giao hàng có sẵn bên dưới: </h5>
@@ -74,7 +141,7 @@ function AddressDeliveryPage(props) {
                         </div>
                     </div>
                 )}
-                {Object.keys(userInfor).length > 0 ? (
+                {userInfor.id !== undefined ? (
                     <div className={cx('add_new')}>
                         Bạn muốn giao hàng đến địa chỉ khác? <span>Thêm địa chỉ giao hàng mới</span>
                     </div>
@@ -112,33 +179,48 @@ function AddressDeliveryPage(props) {
                             </div>
                             <div className={cx('style_form_item')}>
                                 <label>Tỉnh/Thành phố</label>
-                                <input
-                                    type="text"
-                                    placeholder="Ví dụ : Nam Định"
-                                    value={province}
-                                    onChange={(event) => setProvince(event.target.value)}
+                                <select
+                                    value={provinceCode}
                                     className={cx('style_input')}
-                                />
+                                    onChange={handleProvinceChange}
+                                >
+                                    <option value="">Chọn Tỉnh/Thành Phố</option>
+                                    {listProvince.map((province) => (
+                                        <option key={province.code} value={province.code}>
+                                            {province.name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                             <div className={cx('style_form_item')}>
                                 <label>Quận/Huyện</label>
-                                <input
-                                    type="text"
-                                    placeholder="Ví dụ : Ý Yên"
-                                    value={district}
-                                    onChange={(event) => setDistrict(event.target.value)}
+                                <select
+                                    value={districtCode}
                                     className={cx('style_input')}
-                                />
+                                    onChange={handleDistrictChange}
+                                >
+                                    <option value="">Chọn Quận/Huyện</option>
+                                    {listDistrict.map((district) => (
+                                        <option key={district.code} value={district.code}>
+                                            {district.name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                             <div className={cx('style_form_item')}>
                                 <label>Phường/Xã</label>
-                                <input
-                                    type="text"
-                                    placeholder="Ví dụ : Yên Trị"
-                                    value={commune}
-                                    onChange={(event) => setCommune(event.target.value)}
+                                <select
+                                    value={communeCode}
                                     className={cx('style_input')}
-                                />
+                                    onChange={(e) => setCommuneCode(e.target.value)}
+                                >
+                                    <option value="">Chọn Phường/Xã</option>
+                                    {listCommune.map((commune) => (
+                                        <option key={commune.code} value={commune.code}>
+                                            {commune.name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                             <div className={cx('style_form_item')}>
                                 <label>Địa chỉ</label>

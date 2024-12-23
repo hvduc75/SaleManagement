@@ -1,11 +1,15 @@
 import axios from '../utils/axiosCustomize';
 
-const paymentWithVnPay = (amount , bankCode, language) => {
-    return axios.post('/api/v1/payment/vnpay', {amount , bankCode, language});
+const paymentWithVnPay = (amount, orderId,  bankCode, language) => {
+    return axios.post('/api/v1/payment/vnpay', {amount, orderId, bankCode, language});
 };
 
 const vnpay_return = (paymentParams) => {
     return axios.get("/api/v1/vnpay_return", {params: paymentParams})
 }
 
-export { paymentWithVnPay, vnpay_return };
+const vnpay_refund = (orderId, transDate, amount, user) => {
+    return axios.post("/api/v1/vnpay/refund", {orderId, transDate, amount, user})
+}
+
+export { paymentWithVnPay, vnpay_return, vnpay_refund };

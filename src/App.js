@@ -16,6 +16,7 @@ import ProductDetail from './Components/Pages/ProductDetailPage/ProductDetail';
 import AddProductDetail from './Components/Admin/Content/AddProductDetail/AddProductDetail';
 
 import DefaultLayout from './Components/User/Layouts/DefaultLayout/DefaultLayout';
+import AccountLayout from './Components/User/Layouts/AccountLayout/AccountLayout';
 import Homepage from './Components/Pages/HomePage/Homepage';
 import CartPage from './Components/Pages/CartPage/CartPage';
 import SearchPage from './Components/Pages/SearchPage/SearchPage';
@@ -26,6 +27,8 @@ import PaymentPage from './Components/Pages/PaymentPage/PaymentPage';
 import PaymentStatus from './Components/Pages/PaymentPage/PaymentStatus/PaymentStatus';
 
 import OrderHistory from './Components/Pages/OrderHistoryPage/OrderHistory';
+import OrderDetail from './Components/Pages/OrderDetailPage/OrderDetailPage';
+import OrderDetailAdmin from './Components/Admin/Content/ManageOrder/OrderDetail/OrderDetail'
 import Profile from './Components/Pages/Profile/Profile';
 import ProductCategoryPage from './Components/Pages/ProductCategoryPage/ProductCategoryPage';
 import AddRole from './Components/Admin/Content/ManageRoles/AddRole/AddRole';
@@ -52,9 +55,9 @@ function App() {
     //         } else if (role === 'User') {
     //             navigate('/');
     //         }
-    //         setCheck(false); 
+    //         setCheck(false);
     //     }
-    // }, [role, check, navigate]);    
+    // }, [role, check, navigate]);
 
     // if (loading) {
     //     return <div className="loading">Loading...</div>;
@@ -69,7 +72,16 @@ function App() {
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/category/:categoryId" element={<ProductCategoryPage />} />
                     <Route path="/search" element={<SearchPage />} />
-                    <Route path="/order/history" element={<OrderHistory />} />
+                </Route>
+                <Route path="/" element={<AccountLayout />}>
+                    <Route index element={<Profile />} />
+                    <Route path="order/history" element={<OrderHistory />} />
+                    <Route path="account/info" element={<Profile />} />
+                    <Route path="/order/view/:orderId" element={<OrderDetail />} />
+                    {/* <Route path="/cart" element={<CartPage />} />
+                    <Route path="/category/:categoryId" element={<ProductCategoryPage />} />
+                    <Route path="/search" element={<SearchPage />} />
+                    <Route path="/order/history" element={<OrderHistory />} /> */}
                 </Route>
                 <Route path="/checkout" element={<PaymentLayout />}>
                     <Route path="shipping" element={<AddressDeliveryPage />} />
@@ -93,6 +105,7 @@ function App() {
                     <Route path="manage-product-detail" element={<AddProductDetail />} />
                     <Route path="add-roles" element={<AddRole />} />
                     <Route path="assign-roles" element={<AssignRole />} />
+                    <Route path="order/view/:orderId" element={<OrderDetailAdmin />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
