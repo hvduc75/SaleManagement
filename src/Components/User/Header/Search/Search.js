@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
-import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
+import { useNavigate, useLocation } from 'react-router-dom';
 import { IoMdSearch } from 'react-icons/io';
 import styles from './Search.module.scss';
 
@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 function Search() {
     const [searchText, setSearchText] = useState('');
     const navigate = useNavigate();
-    const location = useLocation(); 
+    const location = useLocation();
 
     const handleSearch = () => {
         if (searchText.trim()) {
@@ -22,7 +22,7 @@ function Search() {
         if (query) {
             setSearchText(query);
         }
-    }, [location.search]); 
+    }, [location.search]);
 
     return (
         <div className={cx('wrapper')}>
@@ -34,6 +34,7 @@ function Search() {
                     className={cx('search-input')}
                     placeholder="Freeship đơn từ 45k"
                     value={searchText}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                     onChange={(event) => setSearchText(event.target.value)}
                 />
                 <div onClick={handleSearch} className={cx('btn-search')}>

@@ -65,13 +65,13 @@ function DashBoard(props) {
 
         listOrdersInWeek.forEach((order) => {
             const date = new Date(order.order_date).toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
-            const vietnamDate = new Date(date); // Tạo lại đối tượng Date từ chuỗi đã chuyển múi giờ
-            
+            const vietnamDate = new Date(date);
+
             let dayIndex = vietnamDate.getDay() - 1;
             if (dayIndex < 0) dayIndex = 6;
             dataPerDay[dayIndex] += +order.total_price;
             totalRevenue += +order.total_price;
-        });        
+        });
         setTotalPrice(totalRevenue);
 
         // Tạo biểu đồ mới và lưu vào ref
@@ -101,7 +101,12 @@ function DashBoard(props) {
 
     return (
         <div className={cx('wrapper')}>
-            <BoxStatistic listOrders={listOrdersInWeek} formatPrice={formatPrice} totalRevenue={totalPrice} />
+            <BoxStatistic
+                listOrders={listOrdersInWeek}
+                formatPrice={formatPrice}
+                totalRevenue={totalPrice}
+                startDate={startOfWeekDate}
+            />
             <div className={cx('content_statistic')}>
                 <ListOrder listOrders={listOrdersInWeek} formatPrice={formatPrice} />
                 <div className={cx('graph')}>

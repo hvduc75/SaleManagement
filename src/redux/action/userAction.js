@@ -6,7 +6,8 @@ import {
     USER_LOGOUT_SUCCESS,
     USER_LOGOUT_ERROR,
     UPDATE_ACCESS_TOKEN_SUCCESS,
-    GET_USER_INFOR_SUCCESS
+    GET_USER_INFOR_SUCCESS,
+    UPDATE_PROFILE_SUCCESS
 } from './types';
 
 export const UserLoginRequest = () => {
@@ -56,6 +57,14 @@ export const UpdateAccessTokenSuccess = (data) => {
 export const GetUserInforSuccess = (data) => {
     return {
         type: GET_USER_INFOR_SUCCESS,
+        payload: data
+    }
+}
+
+
+export const UpdateProfileSuccess = (data) => {
+    return {
+        type: UPDATE_PROFILE_SUCCESS,
         payload: data
     }
 }

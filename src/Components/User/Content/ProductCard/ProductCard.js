@@ -30,9 +30,16 @@ function ProductCard(props) {
     const backgroundSrc = getImageSrc(product.background);
     const imageSrc = getImageSrc(product.image);
 
+    // const formatPrice = (price) => {
+    //     const cleanedPrice = price.replace(/,/g, '').replace(/\./g, ',');
+    //     return parseFloat(cleanedPrice).toLocaleString('vi-VN');
+    // };
+
     const formatPrice = (price) => {
-        const cleanedPrice = price.replace(/,/g, '').replace(/\./g, ',');
-        return parseFloat(cleanedPrice).toLocaleString('vi-VN');
+        if (typeof price !== 'number') {
+            return '0';
+        }
+        return price.toLocaleString('vi-VN');
     };
 
     const handlePressProducts = async (productId) => {

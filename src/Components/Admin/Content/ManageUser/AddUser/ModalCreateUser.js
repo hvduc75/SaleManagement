@@ -49,25 +49,27 @@ function ModalCreateUser(props) {
             );
     };
 
+    const validatePhone = (phone) => {
+        return /^0\d{9}$/.test(phone);
+    };    
+
     const handleSubmitCreateUser = async () => {
         // validate
         const isValidEmail = validateEmail(email);
         if (!isValidEmail) {
-            toast.error('Invalid email');
+            toast.error('Email không hợp lệ!');
             return;
         }
 
         if (!password) {
-            toast.error('Invalid password');
+            toast.error('Mật khẩu không thể để trống!');
             return;
         }
 
-        if (!phone) {
-            toast.error('Invalid phone');
+        if (!validatePhone(phone)) {
+            toast.error('Số điện thoại phải bắt đầu với 0 và có 10 số');
             return;
         }
-
-        console.log('>>check data: ', email, password, username, phone, address, groupId, image);
 
         let data = await postCreateNewUser(email, password, username, phone, address, groupId, image);
         if (data && data.EC === 0) {

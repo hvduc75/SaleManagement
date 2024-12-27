@@ -6,7 +6,7 @@ import classNames from 'classnames/bind';
 import styles from './OrderHistory.module.scss';
 import images from '../../../assets/images';
 import { IoMdSearch } from 'react-icons/io';
-import { getOrdersByUserId, cancelOrder } from '../../../service/orderApiService';
+import { getOrdersByUserId, cancelOrder, getOrdersBySearchText } from '../../../service/orderApiService';
 import { paymentWithVnPay } from '../../../service/paymentService';
 import { toast } from 'react-toastify';
 
@@ -18,16 +18,17 @@ function OrderHistory(props) {
     const [listOrders, setListOrders] = useState([]);
     const [productsVisible, setProductsVisible] = useState({});
     const [activeTab, setActiveTab] = useState('All');
+    const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
-        if (window.location.pathname === '/order/history') {
-            // setActiveItem('order-history');
-            fetchListOrders();
-        }
+        const savedActiveTab = sessionStorage.getItem('activeTab') || 'All';
+        setActiveTab(savedActiveTab);
+        fetchListOrders(savedActiveTab);
+        sessionStorage.removeItem('activeTab');
     }, []);
 
-    const fetchListOrders = async () => {
-        let orders = await getOrdersByUserId(user.id, 'All');
+    const fetchListOrders = async (tab) => {
+        let orders = await getOrdersByUserId(user.id, tab);
         if (orders.EC === 0) {
             setListOrders(orders.DT);
             const initialVisibility = {};
@@ -57,17 +58,10 @@ function OrderHistory(props) {
         return price.toLocaleString('vi-VN');
     };
 
-    const handleOnclickTab = async (name) => {
-        setActiveTab(name);
-        let orders = await getOrdersByUserId(user.id, name);
-        if (orders.EC === 0) {
-            setListOrders(orders.DT);
-            const initialVisibility = {};
-            orders.DT.forEach((order) => {
-                initialVisibility[order.id] = 2;
-            });
-            setProductsVisible(initialVisibility);
-        }
+    const handleOnclickTab = async (tab) => {
+        setSearchText('');
+        setActiveTab(tab);
+        fetchListOrders(tab);
     };
 
     const handleShowMoreProducts = (orderId) => {
@@ -78,6 +72,7 @@ function OrderHistory(props) {
     };
 
     const handleViewOrderDetail = (orderId) => {
+        sessionStorage.setItem('activeTab', activeTab);
         navigate(`/order/view/${orderId}`);
     };
 
@@ -96,56 +91,58 @@ function OrderHistory(props) {
         }
     };
 
+    const handleSearchOrder = async () => {
+        if (searchText) {
+            let orders = await getOrdersBySearchText(user.id, activeTab, searchText);
+            if (orders.EC === 0) {
+                setListOrders(orders.DT);
+                const initialVisibility = {};
+                orders.DT.forEach((order) => {
+                    initialVisibility[order.id] = 2;
+                });
+                setProductsVisible(initialVisibility);
+            }
+        } else {
+            handleOnclickTab(activeTab);
+        }
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
                 <div className={cx('header')}>Đơn hàng của tôi</div>
                 <div className={cx('header_tab')}>
-                    <div
-                        onClick={() => handleOnclickTab('All')}
-                        className={activeTab === 'All' ? cx('style_tab_active') : cx('style_tab')}
-                    >
-                        Tất cả đơn
-                    </div>
-                    <div
-                        onClick={() => handleOnclickTab('Payment')}
-                        className={activeTab === 'Payment' ? cx('style_tab_active') : cx('style_tab')}
-                    >
-                        Chờ thanh toán
-                    </div>
-                    <div
-                        onClick={() => handleOnclickTab('Processing')}
-                        className={activeTab === 'Processing' ? cx('style_tab_active') : cx('style_tab')}
-                    >
-                        Đang xử lý
-                    </div>
-                    <div
-                        onClick={() => handleOnclickTab('Shipping')}
-                        className={activeTab === 'Shipping' ? cx('style_tab_active') : cx('style_tab')}
-                    >
-                        Đang vận chuyển
-                    </div>
-                    <div
-                        onClick={() => handleOnclickTab('Delivered')}
-                        className={activeTab === 'Delivered' ? cx('style_tab_active') : cx('style_tab')}
-                    >
-                        Đã giao
-                    </div>
-                    <div
-                        onClick={() => handleOnclickTab('Canceled')}
-                        className={activeTab === 'Canceled' ? cx('style_tab_active') : cx('style_tab')}
-                    >
-                        Đã hủy
-                    </div>
+                    {['All', 'Payment', 'Processing', 'Shipping', 'Delivered', 'Canceled'].map((tab) => (
+                        <div
+                            key={tab}
+                            onClick={() => handleOnclickTab(tab)}
+                            className={cx(activeTab === tab ? 'style_tab_active' : 'style_tab')}
+                        >
+                            {tab === 'All' && 'Tất cả đơn'}
+                            {tab === 'Payment' && 'Chờ thanh toán'}
+                            {tab === 'Processing' && 'Đang xử lý'}
+                            {tab === 'Shipping' && 'Đang vận chuyển'}
+                            {tab === 'Delivered' && 'Đã giao'}
+                            {tab === 'Canceled' && 'Đã hủy'}
+                        </div>
+                    ))}
                 </div>
                 <div className={cx('header_search')}>
                     <IoMdSearch className={cx('search-icon')} />
-                    <input type="text" placeholder="Tìm đơn hàng theo Mã đơn hàng, Tên sản phẩm"></input>
-                    <div className={cx('search_right')}>Tìm đơn hàng</div>
+                    <input
+                        type="text"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSearchOrder()}
+                        placeholder="Tìm đơn hàng theo Mã đơn hàng, Tên sản phẩm"
+                    ></input>
+                    <div className={cx('search_right')} onClick={() => handleSearchOrder()}>
+                        Tìm đơn hàng
+                    </div>
                 </div>
                 {listOrders && listOrders.length > 0 ? (
                     listOrders.map((order, index) => {
-                        const visibleProductsCount = productsVisible[order.id] || 2; // Get visible product count for this order
+                        const visibleProductsCount = productsVisible[order.id] || 2;
                         const totalProducts = order.Products.length;
 
                         return (
@@ -158,13 +155,15 @@ function OrderHistory(props) {
                                         : order.order_status === 2
                                         ? 'Đã giao'
                                         : order.order_status === 3
-                                        ? `Đã hủy - ${
-                                              order.payment_status === 2
-                                                  ? 'Hoàn tiền thành công'
-                                                  : order.payment_status === 3
-                                                  ? 'Quá thời gian thanh toán'
-                                                  : 'Đang xử lý hoàn tiền vui lòng chờ'
-                                          }`
+                                        ? `Đã hủy ${
+                                                  order.payment_status === 2
+                                                      ? '- Hoàn tiền thành công'
+                                                      : order.payment_status === 3
+                                                      ? '- Quá thời gian thanh toán'
+                                                      : order.payment_status === 0
+                                                      ? ''
+                                                      : '- Đang xử lý hoàn tiền vui lòng chờ'
+                                              }`
                                         : order.payment_status === 0
                                         ? 'Chờ thanh toán'
                                         : 'Thành công'}

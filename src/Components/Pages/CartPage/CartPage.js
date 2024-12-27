@@ -3,14 +3,12 @@ import classNames from 'classnames/bind';
 import { useSelector, useDispatch } from 'react-redux';
 
 import styles from './CartPage.module.scss';
-import {
-    updateQuantity,
-    deleteProductInCart,
-    getProductsByCartId,
-} from '../../../service/cartApiService';
+import { updateQuantity, deleteProductInCart, getProductsByCartId } from '../../../service/cartApiService';
 import { getListProductsSuccess } from '../../../redux/action/cartAction';
 import CartContent from './CartContent/CartContent';
 import CartPayment from './CartPayment/CartPayment';
+import images from '../../../assets/images';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
@@ -25,21 +23,14 @@ function CartPage(props) {
     const [listProductChecked, setListProductChecked] = useState([]);
     const [selectedItems, setSelectedItems] = useState({});
 
-    const [quantities, setQuantities] = useState(
-        listProducts.reduce((acc, item) => {
-            acc[item.id] = item.Product_Cart.quantity;
-            return acc;
-        }, {}),
-    );
-
     useEffect(() => {
         // Tính toán totalPrice và totalPriceOriginal mỗi khi danh sách sản phẩm hoặc trạng thái checkbox thay đổi
         const newTotalPrice = listProductChecked.reduce((total, item) => {
-            return total + (selectedItems[item.id] ? (item.price_current || item.price) * quantities[item.id] : 0);
+            return total + (selectedItems[item.id] ? (item.price_current || item.price) * item.Product_Cart.quantity : 0);
         }, 0);
 
         const newTotalPriceOriginal = listProductChecked.reduce((total, item) => {
-            return total + (selectedItems[item.id] ? item.price * quantities[item.id] : 0);
+            return total + (selectedItems[item.id] ? item.price * item.Product_Cart.quantity : 0);
         }, 0);
 
         const newQuantityBuy = listProductChecked.reduce((total, item) => {
@@ -49,11 +40,11 @@ function CartPage(props) {
         setQuantityBuy(newQuantityBuy);
         setTotalPrice(newTotalPrice);
         setTotalPriceOriginal(newTotalPriceOriginal);
-    }, [listProductChecked, quantities, selectedItems]);
+    }, [listProductChecked, selectedItems]);
 
     useEffect(() => {
         fetchListProductChecked();
-    }, []);
+    }, [listProducts]);
 
     const fetchListProductChecked = async () => {
         let data = await getProductsByCartId(cartId);
@@ -76,11 +67,13 @@ function CartPage(props) {
     };
 
     const handleIncreaseProduct = async (item) => {
-        const newQuantity = (quantities[item.id] || 1) + 1;
-        setQuantities((prev) => ({ ...prev, [item.id]: newQuantity }));
+        const newQuantity = (item.Product_Cart.quantity || 1) + 1;
 
         try {
-            await updateQuantity(cartId, item.id, newQuantity);
+            let data = await updateQuantity(cartId, item.id, newQuantity);
+            if (data.EC !== 0) {
+                toast.error(data.EM);
+            }
             let res = await getProductsByCartId(cartId);
             dispatch(getListProductsSuccess(res.DT[0].Products));
         } catch (error) {
@@ -89,7 +82,7 @@ function CartPage(props) {
     };
 
     const handleDecreaseProduct = async (item) => {
-        let newQuantity = Math.max((quantities[item.id] || 1) - 1, 0);
+        let newQuantity = Math.max((item.Product_Cart.quantity || 1) - 1, 0);
 
         if (newQuantity === 0) {
             let cof = window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');
@@ -103,8 +96,6 @@ function CartPage(props) {
             }
         }
 
-        setQuantities((prev) => ({ ...prev, [item.id]: newQuantity }));
-
         try {
             await updateQuantity(cartId, item.id, newQuantity);
             let res = await getProductsByCartId(cartId);
@@ -117,34 +108,42 @@ function CartPage(props) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('title')}>Giỏ Hàng</div>
-            <div className={cx('container')}>
-                <div className={cx('cart_container')}>
-                    <div className={cx('cart_left')}>
-                        <CartContent
-                            handleIncreaseProduct={handleIncreaseProduct}
-                            handleDecreaseProduct={handleDecreaseProduct}
-                            listProducts={listProducts}
-                            quantities={quantities}
-                            setSelectedItems={setSelectedItems}
-                            selectedItems={selectedItems}
-                            formatPrice={formatPrice}
-                            cartId={cartId}
-                            listProductChecked={listProductChecked}
-                            setListProductChecked={setListProductChecked}
-                        />
+            {listProductChecked && listProductChecked.length > 0 ? (
+                <div className={cx('container')}>
+                    <div className={cx('cart_container')}>
+                        <div className={cx('cart_left')}>
+                            <CartContent
+                                handleIncreaseProduct={handleIncreaseProduct}
+                                handleDecreaseProduct={handleDecreaseProduct}
+                                setSelectedItems={setSelectedItems}
+                                selectedItems={selectedItems}
+                                formatPrice={formatPrice}
+                                cartId={cartId}
+                                listProductChecked={listProductChecked}
+                                setListProductChecked={setListProductChecked}
+                            />
+                        </div>
+                        <div className={cx('cart_right')}>
+                            <CartPayment
+                                formatPrice={formatPrice}
+                                totalPrice={totalPrice}
+                                selectedItems={selectedItems}
+                                totalPriceOriginal={totalPriceOriginal}
+                                quantityBuy={quantityBuy}
+                            />
+                        </div>
                     </div>
-                    <div className={cx('cart_right')}>
-                        <CartPayment
-                            formatPrice={formatPrice}
-                            totalPrice={totalPrice}
-                            selectedItems={selectedItems}
-                            totalPriceOriginal={totalPriceOriginal}
-                            quantityBuy={quantityBuy}
-                        />
+                    <div className={cx('product_interest')}></div>
+                </div>
+            ) : (
+                <div className={cx('container')}>
+                    <div className={cx('empty')}>
+                        <img src={images.emptyCart} alt="empty cart" className={cx('empty_img')} />
+                        <p className={cx('empty_message1')}>Giỏ hàng trống</p>
+                        <p className={cx('empty_message2')}>Bạn có thể quay lại trang chủ để tiếp tục mua sắm!</p>
                     </div>
                 </div>
-                <div className={cx('product_interest')}></div>
-            </div>
+            )}
         </div>
     );
 }

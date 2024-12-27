@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames/bind';
+import { useDispatch } from 'react-redux';
 
 import styles from './Profile.module.scss';
+import { UpdateProfile, getUserById } from '../../../service/userApiService';
+import { UpdateProfileSuccess } from '../../../redux/action/userAction';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
 function Profile() {
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.user.account);
+
     const [selectedDay, setSelectedDay] = useState();
     const [selectedMonth, setSelectedMonth] = useState();
     const [selectedYear, setSelectedYear] = useState();
@@ -21,8 +27,16 @@ function Profile() {
     const years = Array.from({ length: new Date().getFullYear() - 1909 }, (_, i) => new Date().getFullYear() - i);
 
     useEffect(() => {
-        setUserName(user.name);
-    }, [user.name]);
+        if (user.birthDay) {
+            const birthDate = new Date(user.birthDay); 
+            setSelectedDay(birthDate.getDate());
+            setSelectedMonth(birthDate.getMonth() + 1);
+            setSelectedYear(birthDate.getFullYear());
+        }
+        setUserName(user.name || '');
+        setGender(user.gender);
+    }, [user.birthDay, user.name, user.gender]);
+    
 
     const getImageSrc = (image) => {
         if (image && image.data) {
@@ -44,9 +58,29 @@ function Profile() {
         }
     };
 
-    const handleSave = () => {
-        let birthDay = '' + selectedDay + selectedMonth + selectedYear;
-        console.log(gender, avatar, birthDay, userName);
+    const handleSave = async () => {
+        let birthDay =
+            selectedDay && selectedMonth && selectedYear
+                ? `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`
+                : null;
+        let birthDayDateTime = birthDay ? new Date(birthDay) : null;
+        if (
+            birthDayDateTime &&
+            birthDayDateTime.getFullYear() === selectedYear &&
+            birthDayDateTime.getMonth() + 1 === selectedMonth &&
+            birthDayDateTime.getDate() === selectedDay
+        ) {
+        } else {
+            birthDayDateTime = null;
+        }
+
+        let data = await UpdateProfile(user.id, userName, gender, avatar, birthDayDateTime);
+        if (data.EC !== 0) {
+            toast.error(data.EM);
+        } else {
+            let data = await getUserById(user.id);
+            dispatch(UpdateProfileSuccess(data));
+        }
     };
 
     return (
@@ -87,6 +121,7 @@ function Profile() {
                                         name="gender"
                                         value="0"
                                         type="radio"
+                                        checked={gender === 0 || (gender === undefined && user.gender === 0)}
                                         onChange={() => setGender(0)}
                                     />
                                     <label htmlFor="Male">Nam</label>
@@ -96,6 +131,7 @@ function Profile() {
                                         name="gender"
                                         value="1"
                                         type="radio"
+                                        checked={gender === 1 || (gender === undefined && user.gender === 1)}
                                         onChange={() => setGender(1)}
                                     />
                                     <label htmlFor="Female">Nữ</label>
@@ -105,6 +141,7 @@ function Profile() {
                                         name="gender"
                                         value="2"
                                         type="radio"
+                                        checked={gender === 2 || (gender === undefined && user.gender === 2)}
                                         onChange={() => setGender(2)}
                                     />
                                     <label htmlFor="other">Khác</label>

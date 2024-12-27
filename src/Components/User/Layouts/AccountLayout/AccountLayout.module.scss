@@ -12,7 +12,7 @@
     }
 
     .content {
-        padding: 20px 6%;
+        padding: 20px 5%;
         display: flex;
         background-color: #f5f5fa;
 
@@ -32,7 +32,7 @@
                     height: 45px;
                     margin: 0px 12px 0px 0px;
                     border-radius: 50%;
-                    object-fit: contain;
+                    object-fit: cover;
                 }
 
                 .info {
@@ -98,5 +98,17 @@
 
     .inner {
         width: 1440px !important;
+    }
+}
+
+@media only screen and (min-width: 1280px) and (max-width: 1440px) {
+    .content {
+        padding: 20px 20px !important;
+        width: 1280px;
+        margin: 0 auto;
+    }
+
+    .inner {
+        width: 1280px !important;
     }
 }

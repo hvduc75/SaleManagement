@@ -16,12 +16,30 @@ const cx = classNames.bind(styles);
 function Account(props) {
     const navigate = useNavigate();
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+    const user = useSelector((state) => state.user.account);
     const dispatch = useDispatch();
+
+    const getImageSrc = (image) => {
+        if (image && image.data) {
+            const byteArray = new Uint8Array(image.data);
+            let binary = '';
+            byteArray.forEach((byte) => {
+                binary += String.fromCharCode(byte);
+            });
+            return `data:image/jpeg;base64,${window.btoa(binary)}`;
+        }
+        return null;
+    };
 
     const handleLogout = async () => {
         dispatch(UserLogoutSuccess());
         await logout();
         navigate('/login');
+    };
+
+    const handlePageChange = (page) => {
+        sessionStorage.removeItem('activeTab');
+        sessionStorage.setItem('pageItem', page);
     };
 
     return (
@@ -39,10 +57,18 @@ function Account(props) {
                     placement="bottom-end"
                     render={(attrs) => (
                         <div className={cx('account-content')} tabIndex="-1" {...attrs}>
-                            <Link to="/account/info" className={cx('menu-item')}>
+                            <Link
+                                to="/account/info"
+                                onClick={() => handlePageChange('account-info')}
+                                className={cx('menu-item')}
+                            >
                                 Thông tin tài khoản
                             </Link>
-                            <Link to="/order/history" className={cx('menu-item')}>
+                            <Link
+                                to="/order/history"
+                                onClick={() => handlePageChange('order-history')}
+                                className={cx('menu-item')}
+                            >
                                 Đơn hàng của tôi
                             </Link>
                             <Link to="/help-center" className={cx('menu-item')}>
@@ -60,7 +86,11 @@ function Account(props) {
                     )}
                 >
                     <div className={cx('account')}>
-                        <FaRegFaceSmileWink className={cx('shortcut-icon')} />
+                        {user.image && user.image.data ? (
+                            <img src={getImageSrc(user.image)} alt="avatar" />
+                        ) : (
+                            <FaRegFaceSmileWink className={cx('shortcut-icon')} />
+                        )}
                         <span>Tài Khoản</span>
                     </div>
                 </Tippy>

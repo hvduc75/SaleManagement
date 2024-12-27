@@ -16,6 +16,11 @@ const cx = classNames.bind(styles);
 function AccountLayout(props) {
     const user = useSelector((state) => state.user.account);
     const [activeItem, setActiveItem] = useState('');
+    const pageItem = sessionStorage.getItem('pageItem');
+
+    useEffect(() => {
+        setActiveItem(pageItem);
+    }, [pageItem]);
 
     const getImageSrc = (image) => {
         if (image && image.data) {
@@ -38,7 +43,13 @@ function AccountLayout(props) {
             <div className={cx('content')}>
                 <div className={cx('sidebar')}>
                     <div className={cx('avatar')}>
-                        <img src={getImageSrc(user.image) || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxw0eitGgbS6Y3kJODK5lGbWxUV8sONkQUZg&s'} alt="avatar" />
+                        <img
+                            src={
+                                getImageSrc(user.image) ||
+                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxw0eitGgbS6Y3kJODK5lGbWxUV8sONkQUZg&s'
+                            }
+                            alt="avatar"
+                        />
                         <div className={cx('info')}>
                             Tài khoản của <strong>{user.username}</strong>
                         </div>
@@ -61,6 +72,7 @@ function AccountLayout(props) {
                             <span>Quản lý đơn hàng</span>
                         </Link>
                         <Link
+                            to={'/customer/address'}
                             className={cx('item', { 'is-active': activeItem === 'address-book' })}
                             onClick={() => setActiveItem('address-book')}
                         >

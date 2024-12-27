@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
+import { useDispatch } from 'react-redux';
 
 import styles from './CartContent.module.scss';
 import { Link } from 'react-router-dom';
 import images from '../../../../assets/images';
-import { updateIsChecked, getProductsByCartId } from '../../../../service/cartApiService';
+import { updateIsChecked, deleteProductInCart, getProductsByCartId } from '../../../../service/cartApiService';
+import { getListProductsSuccess } from '../../../../redux/action/cartAction';
 
 const cx = classNames.bind(styles);
 
 function CartContent(props) {
     const [selectedAll, setSelectedAll] = useState(false);
-    const {
-        quantities,
-        setSelectedItems,
-        selectedItems,
-        formatPrice,
-        cartId,
-        listProductChecked,
-        setListProductChecked,
-    } = props;
+    const dispatch = useDispatch();
+    const { setSelectedItems, selectedItems, formatPrice, cartId, listProductChecked, setListProductChecked } = props;
 
     const getImageSrc = (image) => {
         if (image && image.data) {
@@ -33,10 +28,9 @@ function CartContent(props) {
     };
 
     useEffect(() => {
-        const allSelected = 
-            listProductChecked.length > 0 && 
-            listProductChecked.every((item) => selectedItems[item.id] === true);
-    
+        const allSelected =
+            listProductChecked.length > 0 && listProductChecked.every((item) => selectedItems[item.id] === true);
+
         setSelectedAll(allSelected);
     }, [selectedItems, listProductChecked]);
 
@@ -100,15 +94,26 @@ function CartContent(props) {
         }
     };
 
-    const handleDeleteProduct = () => {
-        alert('xoa san pham di nhung ma chua lam');
+    const handleDeleteProduct = async (product) => {
+        let cof = window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');
+        if (cof) {
+            await deleteProductInCart(cartId, product.id);
+            let res = await getProductsByCartId(cartId);
+            dispatch(getListProductsSuccess(res.DT[0].Products));
+        }
     };
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('cart_header')}>
                 <label htmlFor="check" className={cx('label_styles')}>
-                    <input type="checkbox" name="check" id="check" checked={selectedAll} onChange={handleSelectAllCheckbox} />
+                    <input
+                        type="checkbox"
+                        name="check"
+                        id="check"
+                        checked={selectedAll}
+                        onChange={handleSelectAllCheckbox}
+                    />
                     <span className={cx('label')}>Tất cả ({listProductChecked.length} sản phẩm)</span>
                 </label>
                 <span>Đơn giá</span>
@@ -147,7 +152,7 @@ function CartContent(props) {
                                 <span onClick={() => props.handleDecreaseProduct(item)} className={cx('qty_decrease')}>
                                     <img src={images.pd_icon_remove} alt="icon_remove" />
                                 </span>
-                                <input type="text" value={quantities[item.id]} readOnly />
+                                <input type="text" value={item.Product_Cart.quantity} readOnly />
                                 <span onClick={() => props.handleIncreaseProduct(item)} className={cx('qty_increase')}>
                                     <img src={images.pd_icon_add} alt="icon_add" />
                                 </span>
@@ -155,11 +160,11 @@ function CartContent(props) {
                         </div>
                         <div className={cx('total_price')}>
                             {formatPrice(
-                                (item.price_current ? +item.price_current : +item.price) * quantities[item.id],
+                                (item.price_current ? +item.price_current : +item.price) * item.Product_Cart.quantity,
                             )}
                             <sup>đ</sup>
                         </div>
-                        <div onClick={() => handleDeleteProduct()} className={cx('item_action')}>
+                        <div onClick={() => handleDeleteProduct(item)} className={cx('item_action')}>
                             <img src={images.cp_trash} alt="deleted" />
                         </div>
                     </div>

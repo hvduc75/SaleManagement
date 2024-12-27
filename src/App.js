@@ -28,7 +28,10 @@ import PaymentStatus from './Components/Pages/PaymentPage/PaymentStatus/PaymentS
 
 import OrderHistory from './Components/Pages/OrderHistoryPage/OrderHistory';
 import OrderDetail from './Components/Pages/OrderDetailPage/OrderDetailPage';
-import OrderDetailAdmin from './Components/Admin/Content/ManageOrder/OrderDetail/OrderDetail'
+import AddressBook from './Components/Pages/AddressBook/AddressBook';
+import UpdateAddress from './Components/Pages/AddressBook/UpdateAddress/UpdateAddress';
+import CreateAddress from './Components/Pages/AddressBook/CreateAddress/CreateAddress';
+import OrderDetailAdmin from './Components/Admin/Content/ManageOrder/OrderDetail/OrderDetail';
 import Profile from './Components/Pages/Profile/Profile';
 import ProductCategoryPage from './Components/Pages/ProductCategoryPage/ProductCategoryPage';
 import AddRole from './Components/Admin/Content/ManageRoles/AddRole/AddRole';
@@ -78,10 +81,10 @@ function App() {
                     <Route path="order/history" element={<OrderHistory />} />
                     <Route path="account/info" element={<Profile />} />
                     <Route path="/order/view/:orderId" element={<OrderDetail />} />
-                    {/* <Route path="/cart" element={<CartPage />} />
-                    <Route path="/category/:categoryId" element={<ProductCategoryPage />} />
-                    <Route path="/search" element={<SearchPage />} />
-                    <Route path="/order/history" element={<OrderHistory />} /> */}
+                    <Route path="/customer/address" element={<AddressBook />} />
+                    <Route path="/customer/address/create" element={<CreateAddress />} />
+                    <Route path="/customer/address/edit/:userInfoId" element={<UpdateAddress />} />
+                    {/* <Route path="/order/history" element={<OrderHistory />} /> */}
                 </Route>
                 <Route path="/checkout" element={<PaymentLayout />}>
                     <Route path="shipping" element={<AddressDeliveryPage />} />

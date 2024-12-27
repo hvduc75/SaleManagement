@@ -41,6 +41,8 @@ function AddToCart(props) {
             let data = await addToCart(cartId, product.id, quantity);
             if (data && data.EC === 0) {
                 toast.success(data.EM);
+            } else {
+                toast.error(data.EM);
             }
             let products = await getProductsByCartId(cartId);
             dispatch(getListProductsSuccess(products.DT[0].Products));
@@ -67,10 +69,6 @@ function AddToCart(props) {
                         </div>
                     </div>
                 </div>
-                {/* <div className={cx('item_info')}>
-                    <img src={images.book} alt='sanpham'/>
-                    <div></div>
-                </div> */}
                 <div className={cx('add_to_cart')}>
                     <div className={cx('quantity_input')}>
                         <p className={cx('label')}>Số Lượng</p>
@@ -103,7 +101,9 @@ function AddToCart(props) {
                     <div className={cx('price_container')}>
                         <div className={cx('price_label')}>Tạm tính</div>
                         <div className={cx('price')}>
-                            {product.price_current ? formatPrice(product.price_current * +quantity) : formatPrice(product.price * quantity)}
+                            {product.price_current
+                                ? formatPrice(product.price_current * +quantity)
+                                : formatPrice(product.price * quantity)}
                             <sup>đ</sup>
                         </div>
                     </div>

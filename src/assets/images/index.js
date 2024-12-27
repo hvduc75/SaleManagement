@@ -4,6 +4,9 @@ const images = {
     bg: require('./Image_logo/bg2.jpg'),
     TopDeal: require('./Image_logo/TopDeal.png'),
     emptyOrder: require('./Image_logo/empty-order.png'),
+    emptyCart: require('./Image_logo/empty_cart.png'),
+    payment_Success: require('./Image_logo/payment_success.png'),
+    payment_failed: require('./Image_logo/payment_failed.png'),
 
     // all_product
     logoTd: require('./Image_recommend/TopDeal.webp'),

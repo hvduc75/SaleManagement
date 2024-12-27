@@ -5,6 +5,7 @@ import {
     USER_LOGOUT_SUCCESS,
     UPDATE_ACCESS_TOKEN_SUCCESS,
     GET_USER_INFOR_SUCCESS,
+    UPDATE_PROFILE_SUCCESS,
 } from '../action/types';
 
 const INITIAL_STATE = {
@@ -19,6 +20,8 @@ const INITIAL_STATE = {
         role: '',
         email: '',
         id: '',
+        gender: '',
+        birthDay: '',
     },
     userInfor: {
         id: '',
@@ -51,7 +54,9 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     email: action?.payload?.DT?.email,
                     id: action?.payload?.DT?.id,
                     phone: action?.payload?.DT?.phone,
-                    image: action?.payload?.DT?.avatar
+                    image: action?.payload?.DT?.avatar,
+                    gender: action?.payload?.DT?.sex,
+                    birthDay: action?.payload?.DT?.birthDay,
                 },
                 isAuthenticated: true,
             };
@@ -71,7 +76,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     image: '',
                     role: '',
                     email: '',
-                },userInfor: {
+                },
+                userInfor: {
                     id: '',
                     province: '',
                     district: '',
@@ -82,6 +88,17 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 },
                 isAuthenticated: false,
             };
+        case UPDATE_PROFILE_SUCCESS:
+            return {
+                ...state,
+                account: {
+                    ...state.account,
+                    image: action?.payload?.DT?.avatar,
+                    username: action?.payload?.DT?.username,
+                    gender: action?.payload?.DT?.sex,
+                    birthDay: action?.payload?.DT?.birthDay,
+                }
+            }
         case UPDATE_ACCESS_TOKEN_SUCCESS:
             return {
                 ...state,

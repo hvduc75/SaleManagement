@@ -8,7 +8,6 @@
 
         .path_home {
             color: rgb(128, 128, 137);
-
             &:hover {
                 text-decoration: underline;
             }
@@ -24,36 +23,80 @@
     }
 
     .container {
-        flex: 1 1 0%;
-        width: 100%;
+        flex: 1;
         display: flex;
         flex-direction: column;
         row-gap: 16px;
         padding-bottom: 20px;
 
         .filter {
-            border: 1px solid green;
             padding: 16px;
-            background-color: rgb(255, 255, 255);
+            background-color: white;
             border-radius: 8px;
-            height: 200px;
+            display: flex;
+            align-items: center;
+
+            .sort {
+                font-size: 14px;
+                color: rgb(128, 128, 137);
+                margin-right: 8px;
+            }
+
+            .dropDown {
+                position: relative;
+                display: flex;
+                align-items: center;
+                background-color: white;
+                border-radius: 20px;
+                padding: 6px 16px;
+                font-size: 14px;
+                cursor: pointer;
+                border: 1px solid rgb(128, 128, 137);
+
+                .type {
+                    margin-right: 8px;
+                }
+
+                .dropdown_menu {
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                    width: 165px;
+                    background: white;
+                    border: 1px solid rgb(200, 200, 200);
+                    border-radius: 8px;
+                    margin-top: 4px;
+                    z-index: 100;
+                    overflow: hidden;
+
+                    div {
+                        padding: 8px 12px;
+                        font-size: 14px;
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: rgb(240, 240, 240);
+                        }
+                    }
+                }
+            }
         }
 
         .list_product {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); 
+            grid-template-columns: repeat(4, 1fr);
             gap: 16px;
 
             .cssText {
-                font-size: 20px !important; 
+                font-size: 20px !important;
             }
 
-            .cssPrice{
+            .cssPrice {
                 color: rgb(39, 39, 42);
                 font-size: 16px !important;
                 height: 100px;
             }
         }
-        
     }
 }

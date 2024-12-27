@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
-import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { Link, useParams } from 'react-router-dom';
 
 import styles from './OrderDetailPage.module.scss';
-import { getOrderDetail } from '../../../service/orderApiService';
+import { getOrderDetail, cancelOrder } from '../../../service/orderApiService';
 
 const cx = classNames.bind(styles);
 
 function OrderDetailPage(props) {
     const { orderId } = useParams();
     const [orderDetail, setOrderDetail] = useState([]);
-    const user = useSelector((state) => state.user.account);
     let totalPrice = 0;
     let sale = 0;
 
@@ -61,6 +60,16 @@ function OrderDetailPage(props) {
         });
     };
 
+    const handleCancelOrder = async (orderId) => {
+        let data = await cancelOrder(orderId);
+        if (data.EC === 0) {
+            toast.success('Hủy đơn hàng thành công');
+            // handleOnclickTab(activeTab);
+        } else {
+            toast.error(data.EM);
+        }
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('heading')}>{`Chi tiết đơn hàng #${orderId}`}</div>
@@ -69,13 +78,15 @@ function OrderDetailPage(props) {
                 <div className={cx('style_group')}>
                     <div className={cx('title')}>Địa chỉ người nhận</div>
                     <div className={cx('content')}>
-                        <p className={cx('name')}>{user.username}</p>
+                        <p className={cx('name')}>{orderDetail.User_Infor ? orderDetail.User_Infor.userName : ''}</p>
                         <p className={cx('address')}>
                             {orderDetail.User_Infor
                                 ? `Địa chỉ: ${orderDetail.User_Infor.address}, ${orderDetail.User_Infor.commune}, ${orderDetail.User_Infor.district}, ${orderDetail.User_Infor.province}`
                                 : 'Địa chỉ: Chưa có thông tin'}
                         </p>
-                        <p className={cx('phone')}>{`Điện thoại: ${user.phone}`}</p>
+                        <p className={cx('phone')}>{`Điện thoại: ${
+                            orderDetail.User_Infor ? orderDetail.User_Infor.phone : ''
+                        }`}</p>
                     </div>
                 </div>
                 <div className={cx('style_group')}>
@@ -87,7 +98,13 @@ function OrderDetailPage(props) {
                                 : 'Thanh toán khi nhận hàng'}
                         </p>
                         <p className={cx('description')}>
-                            Thanh toán thất bại. Vui lòng thanh toán lại hoặc chọn phương thức thanh toán khác
+                            {orderDetail.payment_status === 1
+                                ? 'Thanh toán thành công'
+                                : orderDetail.payment_status === 0 && orderDetail.payment_method === 'NCB'
+                                ? 'Thanh toán thất bại. Vui lòng thanh toán lại hoặc chọn phương thức thanh toán khác'
+                                : orderDetail.payment_status === 3 
+                                ? 'Đơn hàng hiện đã bị hủy'
+                                : ''}
                         </p>
                     </div>
                 </div>
@@ -120,9 +137,11 @@ function OrderDetailPage(props) {
                                         />
                                         <div className={cx('product_info')}>
                                             <span className={cx('product_name')}>{product.name}</span>
-                                            {orderDetail.order_status === 3 && <Link to={'/'} className={cx('buy_back')}>
-                                                Mua lại
-                                            </Link>}
+                                            {orderDetail.order_status === 3 && (
+                                                <Link to={`/product/${product.id}`} className={cx('buy_back')}>
+                                                    Mua lại
+                                                </Link>
+                                            )}
                                         </div>
                                     </td>
                                     <td className={cx('price')}>{formatPrice(+product.price)} đ</td>
@@ -131,7 +150,7 @@ function OrderDetailPage(props) {
                                         {formatPrice((product.price * product.sale) / 100)} đ
                                     </td>
                                     <td className={cx('raw_total')}>
-                                        {formatPrice(product.price_current * product.Order_Product.quantity)} đ
+                                        {formatPrice((product.price_current || product.price) * product.Order_Product.quantity)} đ
                                     </td>
                                 </tr>
                             );
@@ -162,7 +181,11 @@ function OrderDetailPage(props) {
                         <tr>
                             <td colSpan="4"></td>
                             <td>
-                                <div title="Hủy đơn hàng" className={cx('cancel_order')}>
+                                <div
+                                    title="Hủy đơn hàng"
+                                    onClick={() => handleCancelOrder(orderId)}
+                                    className={cx('cancel_order')}
+                                >
                                     Hủy đơn hàng
                                 </div>
                             </td>

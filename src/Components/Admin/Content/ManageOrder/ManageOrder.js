@@ -9,8 +9,9 @@ import { useNavigate } from 'react-router-dom';
 import styles from './ManageOrder.module.scss';
 import images from '../../../../assets/images';
 import { IoMdSearch } from 'react-icons/io';
-import { getAllOrderByCondition, confirmOrder } from '../../../../service/orderApiService';
+import { getAllOrderByCondition, confirmOrder, getOrdersBySearchText } from '../../../../service/orderApiService';
 import { vnpay_refund } from '../../../../service/paymentService';
+import ConfirmDeliveredOrder from './ConfirmDeliveredOrder/ConfirmDeliveredOrder';
 
 const cx = classNames.bind(styles);
 
@@ -25,6 +26,9 @@ function ManageOrder() {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [disable, setDisable] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [orderId, setOrderId] = useState();
+    const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
         fetchListOrders(currentPage, activeTab);
@@ -111,6 +115,29 @@ function ManageOrder() {
         setDisable(false);
     };
 
+    const handleDelivered = async (order) => {
+        setDisable(true);
+        setShowModal(true);
+        setOrderId(order.id);
+        setDisable(false);
+    };
+
+    const handleSearchOrder = async () => {
+        if (searchText) {
+            let orders = await getOrdersBySearchText(null, activeTab, searchText);
+            if (orders.EC === 0) {
+                setListOrders(orders.DT);
+                const initialVisibility = {};
+                orders.DT.forEach((order) => {
+                    initialVisibility[order.id] = 2;
+                });
+                setProductsVisible(initialVisibility);
+            }
+        } else {
+            fetchListOrders(1, activeTab);
+        }
+    };
+
     return (
         <p>
             <div className={cx('wrapper')}>
@@ -133,8 +160,16 @@ function ManageOrder() {
 
                     <div className={cx('header_search')}>
                         <IoMdSearch className={cx('search-icon')} />
-                        <input type="text" placeholder="Tìm đơn hàng theo Mã đơn hàng, Tên sản phẩm"></input>
-                        <div className={cx('search_right')}>Tìm đơn hàng</div>
+                        <input
+                            type="text"
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleSearchOrder()}
+                            placeholder="Tìm đơn hàng theo Mã đơn hàng, Tên sản phẩm"
+                        ></input>
+                        <div className={cx('search_right')} onClick={() => handleSearchOrder()}>
+                            Tìm đơn hàng
+                        </div>
                     </div>
 
                     {listOrders.length > 0 ? (
@@ -152,12 +187,14 @@ function ManageOrder() {
                                             : order.order_status === 2
                                             ? 'Đã giao'
                                             : order.order_status === 3
-                                            ? `Đã hủy - ${
+                                            ? `Đã hủy ${
                                                   order.payment_status === 2
-                                                      ? 'Hoàn tiền thành công'
+                                                      ? '- Hoàn tiền thành công'
                                                       : order.payment_status === 3
-                                                      ? 'Quá thời gian thanh toán'
-                                                      : 'Đang xử lý hoàn tiền vui lòng chờ'
+                                                      ? '- Quá thời gian thanh toán'
+                                                      : order.payment_status === 0
+                                                      ? ''
+                                                      : '- Đang xử lý hoàn tiền vui lòng chờ'
                                               }`
                                             : order.payment_status === 0
                                             ? 'Chờ thanh toán'
@@ -204,7 +241,7 @@ function ManageOrder() {
                                         </div>
                                         <div className={cx('group_button')}>
                                             {order.order_status === 0 &&
-                                                order.payment_status === 1 &&
+                                                (order.payment_status === 1 || order.payment_status === 0) &&
                                                 activeTab === 'Processing' && (
                                                     <>
                                                         <div
@@ -231,6 +268,14 @@ function ManageOrder() {
                                                         {disable ? 'Đang xử lý...' : 'Hoàn tiền'}
                                                     </div>
                                                 )}
+                                            {order.order_status === 1 && activeTab === 'Shipping' && (
+                                                <div
+                                                    className={cx('btn_confirm', 'btn', { disabled: disable })}
+                                                    onClick={() => !disable && handleDelivered(order)}
+                                                >
+                                                    {disable ? 'Đang xử lý...' : 'Đã giao'}
+                                                </div>
+                                            )}
                                             <div
                                                 className={cx('btn_see_detail', 'btn')}
                                                 onClick={() => handleViewOrderDetail(order.id)}
@@ -251,8 +296,6 @@ function ManageOrder() {
                         </div>
                     )}
                 </div>
-
-                {/* Pagination */}
             </div>
             <div className="d-flex justify-content-center">
                 <ReactPaginate
@@ -274,9 +317,15 @@ function ManageOrder() {
                     containerClassName="pagination"
                     activeClassName="active"
                     renderOnZeroPageCount={null}
-                    // forcePage={props.currentPage - 1}
                 />
             </div>
+            <ConfirmDeliveredOrder
+                show={showModal}
+                setShow={setShowModal}
+                orderId={orderId}
+                fetchListOrders={fetchListOrders}
+                activeTab={activeTab}
+            />
         </p>
     );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
 import styles from './OrderDetail.module.scss';
@@ -11,7 +11,7 @@ const cx = classNames.bind(styles);
 function OrderDetail(props) {
     const { orderId } = useParams();
     const [orderDetail, setOrderDetail] = useState([]);
-    const user = useSelector((state) => state.user.account);
+    // const user = useSelector((state) => state.user.account);
     let totalPrice = 0;
     let sale = 0;
 
@@ -69,13 +69,15 @@ function OrderDetail(props) {
                 <div className={cx('style_group')}>
                     <div className={cx('title')}>Địa chỉ người nhận</div>
                     <div className={cx('content')}>
-                        <p className={cx('name')}>{user.username}</p>
+                        <p className={cx('name')}>{orderDetail.User_Infor ? orderDetail.User_Infor.userName : ''}</p>
                         <p className={cx('address')}>
                             {orderDetail.User_Infor
                                 ? `Địa chỉ: ${orderDetail.User_Infor.address}, ${orderDetail.User_Infor.commune}, ${orderDetail.User_Infor.district}, ${orderDetail.User_Infor.province}`
                                 : 'Địa chỉ: Chưa có thông tin'}
                         </p>
-                        <p className={cx('phone')}>{`Điện thoại: ${user.phone}`}</p>
+                        <p className={cx('phone')}>{`Điện thoại: ${
+                            orderDetail.User_Infor ? orderDetail.User_Infor.phone : ''
+                        }`}</p>
                     </div>
                 </div>
                 <div className={cx('style_group')}>
@@ -87,7 +89,13 @@ function OrderDetail(props) {
                                 : 'Thanh toán khi nhận hàng'}
                         </p>
                         <p className={cx('description')}>
-                            Thanh toán thất bại. Vui lòng thanh toán lại hoặc chọn phương thức thanh toán khác
+                            {orderDetail.payment_status === 1
+                                ? 'Thanh toán thành công'
+                                : orderDetail.payment_status === 0 && orderDetail.payment_method === 'NCB'
+                                ? 'Thanh toán thất bại. Vui lòng thanh toán lại hoặc chọn phương thức thanh toán khác'
+                                : orderDetail.payment_status === 3 
+                                ? 'Đơn hàng hiện đã bị hủy'
+                                : ''}
                         </p>
                     </div>
                 </div>
