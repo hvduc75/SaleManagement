@@ -10,6 +10,8 @@ import styles from './Login.module.scss';
 import { loginUser } from '../../../service/authService';
 import { getCartByUserId, getProductsByCartId } from '../../../service/cartApiService';
 import { getUserInforDefault } from '../../../service/userInforApiService';
+import { FaEye, FaEyeSlash, FaGooglePlusG } from 'react-icons/fa';
+import { FaFacebookF } from 'react-icons/fa6';
 
 const cx = classNames.bind(styles);
 
@@ -19,6 +21,7 @@ function Login(props) {
 
     const [valueLogin, setValueLogin] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     const defaultObjValidInput = {
         isValidValueLogin: true,
@@ -29,6 +32,12 @@ function Login(props) {
     const handleCreateNewAccount = () => {
         navigate('/register');
     };
+
+    const handleLoginWithGoogle = () => {
+        localStorage.removeItem('clientURL');
+        localStorage.setItem('clientURL', window.location.href);
+        window.open(`http://localhost:8080/auth/google`, '_self');
+    }
 
     const handleLogin = async () => {
         setObjValidInput(defaultObjValidInput);
@@ -106,22 +115,42 @@ function Login(props) {
                             value={valueLogin}
                             onChange={(e) => setValueLogin(e.target.value)}
                         />
-                        <input
-                            type="password"
-                            className={cx(objValidInput.isValidPassword ? 'form-control' : 'form-control is-invalid')}
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            onKeyPress={handlePressEnter}
-                        />
+                        <div className={cx('password-wrapper')}>
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                className={cx(
+                                    objValidInput.isValidPassword ? 'form-control' : 'form-control is-invalid',
+                                )}
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                onKeyPress={handlePressEnter}
+                            />
+                            <span className={cx('eye-icon')} onClick={() => setShowPassword(!showPassword)}>
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </span>
+                        </div>
                         <button className={cx('btn', 'btn-primary')} onClick={handleLogin}>
                             Login
                         </button>
-                        <span className={cx('text-center')}>
+                        <div className={cx('oauth_wrapper')}>
+                            <span>or login with:</span>
+                            <div className={cx('oauth_method')}>
+                                <div className={cx('fb_method')}>
+                                    <FaFacebookF className={cx('icon')} />
+                                    <span>Facebook</span>
+                                </div>
+                                <div className={cx('gg_method')} onClick={() => handleLoginWithGoogle()}>
+                                    <FaGooglePlusG className={cx('icon')} />
+                                    <span>Google</span>
+                                </div>
+                            </div>
+                        </div>
+                        {/* <span className={cx('text-center')}>
                             <Link to={'/test'} className={cx('forgot-password')}>
                                 Forgot your password?
                             </Link>
-                        </span>
+                        </span> */}
                         <hr />
                         <div className={cx('text-center')}>
                             <button className={cx('btn', 'btn-success')} onClick={handleCreateNewAccount}>
