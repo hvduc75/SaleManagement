@@ -22,6 +22,12 @@
     }
 
     .content-right {
+        padding: 15px;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 /10%);
+        box-sizing: border-box;
+
         .brand {
             text-transform: uppercase;
             font-size: 30px;
@@ -29,12 +35,6 @@
             text-align: center;
             font-weight: bold;
         }
-
-        padding: 15px;
-        border-radius: 10px;
-        background-color: #fff;
-        box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 /10%);
-        box-sizing: border-box;
 
         .password-wrapper {
             position: relative;
@@ -54,15 +54,31 @@
             }
         }
 
-        hr{
-            margin: 0 !important;
-        }
-
         .oauth_wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 10px;
+
+            .oauth_separator {
+                display: flex;
+                align-items: center;
+                width: 100%;
+
+                .line {
+                    background-color: #dbdbdb;
+                    flex: 1;
+                    height: 1px;
+                    width: 100%;
+                }
+
+                span {
+                    color: #ccc;
+                    font-size: .75rem;
+                    padding: 0 16px;
+                    text-transform: uppercase;
+                }
+            }
 
             .oauth_method {
                 display: flex;
@@ -80,11 +96,11 @@
                     cursor: pointer;
                     width: 110px;
 
-                    .icon{
+                    .icon {
                         width: 18px;
                     }
-                    
-                    span{
+
+                    span {
                         flex: 1;
                         font-size: 13px;
                         text-align: center;
@@ -102,11 +118,11 @@
                     cursor: pointer;
                     width: 110px;
 
-                    .icon{
+                    .icon {
                         width: 27px;
                     }
-                    
-                    span{
+
+                    span {
                         flex: 1;
                         font-size: 13px;
                         text-align: center;

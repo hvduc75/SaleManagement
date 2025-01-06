@@ -37,7 +37,7 @@ function Login(props) {
         localStorage.removeItem('clientURL');
         localStorage.setItem('clientURL', window.location.href);
         window.open(`http://localhost:8080/auth/google`, '_self');
-    }
+    };
 
     const handleLogin = async () => {
         setObjValidInput(defaultObjValidInput);
@@ -65,6 +65,8 @@ function Login(props) {
             let userInfor = await getUserInforDefault(response.DT.id);
             dispatch(GetUserInforSuccess(userInfor));
 
+            localStorage.setItem('isLogged', true);
+
             if (response.DT.role === 'User') {
                 navigate('/');
             } else {
@@ -88,7 +90,7 @@ function Login(props) {
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
                 <div className={cx('row', 'px-3', 'px-sm-0')}>
-                    <div className={cx('content-left', 'col-sm-7', 'd-sm-block', 'd-none')}>
+                    <div className={cx('content-left', 'col-sm-8', 'd-sm-block', 'd-none')}>
                         <div className={cx('brand', 'text-center')}>HVD75</div>
                         <div className={cx('detail', 'text-center')}>
                             Build your own database and clone the Tiki project with Fontend ReactJs, ReduxJs And Backend
@@ -98,13 +100,8 @@ function Login(props) {
                     <div
                         className={cx(
                             'content-right',
-                            'col-sm-5',
+                            'col-sm-4',
                             'col-12',
-                            'd-flex',
-                            'flex-column',
-                            'gap-3',
-                            'py-3',
-                            'px-3',
                         )}
                     >
                         <div className={cx('brand', 'd-sm-none', 'd-block')}>HVD75</div>
@@ -133,8 +130,17 @@ function Login(props) {
                         <button className={cx('btn', 'btn-primary')} onClick={handleLogin}>
                             Login
                         </button>
+                        <span className={cx('text-center')}>
+                            <Link to={'/test'} className={cx('forgot-password')}>
+                                Forgot your password?
+                            </Link>
+                        </span>
                         <div className={cx('oauth_wrapper')}>
-                            <span>or login with:</span>
+                            <div className={cx('oauth_separator')}>
+                                <div className={cx('line')}></div>
+                                <span>or</span>
+                                <div className={cx('line')}></div>
+                            </div>
                             <div className={cx('oauth_method')}>
                                 <div className={cx('fb_method')}>
                                     <FaFacebookF className={cx('icon')} />
@@ -146,11 +152,6 @@ function Login(props) {
                                 </div>
                             </div>
                         </div>
-                        {/* <span className={cx('text-center')}>
-                            <Link to={'/test'} className={cx('forgot-password')}>
-                                Forgot your password?
-                            </Link>
-                        </span> */}
                         <hr />
                         <div className={cx('text-center')}>
                             <button className={cx('btn', 'btn-success')} onClick={handleCreateNewAccount}>

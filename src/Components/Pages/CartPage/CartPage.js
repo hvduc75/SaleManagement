@@ -25,15 +25,15 @@ function CartPage(props) {
 
     useEffect(() => {
         // Tính toán totalPrice và totalPriceOriginal mỗi khi danh sách sản phẩm hoặc trạng thái checkbox thay đổi
-        const newTotalPrice = listProductChecked.reduce((total, item) => {
+        const newTotalPrice = listProductChecked?.reduce((total, item) => {
             return total + (selectedItems[item.id] ? (item.price_current || item.price) * item.Product_Cart.quantity : 0);
         }, 0);
 
-        const newTotalPriceOriginal = listProductChecked.reduce((total, item) => {
+        const newTotalPriceOriginal = listProductChecked?.reduce((total, item) => {
             return total + (selectedItems[item.id] ? item.price * item.Product_Cart.quantity : 0);
         }, 0);
 
-        const newQuantityBuy = listProductChecked.reduce((total, item) => {
+        const newQuantityBuy = listProductChecked?.reduce((total, item) => {
             return total + (selectedItems[item.id] ? 1 : 0);
         }, 0);
 
@@ -49,9 +49,9 @@ function CartPage(props) {
     const fetchListProductChecked = async () => {
         let data = await getProductsByCartId(cartId);
         if (data && data.EC === 0) {
-            setListProductChecked(data.DT[0].Products);
+            setListProductChecked(data?.DT[0]?.Products);
             setSelectedItems(
-                data.DT[0].Products.reduce((acc, item) => {
+                data.DT[0]?.Products?.reduce((acc, item) => {
                     acc[item.id] = item.Product_Cart.isChecked;
                     return acc;
                 }, {}),

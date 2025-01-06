@@ -32,6 +32,7 @@ function Account(props) {
     };
 
     const handleLogout = async () => {
+        localStorage.removeItem('isLogged');
         dispatch(UserLogoutSuccess());
         await logout();
         navigate('/login');

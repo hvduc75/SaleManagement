@@ -1,7 +1,12 @@
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
+import { getAccount } from './service/authService';
+import { UserLoginSuccess, GetUserInforSuccess } from './redux/action/userAction';
+import { getCartId, getListProductsSuccess } from './redux/action/cartAction';
+import { getCartByUserId, getProductsByCartId } from './service/cartApiService';
+import { getUserInforDefault } from './service/userInforApiService';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -45,10 +50,51 @@ const NotFound = () => {
 };
 
 function App() {
+    const location = useLocation();
     const navigate = useNavigate();
-    const role = useSelector((state) => state.user.account.role);
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.account);
+    const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const [loading, setLoading] = useState(true);
     const [check, setCheck] = useState(true);
+
+    useEffect(() => {
+        if (location.pathname !== '/login' && location.pathname !== '/register' ) {
+            if (user && !user.access_token) {
+                fetchAccount();
+            }
+        }
+    }, [location.pathname]);
+
+    // useEffect(() => {
+    //     let isLogged = localStorage.getItem('isLogged');
+    //     console.log('isLogged', isLogged);
+    //     if (isAuthenticated && location.pathname !== '/login' && location.pathname !== '/register') {
+    //         // if (user && !user.access_token) {
+    //             fetchAccount();
+    //         // }
+    //     }
+    // }, [location.pathname, isAuthenticated]);
+
+    const fetchAccount = async () => {
+        try {
+            const response = await getAccount();
+            if (response && +response.EC === 0) {
+                dispatch(UserLoginSuccess(response));
+
+                let res = await getCartByUserId(response.DT.id);
+                dispatch(getCartId(res));
+
+                let data = await getProductsByCartId(res.DT.id);
+                dispatch(getListProductsSuccess(data.DT[0].Products));
+
+                let userInfor = await getUserInforDefault(response.DT.id);
+                dispatch(GetUserInforSuccess(userInfor));
+            }
+        } catch (error) {
+            console.error('Failed to fetch user:', error);
+        }
+    };
 
     // useEffect(() => {
     //     if (role) {
