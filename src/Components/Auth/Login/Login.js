@@ -11,7 +11,7 @@ import { loginUser } from '../../../service/authService';
 import { getCartByUserId, getProductsByCartId } from '../../../service/cartApiService';
 import { getUserInforDefault } from '../../../service/userInforApiService';
 import { FaEye, FaEyeSlash, FaGooglePlusG } from 'react-icons/fa';
-import { FaFacebookF } from 'react-icons/fa6';
+import { FaFacebook } from 'react-icons/fa6';
 
 const cx = classNames.bind(styles);
 
@@ -97,14 +97,8 @@ function Login(props) {
                             Nodejs, ExpressJs
                         </div>
                     </div>
-                    <div
-                        className={cx(
-                            'content-right',
-                            'col-sm-4',
-                            'col-12',
-                        )}
-                    >
-                        <div className={cx('brand', 'd-sm-none', 'd-block')}>HVD75</div>
+                    <div className={cx('content-right', 'col-sm-4', 'col-12')}>
+                        <div className={cx('brand', 'd-sm-none', 'd-block')}>Tiki-Shop</div>
                         <input
                             type="text"
                             className={cx(objValidInput.isValidValueLogin ? 'form-control' : 'form-control is-invalid')}
@@ -130,11 +124,9 @@ function Login(props) {
                         <button className={cx('btn', 'btn-primary')} onClick={handleLogin}>
                             Login
                         </button>
-                        <span className={cx('text-center')}>
-                            <Link to={'/test'} className={cx('forgot-password')}>
-                                Forgot your password?
-                            </Link>
-                        </span>
+                        <Link to={'/test'} className={cx('forgot-password')}>
+                            Forgot your password?
+                        </Link>
                         <div className={cx('oauth_wrapper')}>
                             <div className={cx('oauth_separator')}>
                                 <div className={cx('line')}></div>
@@ -143,7 +135,7 @@ function Login(props) {
                             </div>
                             <div className={cx('oauth_method')}>
                                 <div className={cx('fb_method')}>
-                                    <FaFacebookF className={cx('icon')} />
+                                    <FaFacebook className={cx('icon')} />
                                     <span>Facebook</span>
                                 </div>
                                 <div className={cx('gg_method')} onClick={() => handleLoginWithGoogle()}>
@@ -152,12 +144,12 @@ function Login(props) {
                                 </div>
                             </div>
                         </div>
-                        <hr />
-                        <div className={cx('text-center')}>
-                            <button className={cx('btn', 'btn-success')} onClick={handleCreateNewAccount}>
-                                Create new account
-                            </button>
-                        </div>
+                        <span className={cx('link_register')}>
+                            You don't have an account?
+                            <Link to={'/register'} className={cx('btn_register')}>
+                                Register
+                            </Link>
+                        </span>
                     </div>
                 </div>
             </div>

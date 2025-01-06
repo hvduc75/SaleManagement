@@ -38,7 +38,7 @@
 
         .password-group {
             position: relative;
-        
+
             .eye-icon {
                 position: absolute;
                 right: 10px;
@@ -48,18 +48,26 @@
                 font-size: 1.2rem;
                 color: #888;
             }
-        
+
             .eye-icon:hover {
                 color: #333;
             }
         }
-        
 
-        .forgot-password {
-            text-decoration: none;
+        hr {
+            margin: 0px;
+        }
 
-            &:hover {
-                text-decoration: underline;
+        .link_register {
+            display: block;
+            text-align: center;
+            font-size: 15px;
+            color: #666;
+
+            .btn_register {
+                color: #007bff;
+                text-decoration: none;
+                margin-left: 5px;
             }
         }
     }

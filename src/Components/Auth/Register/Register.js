@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import classNames from 'classnames/bind';
@@ -86,7 +86,7 @@ function Register(props) {
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
                 <div className={cx('row', 'px-3', 'px-sm-0')}>
-                    <div className={cx('content-left', 'col-sm-7', 'd-sm-block', 'd-none', 'col-0')}>
+                    <div className={cx('content-left', 'col-sm-8', 'd-sm-block', 'd-none', 'col-0')}>
                         <div className={cx('brand', 'text-center')}>HVD75</div>
                         <div className={cx('detail', 'text-center')}>
                             Build your own database and clone the Tiki project with Fontend ReactJs, ReduxJs And Backend
@@ -96,7 +96,7 @@ function Register(props) {
                     <div
                         className={cx(
                             'content-right',
-                            'col-sm-5',
+                            'col-sm-4',
                             'col-12',
                             'd-flex',
                             'flex-column',
@@ -170,11 +170,12 @@ function Register(props) {
                             Register
                         </button>
                         <hr />
-                        <div className={cx('text-center')}>
-                            <button type="button" className={cx('btn', 'btn-success')} onClick={handleLogin}>
-                                Already've an account, Login
-                            </button>
-                        </div>
+                        <span className={cx('link_register')}>
+                            Already've an account?
+                            <Link to={'/login'} className={cx('btn_register')}>
+                                Login
+                            </Link>
+                        </span>
                     </div>
                 </div>
             </div>
