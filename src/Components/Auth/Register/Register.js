@@ -10,6 +10,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 const cx = classNames.bind(styles);
 
 function Register(props) {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [username, setUsername] = useState('');
@@ -26,9 +27,8 @@ function Register(props) {
 
     const [objCheckInput, setObjCheckInput] = useState(defaultValidInput);
 
-    const navigate = useNavigate();
-    const handleLogin = () => {
-        navigate('/login');
+    const validatePhone = (phone) => {
+        return /^0\d{9}$/.test(phone);
     };
 
     const isValidInputs = () => {
@@ -51,6 +51,11 @@ function Register(props) {
             toast.error('Phone is required');
             setObjCheckInput({ ...defaultValidInput, isValidPhone: false });
             return false;
+        }
+
+        if (!validatePhone(phone)) {
+            toast.error('Số điện thoại phải bắt đầu với 0 và có 10 số');
+            return;
         }
 
         if (!password) {
@@ -87,7 +92,7 @@ function Register(props) {
             <div className={cx('container')}>
                 <div className={cx('row', 'px-3', 'px-sm-0')}>
                     <div className={cx('content-left', 'col-sm-8', 'd-sm-block', 'd-none', 'col-0')}>
-                        <div className={cx('brand', 'text-center')}>HVD75</div>
+                        <div className={cx('brand', 'text-center')}>Tiki-Shop</div>
                         <div className={cx('detail', 'text-center')}>
                             Build your own database and clone the Tiki project with Fontend ReactJs, ReduxJs And Backend
                             Nodejs, ExpressJs
@@ -105,7 +110,7 @@ function Register(props) {
                             'px-3',
                         )}
                     >
-                        <div className={cx('brand', 'd-sm-none', 'd-block')}>HVD75</div>
+                        <div className={cx('brand', 'd-sm-none', 'd-block')}>Tiki-Shop</div>
                         <div className={cx('form-group')}>
                             <input
                                 type="text"

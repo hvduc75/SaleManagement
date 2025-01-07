@@ -29,10 +29,6 @@ function Login(props) {
     };
     const [objValidInput, setObjValidInput] = useState(defaultObjValidInput);
 
-    const handleCreateNewAccount = () => {
-        navigate('/register');
-    };
-
     const handleLoginWithGoogle = () => {
         localStorage.removeItem('clientURL');
         localStorage.setItem('clientURL', window.location.href);
@@ -91,7 +87,7 @@ function Login(props) {
             <div className={cx('container')}>
                 <div className={cx('row', 'px-3', 'px-sm-0')}>
                     <div className={cx('content-left', 'col-sm-8', 'd-sm-block', 'd-none')}>
-                        <div className={cx('brand', 'text-center')}>HVD75</div>
+                        <div className={cx('brand', 'text-center')}>Tiki-Shop</div>
                         <div className={cx('detail', 'text-center')}>
                             Build your own database and clone the Tiki project with Fontend ReactJs, ReduxJs And Backend
                             Nodejs, ExpressJs

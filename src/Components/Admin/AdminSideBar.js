@@ -112,7 +112,7 @@ const AdminSideBar = (props) => {
                                     overflow: 'hidden',
                                 }}
                             >
-                                &#169; hvd75
+                                &#169; Tiki-Shop
                             </span>
                         </a>
                     </div>

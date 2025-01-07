@@ -97,8 +97,16 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     username: action?.payload?.DT?.username,
                     gender: action?.payload?.DT?.sex,
                     birthDay: action?.payload?.DT?.birthDay,
-                }
-            }
+                },
+            };
+        case 'UPDATE_PHONE_SUCCESS':
+            return {
+                ...state,
+                account: {
+                    ...state.account,
+                    phone: action?.payload,
+                },
+            };
         case UPDATE_ACCESS_TOKEN_SUCCESS:
             return {
                 ...state,

@@ -32,6 +32,7 @@ import PaymentPage from './Components/Pages/PaymentPage/PaymentPage';
 import PaymentStatus from './Components/Pages/PaymentPage/PaymentStatus/PaymentStatus';
 
 import OrderHistory from './Components/Pages/OrderHistoryPage/OrderHistory';
+import CodePage from './Components/Pages/CodePage/CodePage';
 import OrderDetail from './Components/Pages/OrderDetailPage/OrderDetailPage';
 import AddressBook from './Components/Pages/AddressBook/AddressBook';
 import UpdateAddress from './Components/Pages/AddressBook/UpdateAddress/UpdateAddress';
@@ -59,22 +60,16 @@ function App() {
     const [check, setCheck] = useState(true);
 
     useEffect(() => {
-        if (location.pathname !== '/login' && location.pathname !== '/register' ) {
+        if (
+            location.pathname !== '/login' &&
+            location.pathname !== '/register' &&
+            !location.pathname.startsWith('/code')
+        ) {
             if (user && !user.access_token) {
                 fetchAccount();
             }
         }
     }, [location.pathname]);
-
-    // useEffect(() => {
-    //     let isLogged = localStorage.getItem('isLogged');
-    //     console.log('isLogged', isLogged);
-    //     if (isAuthenticated && location.pathname !== '/login' && location.pathname !== '/register') {
-    //         // if (user && !user.access_token) {
-    //             fetchAccount();
-    //         // }
-    //     }
-    // }, [location.pathname, isAuthenticated]);
 
     const fetchAccount = async () => {
         try {
@@ -93,6 +88,8 @@ function App() {
             }
         } catch (error) {
             console.error('Failed to fetch user:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -140,7 +137,7 @@ function App() {
                 <Route
                     path="/admin"
                     element={
-                        <PrivateRoute>
+                        <PrivateRoute loading={loading}>
                             <Admin />
                         </PrivateRoute>
                     }
@@ -158,6 +155,7 @@ function App() {
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/code/:userId/:tokenLogin" element={<CodePage />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
             <ToastContainer

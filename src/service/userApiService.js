@@ -48,8 +48,12 @@ const UpdateProfile = (id, username, gender, avatar, birthDay) => {
     return axios.put('/api/v1/update-profile', data);
 };
 
+const UpdatePhone = (email, phone) => {
+    return axios.put('/api/v1/update-phone', {email, phone});
+};
+
 const deleteUser = (id) => {
     return axios.delete("/api/v1/delete-user", {data: {id: id}})
 };
 
-export { postCreateNewUser, getAllUsers, getUserWithPaginate, putUpdateUser, deleteUser, UpdateProfile, getUserById, getUsersByWeek };
+export { postCreateNewUser, getAllUsers, getUserWithPaginate, putUpdateUser, deleteUser, UpdateProfile, getUserById, getUsersByWeek, UpdatePhone };
