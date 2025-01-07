@@ -1,12 +1,10 @@
 import axios from '../utils/axiosCustomize';
-import { store } from '../redux/store';
 
 const getAllProductsWithDeal = () => {
     return axios.get('/api/v1/product/getAllProduct?condition=TopDeal');
 };
 
-const getAllProductsInterestOfUser = () => {
-    const userId = store?.getState()?.user?.account?.id;
+const getAllProductsInterestOfUser = (userId) => {
     return axios.get(`/api/v1/product/getAllProduct?condition=ProductInterest&id=${userId}`);
 };
 

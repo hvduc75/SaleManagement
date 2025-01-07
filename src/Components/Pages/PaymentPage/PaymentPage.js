@@ -44,7 +44,7 @@ function PaymentPage(props) {
     const fetchListProductChecked = async () => {
         let data = await getProductsByCartId(cartId);
         if (data && data.EC === 0) {
-            setListProductChecked(data.DT[0].Products);
+            setListProductChecked(data.DT[0]?.Products);
         }
     };
 

@@ -25,7 +25,7 @@ function OrderHistory(props) {
         setActiveTab(savedActiveTab);
         fetchListOrders(savedActiveTab);
         sessionStorage.removeItem('activeTab');
-    }, []);
+    }, [user]);
 
     const fetchListOrders = async (tab) => {
         let orders = await getOrdersByUserId(user.id, tab);
@@ -164,7 +164,7 @@ function OrderHistory(props) {
                                                       ? ''
                                                       : '- Đang xử lý hoàn tiền vui lòng chờ'
                                               }`
-                                        : order.payment_status === 0
+                                        : order.payment_status === 0 && order.payment_method === "NCB"
                                         ? 'Chờ thanh toán'
                                         : 'Thành công'}
                                 </div>
