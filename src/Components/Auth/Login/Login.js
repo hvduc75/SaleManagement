@@ -73,7 +73,6 @@ function Login(props) {
         }
 
         if (response && +response.EC !== 0) {
-            // error
             toast.error(response.EM);
         }
     };
@@ -122,7 +121,7 @@ function Login(props) {
                         <button className={cx('btn', 'btn-primary')} onClick={handleLogin}>
                             Login
                         </button>
-                        <Link to={'/test'} className={cx('forgot-password')}>
+                        <Link to={'/forgot-password'} className={cx('forgot-password')}>
                             Forgot your password?
                         </Link>
                         <div className={cx('oauth_wrapper')}>
@@ -131,8 +130,8 @@ function Login(props) {
                                 <span>or</span>
                                 <div className={cx('line')}></div>
                             </div>
-                            <div className={cx('oauth_method')} onClick={() => handleLoginWithFacebook()}>
-                                <div className={cx('fb_method')}>
+                            <div className={cx('oauth_method')}>
+                                <div className={cx('fb_method')} onClick={() => handleLoginWithFacebook()}>
                                     <FaFacebook className={cx('icon')} />
                                     <span>Facebook</span>
                                 </div>

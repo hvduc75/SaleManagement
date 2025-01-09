@@ -31,6 +31,10 @@ function Register(props) {
         return /^0\d{9}$/.test(phone);
     };
 
+    const validateEmail = (email) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+
     const isValidInputs = () => {
         setObjCheckInput(defaultValidInput);
 
@@ -38,6 +42,12 @@ function Register(props) {
             toast.error('Email is required');
             setObjCheckInput({ ...defaultValidInput, isValidEmail: false });
             return false;
+        }
+
+        if (!validateEmail(email)) {
+            toast.error('Email không đúng định dạng');
+            setObjCheckInput({ ...defaultValidInput, isValidEmail: false });
+            return;
         }
 
         let regx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -55,6 +65,7 @@ function Register(props) {
 
         if (!validatePhone(phone)) {
             toast.error('Số điện thoại phải bắt đầu với 0 và có 10 số');
+            setObjCheckInput({ ...defaultValidInput, isValidPhone: false });
             return;
         }
 

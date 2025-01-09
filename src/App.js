@@ -15,6 +15,7 @@ import ManageUser from './Components/Admin/Content/ManageUser/ManageUser';
 import ManageBanner from './Components/Admin/Content/ManageBanner/ManageBanner';
 import Login from './Components/Auth/Login/Login';
 import Register from './Components/Auth/Register/Register';
+import ForgotPassword from './Components/Pages/ForgotPassword/ForgotPassword';
 import ManageCategory from './Components/Admin/Content/ManageCategory/ManageCategory';
 import ManageProduct from './Components/Admin/Content/ManageProduct/ManageProduct';
 import ProductDetail from './Components/Pages/ProductDetailPage/ProductDetail';
@@ -155,6 +156,7 @@ function App() {
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/code/:userId/:tokenLogin" element={<CodePage setLoading={setLoading} />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>

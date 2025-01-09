@@ -16,7 +16,7 @@ function ModalPhone(props) {
     const { show, setShow } = props;
     const dispatch = useDispatch();
     const [phone, setPhone] = useState('');
-    const email = useSelector((state) => state.user.account.email);
+    const user = useSelector((state) => state.user.account);
 
     const handleClose = async () => {
         setShow(false);
@@ -34,7 +34,7 @@ function ModalPhone(props) {
             toast.error('Số điện thoại phải bắt đầu với 0 và có 10 số');
             return;
         }
-        let res = await UpdatePhone(email, phone);
+        let res = await UpdatePhone(user.email, phone);
         if (res && res.EC === 0) {
             dispatch(UpdatePhoneSuccess(phone))
             setShow(false);
@@ -52,7 +52,7 @@ function ModalPhone(props) {
                 <Modal.Body>
                     <div className={cx('form_wrapper')}>
                         <img src="" alt="avatar" />
-                        <div className={cx('title')}>Đức Hoàng</div>
+                        <div className={cx('title')}>{user.username}</div>
                         <input
                             placeholder="Số điện thoại"
                             onChange={(event) => setPhone(event.target.value)}

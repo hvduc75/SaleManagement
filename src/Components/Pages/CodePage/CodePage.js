@@ -28,6 +28,8 @@ function CodePage({setLoading}) {
                 let userInfor = await getUserInforDefault(response.DT.id);
                 dispatch(GetUserInforSuccess(userInfor));
                 
+                localStorage.setItem('isLogged', true);
+                
                 if (response.DT.role === 'User') {
                     navigate('/');
                 } else {
