@@ -7,12 +7,14 @@ import { getCartId, getListProductsSuccess } from '../../../redux/action/cartAct
 import { getCartByUserId, getProductsByCartId } from '../../../service/cartApiService';
 import { getUserInforDefault } from '../../../service/userInforApiService';
 
-function CodePage(props) {
+function CodePage({setLoading}) {
     const { userId, tokenLogin } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             let response = await checkTokenLogin(userId, tokenLogin);
             if (response && +response.EC === 0) {
                 dispatch(UserLoginSuccess(response));
@@ -32,9 +34,10 @@ function CodePage(props) {
                     navigate('/admin');
                 }
             }
+            setLoading(false);
         };
         fetchData();
-    }, []);
+    }, [setLoading]);
     return <div></div>;
 }
 

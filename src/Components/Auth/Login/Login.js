@@ -30,9 +30,11 @@ function Login(props) {
     const [objValidInput, setObjValidInput] = useState(defaultObjValidInput);
 
     const handleLoginWithGoogle = () => {
-        localStorage.removeItem('clientURL');
-        localStorage.setItem('clientURL', window.location.href);
         window.open(`http://localhost:8080/auth/google`, '_self');
+    };
+
+    const handleLoginWithFacebook = () => {
+        window.open(`http://localhost:8080/auth/facebook`, '_self');
     };
 
     const handleLogin = async () => {
@@ -129,7 +131,7 @@ function Login(props) {
                                 <span>or</span>
                                 <div className={cx('line')}></div>
                             </div>
-                            <div className={cx('oauth_method')}>
+                            <div className={cx('oauth_method')} onClick={() => handleLoginWithFacebook()}>
                                 <div className={cx('fb_method')}>
                                     <FaFacebook className={cx('icon')} />
                                     <span>Facebook</span>

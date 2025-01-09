@@ -155,7 +155,7 @@ function App() {
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/code/:userId/:tokenLogin" element={<CodePage />} />
+                <Route path="/code/:userId/:tokenLogin" element={<CodePage setLoading={setLoading} />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
             <ToastContainer
