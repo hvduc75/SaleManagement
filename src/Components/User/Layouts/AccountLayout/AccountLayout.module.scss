@@ -89,6 +89,15 @@
             width: calc(100% - 250px);
         }
     }
+
+    .footer_wrapper {
+        background-color: rgb(255, 255, 255);
+
+        .footer_inner{
+            width: 1280px;
+            margin: 0 auto;
+        }
+    }
 }
 
 @media only screen and (min-width: 1440px) {
@@ -97,6 +106,10 @@
     // }
 
     .inner {
+        width: 1440px !important;
+    }
+
+    .footer_inner {
         width: 1440px !important;
     }
 }

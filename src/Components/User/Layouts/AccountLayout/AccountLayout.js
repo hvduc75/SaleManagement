@@ -10,6 +10,7 @@ import { IoLocation } from 'react-icons/io5';
 import { FaUserLarge, FaMessage } from 'react-icons/fa6';
 import { RiBookReadFill } from 'react-icons/ri';
 import { FaEye } from 'react-icons/fa';
+import FooterContent from '../../Content/FooterContent/FooterContent';
 
 const cx = classNames.bind(styles);
 
@@ -99,6 +100,9 @@ function AccountLayout(props) {
                 <div className={cx('container')}>
                     <Outlet />
                 </div>
+            </div>
+            <div className={cx('footer_wrapper')}>
+                <div className={cx('footer_inner')}><FooterContent /></div>
             </div>
         </div>
     );

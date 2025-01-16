@@ -25,6 +25,18 @@ function ModalPhone(props) {
         await logout();
     };
 
+    const getImageSrc = (image) => {
+        if (image && image.data) {
+            const byteArray = new Uint8Array(image.data);
+            let binary = '';
+            byteArray.forEach((byte) => {
+                binary += String.fromCharCode(byte);
+            });
+            return `data:image/jpeg;base64,${window.btoa(binary)}`;
+        }
+        return null;
+    };
+
     const validatePhone = (phone) => {
         return /^0\d{9}$/.test(phone);
     };
@@ -36,7 +48,7 @@ function ModalPhone(props) {
         }
         let res = await UpdatePhone(user.email, phone);
         if (res && res.EC === 0) {
-            dispatch(UpdatePhoneSuccess(phone))
+            dispatch(UpdatePhoneSuccess(phone));
             setShow(false);
         } else {
             toast.error(res.EM);
@@ -51,7 +63,15 @@ function ModalPhone(props) {
                 </Modal.Header>
                 <Modal.Body>
                     <div className={cx('form_wrapper')}>
-                        <img src="" alt="avatar" />
+                        <div className={cx('avatar')}>
+                            <img
+                                src={
+                                    getImageSrc(user.image) ||
+                                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxw0eitGgbS6Y3kJODK5lGbWxUV8sONkQUZg&s'
+                                }
+                                alt="avatar"
+                            />
+                        </div>
                         <div className={cx('title')}>{user.username}</div>
                         <input
                             placeholder="Số điện thoại"

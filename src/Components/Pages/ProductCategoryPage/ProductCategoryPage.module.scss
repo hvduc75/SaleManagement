@@ -95,6 +95,7 @@
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 16px;
+            margin-bottom: 16px;
 
             .cssText {
                 color: rgb(39, 39, 42);

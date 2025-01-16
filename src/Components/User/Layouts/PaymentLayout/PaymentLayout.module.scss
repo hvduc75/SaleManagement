@@ -6,4 +6,13 @@
     .container{
         width: 100%;
     }
+
+    .footer_wrapper {
+        background-color: rgb(255, 255, 255);
+
+        .footer_inner{
+            width: 1300px;
+            margin: 0 auto;
+        }
+    }
 }

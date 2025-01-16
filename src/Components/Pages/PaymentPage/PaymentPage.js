@@ -149,7 +149,7 @@ function PaymentPage(props) {
                                 <div className={cx('content')}>Thanh toán bằng tiền mặt</div>
                             </label>
                         </div>
-                        <div className={cx('list_method')}>
+                        {/* <div className={cx('list_method')}>
                             <input
                                 id="method_2"
                                 type="radio"
@@ -190,7 +190,7 @@ function PaymentPage(props) {
                                 <img src={images.pm_zalopay} className={cx('icon')} alt="image_payment" />
                                 <div className={cx('content')}>Ví ZaloPay</div>
                             </label>
-                        </div>
+                        </div> */}
                         <div className={cx('list_method')}>
                             <input
                                 id="method_5"

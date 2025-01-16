@@ -1,22 +1,66 @@
-.Wrapper{
+.wrapper {
+    width: 100%;
     background-color: rgb(255, 255, 255);
-    margin-bottom: 20px;
-    text-align: center;
+    font-family: Arial, sans-serif;
+    border-radius: 5px;
 
-    h1{
-        font-size: 18px;
-        color: blue;
-        padding-top: 10px;
-    }
-    h2{
-        font-size: 16px;
-    }
-    span{
-        color: orange;
-    }
+    .content {
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start;
+        padding: 20px;
 
-    p{
-        font-size: 16px;
-        margin: 0;
+        .about,
+        .help,
+        .payment,
+        .social {
+            width: 25%;
+            padding: 0 10px;
+
+            .title {
+                font-size: 16px;
+                line-height: 24px;
+                font-weight: 500;
+                color: rgb(56, 56, 61);
+                margin-bottom: 12px;
+                margin-top: 0px;
+            }
+
+            p {
+                margin-bottom: 8px;
+                color: rgb(128, 128, 137);
+                font-size: 14px;
+            }
+
+            .icons {
+                display: flex;
+                gap: 10px;
+
+                .icon {
+                    width: 32px;
+                    height: 32px;
+                }
+
+                .facebook {
+                    color: #3b5997;
+                    cursor: pointer;
+                }
+
+                .twitter {
+                    color: #1c96e9;
+                    cursor: pointer;
+                }
+
+                .instagram {
+                    color: #f5019e;
+                    cursor: pointer;
+                }
+
+                .youtube {
+                    color: #f40309;
+                    cursor: pointer;
+                }
+            }
+        }
     }
 }
