@@ -8,12 +8,14 @@ import { FaStar } from 'react-icons/fa6';
 import images from '../../../assets/images';
 import { getProductById } from '../../../service/productApiService';
 import AddToCart from './AddToCart/AddToCart';
+import ProductImageSlider from '../../User/Content/SimpleSlider/ProductImageSilder/ProductImageSlider';
 
 const cx = classNames.bind(styles);
 
 function ProductDetail() {
     const { productId } = useParams();
     const [product, setProduct] = useState([]);
+    const [currentImage, setCurrentImage] = useState(null);
 
     useEffect(() => {
         fetchProductById();
@@ -23,7 +25,8 @@ function ProductDetail() {
         let data = await getProductById(productId);
         if (data && data.EC === 0) {
             setProduct(data.DT);
-            console.log(product);
+            const mainImage = getImageSrc(data.DT.image);
+            setCurrentImage(mainImage);
         } else {
             toast.error(data.EM);
         }
@@ -48,23 +51,26 @@ function ProductDetail() {
         return null;
     };
 
-    const imageSrc = getImageSrc(product.image);
+    const handleSelectImage = (imageSrc) => {
+        setCurrentImage(imageSrc); 
+    };
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('product_container')}>
                 <div className={cx('product_image')}>
                     <div className={cx('image_frame')}>
-                        <img src={imageSrc} alt="ProductImage" />
+                        <img src={currentImage} alt="ProductImage" />
                     </div>
                     <div className={cx('ThumbnailList')}>
                         <div className={cx('content')}>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
+                            {product && product.ProductImages && (
+                                <ProductImageSlider
+                                    listProductImages={product.ProductImages}
+                                    mainImage={product.image}
+                                    onSelectImage={handleSelectImage}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
@@ -112,10 +118,14 @@ function ProductDetail() {
                         <div className={cx('infor_bot')}>
                             <div className={cx('product_price')}>
                                 <div className={cx('current_price')}>
-                                    {product.price_current ? formatPrice(+product.price_current) : formatPrice(+product.price)}
+                                    {product.price_current
+                                        ? formatPrice(+product.price_current)
+                                        : formatPrice(+product.price)}
                                     <sup>đ</sup>
                                 </div>
-                                <div className={cx('discount_rate')}>{product.sale ? "-" + product.sale + "%" : ""}</div>
+                                <div className={cx('discount_rate')}>
+                                    {product.sale ? '-' + product.sale + '%' : ''}
+                                </div>
                                 <div className={cx('discount_icon')}>
                                     <img
                                         style={{ width: '14px', height: '14px', opacity: '1' }}
@@ -124,7 +134,7 @@ function ProductDetail() {
                                     />
                                 </div>
                                 <div className={cx('original_price')}>
-                                    {product.price_current ? formatPrice(+product.price) : ""}
+                                    {product.price_current ? formatPrice(+product.price) : ''}
                                     {product.price_current && <sup>đ</sup>}
                                 </div>
                                 <div className={cx('popup_3')}></div>

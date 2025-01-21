@@ -36,7 +36,9 @@ a {
 }
 
 .customize-css .slick-slide {
-    // display: flex;
-    // justify-content: flex-start;
     max-width: 185px !important;
+}
+
+.customize-image-css  .slick-slide{
+    max-width: 62px !important;
 }

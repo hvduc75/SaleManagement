@@ -11,15 +11,60 @@
         .list_products {
             width: 35%;
         }
-    
+
         .product_images {
-            border: 1px solid red;
             width: 65%;
-            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .image_preview {
+                width: calc(100% - 120px);
+                overflow-x: scroll;
+                overflow-y: hidden;
+                display: flex;
+                flex-wrap: nowrap;
+                gap: 10px;
+                scrollbar-width: thin; /* Firefox */
+                scrollbar-color: gray transparent; /* Màu thanh cuộn và nền */
+
+                .image_item {
+                    position: relative;
+                    display: inline-block;
+
+                    .image {
+                        width: 100px;
+                        height: 100px;
+                        object-fit: cover;
+                        border: 1px solid #ddd;
+                        border-radius: 5px;
+                    }
+
+                    .btn-remove {
+                        position: absolute;
+                        top: -5px;
+                        right: -5px;
+                        background-color: red;
+                        color: white;
+                        border: none;
+                        border-radius: 50%;
+                        cursor: pointer;
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+            }
+
+            .btn_upload {
+                width: 120px;
+            }
         }
     }
 
-    .btn-save{
+    .btn-save {
         margin-top: 20px;
         width: 150px;
     }

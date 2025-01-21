@@ -9,7 +9,6 @@
         grid-template-columns: 400px 1fr;
         gap: 24px;
         border-radius: 8px;
-        -webkit-box-align: start;
         align-items: start;
 
         .product_image {
@@ -40,25 +39,14 @@
             }
 
             .ThumbnailList {
-                display: flex;
                 height: 54px;
                 width: 100%;
-                border: 1px solid red;
 
-                .content {
-                    overflow: hidden;
-                    display: inline-flex;
-                    gap: 8px;
-
-                    span {
-                        border: 1px solid black;
-                        transition: 0.5s ease-in-out;
-                        min-width: 55px;
-                        height: 100%;
-                        transform: translateX(0px);
-                        transition: 0.5s ease-in-out;
-                    }
-                }
+                // .content {
+                //     display: flex !important;
+                //     align-items: center;
+                //     gap: 8px;
+                // }
             }
         }
 

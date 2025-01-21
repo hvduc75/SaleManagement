@@ -32,6 +32,7 @@ function TableProductPaginate(props) {
                         listProducts.length > 0 &&
                         listProducts.map((item, index) => {
                             let imageSrc = '';
+                            console.log(item.image)
                             if (item.image) {
                                 const byteArray = new Uint8Array(item.image.data);
                                 let binary = '';
