@@ -17,7 +17,7 @@ function PaymentPage(props) {
     const [totalPrice, setTotalPrice] = useState('');
     const [totalPriceOriginal, setTotalPriceOriginal] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
-    const listProducts = listProductChecked.filter((item) => item.Product_Cart.isChecked === true);
+    const listProducts = listProductChecked?.filter((item) => item.Product_Cart.isChecked === true);
 
     useEffect(() => {
         fetchListProductChecked();

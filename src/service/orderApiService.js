@@ -43,6 +43,10 @@ const cancelOrder = (id) => {
     return axios.put(`/api/v1/order/cancelOrder`, { id });
 };
 
+const feedbackOrder = (data, orderId) => {
+    return axios.put(`/api/v1/order/feedbackOrder`, { data, orderId });
+};
+
 const getAllOrderInDay = () => {
     return axios.get('/api/v1/order/getAllOrderInDay');
 };
@@ -63,4 +67,5 @@ export {
     confirmDeliveredOrder,
     cancelOrder,
     getOrdersBySearchText,
+    feedbackOrder,
 };

@@ -2,7 +2,8 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FaStar } from 'react-icons/fa6';
+import { IoStar } from 'react-icons/io5';
+import { IoIosStarHalf } from 'react-icons/io';
 import { useSelector } from 'react-redux';
 
 import styles from './ProductCard.module.scss';
@@ -70,9 +71,16 @@ function ProductCard(props) {
                             <div className={cx('description-top')}>
                                 <div className={cx('product-name', cssText)}>{product.name}</div>
                                 <div className={cx('product-rating')}>
-                                    {[...Array(5)].map((_, index) => (
-                                        <FaStar key={index} className={cx('product-star')} />
-                                    ))}
+                                    {Array.from({ length: 5 }).map((_, index) => {
+                                        const starValue = index + 1;
+                                        if (starValue <= Math.floor(product?.star || 5)) {
+                                            return <IoStar key={index} fill="rgb(255, 196, 0)" />;
+                                        } else if (starValue - 0.5 <= product?.star) {
+                                            return <IoIosStarHalf key={index} fill="rgb(255, 196, 0)" />;
+                                        } else {
+                                            return <IoStar key={index} fill="#e4e5e9" />;
+                                        }
+                                    })}
                                 </div>
                             </div>
                             <div className={cx('description-bot')}>
@@ -83,11 +91,7 @@ function ProductCard(props) {
                                     <sup>đ</sup>
                                 </div>
                                 <div className={cx('product-sale')}>
-                                    <div
-                                        className={
-                                            product.sale ? cx('percent-sale') : cx('percent-sale-off')
-                                        }
-                                    >
+                                    <div className={product.sale ? cx('percent-sale') : cx('percent-sale-off')}>
                                         {product.sale ? product.sale + '%' : ''}
                                     </div>
                                     <div className={cx('product-price-old')}>

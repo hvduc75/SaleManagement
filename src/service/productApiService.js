@@ -32,6 +32,10 @@ const getProductById = (productId) => {
     return axios.get(`/api/v1/product/getProductById?productId=${productId}`);
 };
 
+const getFeedbacksByProductId = (productId, page, star, LIMIT) => {
+    return axios.get(`/api/v1/product/getFeedbacksByProductId?productId=${productId}&page=${page}&limit=${LIMIT}&starFilter=${star}`);
+};
+
 const getProductsByCategoryId = (categoryId) => {
     return axios.get(`/api/v1/product/getProductsByCategoryId?categoryId=${categoryId}`);
 };
@@ -84,5 +88,6 @@ export {
     getAllProducts,
     getProductById,
     getProductsByCategoryId,
-    getAllProductsWithSearchText
+    getAllProductsWithSearchText,
+    getFeedbacksByProductId
 };

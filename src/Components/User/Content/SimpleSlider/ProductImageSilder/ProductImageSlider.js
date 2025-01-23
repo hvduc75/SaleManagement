@@ -19,8 +19,6 @@ const ProductImageSlider = (props) => {
         }
     }, [mainImage, listProductImages]);
 
-    console.log(listImages)
-
     const settings = {
         dots: false,
         infinite: listProductImages?.length < 6 ? false : true,
