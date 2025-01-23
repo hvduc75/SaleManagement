@@ -22,7 +22,7 @@ function ProductDetail() {
     const [currentPage, setCurrentPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
 
-    const LIMIT = 7;
+    const LIMIT = 1;
 
     useEffect(() => {
         fetchListFeedbacksByProductId(currentPage, activeTab === 'All' ? null : parseInt(activeTab[0]));
@@ -36,11 +36,11 @@ function ProductDetail() {
         let response = await getFeedbacksByProductId(productId, page, star, LIMIT);
         if (response && response.EC === 0) {
             if (page === 1) {
-                setListFeedback(response.DT);
+                setListFeedback(response.DT.rows);
             } else {
-                setListFeedback((prev) => [...prev, ...response.DT]);
+                setListFeedback((prev) => [...prev, ...response.DT.rows]);
             }
-            setHasMore(response.DT.length > 0);
+            setHasMore(currentPage < response.DT.count);
         } else {
             toast.error(response.EM);
         }
@@ -101,6 +101,7 @@ function ProductDetail() {
     };
 
     const handleClickStar = (currentTab) => {
+        setCurrentPage(1);
         setActiveTab(currentTab);
     };
 
@@ -139,7 +140,9 @@ function ProductDetail() {
                                     if (starValue <= Math.floor(product?.star || 5)) {
                                         return <IoStar className={cx('star')} key={index} fill="rgb(238, 77, 45)" />;
                                     } else if (starValue - 0.5 <= product?.star) {
-                                        return <IoIosStarHalf className={cx('star')} key={index} fill="rgb(238, 77, 45)" />;
+                                        return (
+                                            <IoIosStarHalf className={cx('star')} key={index} fill="rgb(238, 77, 45)" />
+                                        );
                                     } else {
                                         return <IoStar className={cx('star')} key={index} fill="#e4e5e9" />;
                                     }
@@ -186,26 +189,26 @@ function ProductDetail() {
                         </div>
                     </div>
                     <div className={cx('product_rating_list')}>
-                        {listFeedback?.Orders?.map((feedback, index) => (
+                        {listFeedback?.map((feedback, index) => (
                             <div className={cx('product_rating')} key={index}>
                                 <div className={cx('customer_avatar')}>
                                     <img
                                         src={
-                                            getImageSrc(feedback.User.avatar) ||
+                                            getImageSrc(feedback?.Order?.User?.avatar) ||
                                             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxw0eitGgbS6Y3kJODK5lGbWxUV8sONkQUZg&s'
                                         }
                                         alt="customer_avatar"
                                     />
                                 </div>
                                 <div className={cx('rating_main')}>
-                                    <div className={cx('customer_name')}>{feedback?.User?.username}</div>
+                                    <div className={cx('customer_name')}>{feedback?.Order?.User?.username}</div>
                                     <div className={cx('stars')}>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
                                             {Array.from({ length: 5 }).map((_, index) => {
                                                 const starValue = index + 1;
-                                                if (starValue <= Math.floor(feedback?.Order_Product?.star || 5)) {
+                                                if (starValue <= Math.floor(feedback?.star || 5)) {
                                                     return <IoStar key={index} fill="rgb(255, 196, 0)" />;
-                                                } else if (starValue - 0.5 <= feedback?.Order_Product?.star) {
+                                                } else if (starValue - 0.5 <= feedback?.star) {
                                                     return <IoIosStarHalf key={index} fill="rgb(255, 196, 0)" />;
                                                 } else {
                                                     return <IoStar key={index} fill="#e4e5e9" />;
@@ -213,18 +216,14 @@ function ProductDetail() {
                                             })}
                                         </div>
                                     </div>
-                                    <div className={cx('rating_time')}>
-                                        {formatDateTime(feedback?.Order_Product?.feedbackDate)}
-                                    </div>
-                                    <div className={cx('rating_description')}>
-                                        {feedback?.Order_Product?.description}
-                                    </div>
+                                    <div className={cx('rating_time')}>{formatDateTime(feedback?.feedbackDate)}</div>
+                                    <div className={cx('rating_description')}>{feedback?.description}</div>
                                 </div>
                             </div>
                         ))}
                     </div>
                     {hasMore && (
-                        <button className={cx('load_more')} onClick={handleLoadMore}>
+                        <button className={cx('load_more', 'btn')} onClick={handleLoadMore}>
                             Xem thêm
                         </button>
                     )}
